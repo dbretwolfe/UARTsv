@@ -1,0 +1,114 @@
+module TX_FSM #(parameter logic PARITY_BIT = 1,
+		parameter integer STOP_BITS = 2,
+		parameter integer DATA_BITS = 8)
+		
+		(input logic Clk,
+		input logic Rst,
+		input logic [DATA_BITS-1:0] Tx_Data_In,
+		input logic Transmit_Start_In,
+		input logic CTS,
+		output logic Tx);
+
+	localparam TX_BITS = (PARITY_BIT + DATA_BITS + STOP_BITS + 1);
+
+	typedef enum logic [1:0] {IDLE = 2'b00, START = 2'b01, LOOP = 2'b10} tx_states_t;
+	
+	tx_states_t current_state, next_state;
+
+	integer Tx_Counter, i;
+	logic Tx_Done;
+	logic [TX_BITS-1:0] Tx_Packet;
+	logic Parity;
+	logic Tx_Gate;
+	
+	// State transition block
+	always_ff @ (posedge Clk or Rst) begin
+		if (Rst)
+			current_state <= IDLE;
+		else
+			current_state <= next_state;
+	end
+	
+	// Next state block
+	always_comb begin
+		if (Rst)
+			next_state = IDLE;
+		else begin
+			unique case (current_state)
+				IDLE:	begin
+						if (Transmit_Start_In)
+							next_state = START;
+						else
+							next_state = current_state;
+					end
+				START:	begin
+						if (CTS)
+							next_state = LOOP;
+						else
+							next_state = current_state;
+					end
+				LOOP:	begin
+						if (Tx_Done)
+							next_state = IDLE;
+						else
+							next_state = current_state;
+					end
+			endcase
+		end
+	end
+
+	// Output logic block
+	always_comb begin
+		if (Rst) begin
+			Tx_Gate = '0;
+			Parity = '0;
+			Tx_Packet = '0;
+		end
+		else begin
+			unique case (current_state)
+				IDLE:	begin
+						Tx_Gate = '0;
+						Parity = '0;		
+						Tx_Packet = '0;
+					end
+				START:	begin
+						Tx_Gate = '0;
+						for (i = '0; i < DATA_BITS; i = i + 1) begin
+							Parity = Tx_Data_In[i] ^ Parity;
+						end
+						Tx_Packet = {1'b0, Tx_Data_In, Parity, {STOP_BITS{1'b1}}};
+					end
+				LOOP:	begin
+						Tx_Gate = '1;
+						Parity = Parity;
+						Tx_Packet = Tx_Packet;
+					end
+			endcase
+		end
+	end
+	
+	// Gated transmit block - necessary to separate the FSM output logic and the
+	// clocked transmit output logic.  To have a transmit loop, the logic needs 
+	// to be clocked, because the FSM output logic block only triggers on state change
+	// or reset.
+	always_ff @ (posedge Clk) begin
+		if (Tx_Gate) begin
+			if (Tx_Counter === '0 && !Tx_Done) begin	//I.E, the counter only just hit zero this clock
+				Tx <= Tx_Packet[Tx_Counter];
+				Tx_Done <= '1;
+				Tx_Counter <= Tx_Counter;
+			end
+			else begin
+				Tx <= Tx_Packet[Tx_Counter];
+				Tx_Done <= '0;
+				Tx_Counter <= Tx_Counter - 1;
+			end
+		end
+		else begin
+			Tx_Counter <= TX_BITS -1;
+			Tx <= '1;
+			Tx_Done <= '0;
+		end
+	end
+endmodule
+		

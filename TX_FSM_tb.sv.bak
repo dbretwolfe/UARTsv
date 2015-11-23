@@ -1,0 +1,43 @@
+`timescale 1ns/1ps
+
+module TX_FSM_tb ();
+
+parameter PARITY_BIT = 1;
+parameter STOP_BITS = 2;
+parameter DATA_BITS = 8;
+parameter CLK_PERIOD = 10;
+localparam CLK_DELAY = CLK_PERIOD/2;
+
+logic Clk = 0, Rst = 0, CTS = 1, Tx, Transmit_Start_In;
+logic [DATA_BITS-1:0] Tx_Data_In;
+
+always begin
+		#CLK_PERIOD Clk = ~Clk;
+end
+
+
+TX_FSM #(
+		.PARITY_BIT(PARITY_BIT),
+		.STOP_BITS(STOP_BITS),
+		.DATA_BITS(DATA_BITS)
+		)
+	Transmitter (
+		.Clk,
+		.Rst,
+		.Tx_Data_In,		// Input from de-mux - either from BIST or top module port
+		.Transmit_Start_In,	// Input from de-mux - either from BIST or top module port
+		.CTS,			// Input from module port
+		.Tx			// Output to module port
+	);
+
+initial begin
+	Rst = '1;
+	#CLK_PERIOD Rst = 0;
+	Tx_Data_In = 8'hAA;
+	#CLK_PERIOD Transmit_Start_In = 1;
+	#CLK_PERIOD Transmit_Start_In = 0;
+	
+	//$finish;
+end
+
+endmodule

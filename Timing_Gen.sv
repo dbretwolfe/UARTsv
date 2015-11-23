@@ -1,0 +1,29 @@
+module Timing_Gen #(parameter SYSCLK_RATE = 100000000,
+		parameter BAUD_RATE = 9600)
+		
+		(input logic SysClk,
+		input Rst,
+		output logic Clk);
+
+	localparam CLOCK_DIV = SYSCLK_RATE / (BAUD_RATE * 2); // Baud rate is transitions per second.  We get one transition per rising
+								// clock edge, meaning we need two clock transitions per baud.
+	integer ClockCounter;
+
+	always @ (posedge SysClk or posedge Rst) begin
+		if (Rst) begin
+			Clk = '0;
+			ClockCounter = '0;
+		end
+		else begin
+			if (ClockCounter === CLOCK_DIV) begin
+				Clk = ~Clk;
+				ClockCounter = '0;
+			end
+			else begin
+				Clk = Clk;
+				ClockCounter = ClockCounter + 1;
+			end
+		end
+	end
+
+endmodule
