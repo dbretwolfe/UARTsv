@@ -12,9 +12,9 @@ module BIST_FSM#(parameter integer DATA_BITS = 8,
 				input 	logic	Data_Rdy_Out,
 				input 	logic [DATA_BITS-1:0]Rx_Data_Out,
 				output 	logic BIST_Mode,
-				output  logic BIST_Error,
 				output 	logic [DATA_BITS-1:0]BIST_Tx_Data_Out,
 				output 	logic BIST_Tx_Start_Out,
+				output  logic BIST_Error,
 				output 	logic BIST_Busy);
 
 //input Clk, Rst, BIST_Start, Data_Rdy_Out, [7:0]Rx_Data_Out;
