@@ -109,6 +109,14 @@ module UARTsv #(
 		.BIST_Error,
 		.BIST_Busy
 	);
+
+	//*********************************************
+	//
+	//		FIFO MODULE INSTANTIATION
+	//
+	//  
+	//
+	//*********************************************
 	
 	FIFO #(
 		.DATA_BITS(DATA_BITS);
@@ -116,8 +124,8 @@ module UARTsv #(
 		)
 	fifo_initialize(
 		.Rx_Data,
-		.Data_Rdy, 
-		.Read_Done, 
+		.Data_Rdy,  		//	To write data to FIFO 
+		.Read_Done, 		// 	To read data from FIFO
 		.FIFO_Empty, 
 		.FIFO_Full, 
 		.FIFO_Overflow, 
