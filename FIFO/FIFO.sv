@@ -34,4 +34,11 @@ begin
 	if(WPtr == FIFO_DEPTH) FIFO_Overflow = 1;
 		else if(WPtr == 0) FIFO_Empty = 1;
 end
+
+always@(WPtr)
+begin
+	if(WPtr == 0.75 * FIFO_DEPTH) FIFO_Full = 1;
+		else FIFO_Full = 0;
+end
+
 endmodule
