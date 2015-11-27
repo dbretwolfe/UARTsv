@@ -109,4 +109,18 @@ module UARTsv #(
 		.BIST_Error,
 		.BIST_Busy
 	);
+	
+	FIFO #(
+		.DATA_BITS(DATA_BITS);
+		.FIFO_DEPTH(FIFO_DEPTH);
+		)
+	fifo_initialize(
+		.Rx_Data,
+		.Data_Rdy, 
+		.Read_Done, 
+		.FIFO_Empty, 
+		.FIFO_Full, 
+		.FIFO_Overflow, 
+		.Data_Out
+	);	
 endmodule
