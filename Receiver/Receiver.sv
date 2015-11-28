@@ -1,20 +1,21 @@
-module RX_FSM(Rx_In, Clk, Rst, RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error); 
+module Receiver(Rx_In, Clk, Rst, RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error); 
 
-parameter DATA_BITS = 9; // 8 data bits and one parity bit 
+parameter DATA_BITS = 8; 
 parameter STOP_BITS = 2;
 parameter PARITY_BIT = 1;
 
 input Rx_In;
-input Clk;
+input Clk; 
 input Rst;
 output logic RTS;
 output logic Data_Rdy_Out;
 output logic [DATA_BITS-1:0] Rx_Data_Out;
 output logic [2:0] Rx_Error;
 
-logic [DATA_BITS-2:0] Data_Reg = 0; 
-logic Parity_Bit=0;
+logic [DATA_BITS-1:0] Data_Reg = 0; 
+logic [6:0]Parity_Bit =0;
 logic [STOP_BITS-1:0] Reg_Stop = 0;
+logic Reg_Start;
 logic Reg_Parity =0;
 
 int Count;
@@ -42,7 +43,7 @@ case(State)
 			Next_State =  Rx_Wait;
 			
 	Rx_Wait: 
-		if (Count == DATA_BITS-1)
+		if (Count == DATA_BITS)
 			Next_State = Parity;
 		else 	
 			Next_State = Rx_Wait;
@@ -82,15 +83,13 @@ case(State)
 			if((Data_Reg == 0) & (Reg_Stop != '1)) Rx_Error[0] = 1'b1;
 			
 			// Parity Error 
-			for (int i = 1; i<DATA_BITS-1; i++)
-				begin Parity_Bit = Data_Reg[i] ^ Data_Reg[i-1]; end
-					if(Parity_Bit != Reg_Parity) Rx_Error[1] = 1'b1;
+			if(Parity_Bit[DATA_BITS-2] != Reg_Parity) Rx_Error[1] = 1'b1;
 			
 			// Framing Error 
 			if(Reg_Stop != '1) Rx_Error[2] = 1'b1;
 			
 			// Data bits Output if there is no error in the data sent 
-			if ( (Rx_Error[2] == 1'b1) | (Rx_Error[1] == 1'b1) |(Rx_Error[0] == 1'b1) )
+			if ( (Rx_Error[2] == 1'b1) | (Rx_Error[1] == 1'b1) |(Rx_Error[0] == 1'b1) | $isunknown(Reg_Start) | $isunknown(Data_Reg) | $isunknown(Reg_Stop))
 				Rx_Data_Out = 0;
 			else
 				begin
@@ -109,8 +108,12 @@ begin
 	Count = 0;
 	Stop_Count=0;
 	Data_Reg =0 ;
+	Parity_Bit = 0;
 end
-else if((Next_State == Rx_Wait) && (Count < DATA_BITS))
+else if (Next_State == Start_Bit)
+	Reg_Start = Rx_In;
+
+else if (Next_State == Rx_Wait)
 begin   
 	Count = Count+1;
 	Data_Reg = (Data_Reg << 1);
@@ -123,6 +126,11 @@ else if (Next_State == Stop_Bit)
 	Reg_Stop = Reg_Stop |Rx_In;
 	end
 else if (Next_State == Parity)
-	Reg_Parity = Rx_In;
+	begin
+	Reg_Parity = Rx_In;	
+	Parity_Bit[0] = (Data_Reg[1] ^ Data_Reg[0]);
+	for (int i = 0; i<DATA_BITS-2; i++)
+		begin Parity_Bit[i+1] = (Data_Reg[i+2] ^ Parity_Bit[i]); end
+	end
 end
 endmodule
