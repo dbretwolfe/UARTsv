@@ -21,18 +21,17 @@ begin
     
 Rx_In = 1'b1;
 // Test input with parity error - Parity Error 
-#20 Rx_In = 1'b1; // Start
+#20 Rx_In = 1'b0; // Start
 #10 Rx_In = 1'b0; // Data and parity
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b1;
-#10 Rx_In = 1'bx;
-#10 Rx_In = 1'b0;
+#10 Rx_In = 1'b1;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b1; //Parity
-
+#10 Rx_In = 1'b1;
 // Test input without any error 
 #50 Rx_In = 1'b0; // Start
 #10 Rx_In = 1'b1; // Data and Parity
@@ -57,7 +56,7 @@ Rx_In = 1'b1;
 #10 Rx_In = 1'b1;
 #10 Rx_In = 1'b1;
 #10 Rx_In = 1'b0;
-#10 Rx_In = 1'b1;
+#10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0; // Stop 
 
 #10 Rx_In = 1'b1; 
