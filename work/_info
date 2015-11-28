@@ -40,6 +40,29 @@ Z3 OL;L;10.4c;61
 !i113 0
 Z4 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 n@b@i@s@t_@f@s@m
+vFIFO
+R1
+R2
+r1
+!s85 0
+31
+!i10b 1
+!s100 B_TVO;mb87e6heg36`F]g0
+IAh_;HNfdVD=`[n3SKC=N11
+!s105 FIFO_sv_unit
+S1
+Z5 d//khensu/Home07/dwolf/Desktop/Repo/UARTsv
+w1448671369
+8//khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv
+F//khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv
+L0 1
+R3
+!s108 1448671389.000000
+!s107 //khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv|
+!i113 0
+R4
+n@f@i@f@o
 vReceiver
 R1
 !s110 1448241094
@@ -47,20 +70,20 @@ R1
 !s100 Z3mn7Pi5WJFC_T=Xe3e8b2
 IdVihhk2]2Y]0ZA>WJKlek1
 R2
-Z5 !s105 Receiver_sv_unit
+Z6 !s105 Receiver_sv_unit
 S1
 R0
 w1448238780
-Z6 8//khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv
-Z7 F//khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv
+Z7 8//khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv
+Z8 F//khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv
 L0 1
 R3
 r1
 !s85 0
 31
 !s108 1448241094.000000
-Z8 !s107 //khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv|
-Z9 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv|
+Z9 !s107 //khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv|
+Z10 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/Receiver/Receiver.sv|
 !i113 0
 R4
 n@receiver
@@ -73,17 +96,17 @@ r1
 !i10b 1
 !s100 gYk9:39e?7=hT^`7dY1nD1
 I?8i[lk<aUbJM`mAek<5>D0
-R5
+R6
 S1
 R0
 w1448241440
-R6
 R7
+R8
 L0 1
 R3
 !s108 1448241601.000000
-R8
 R9
+R10
 !i113 0
 R4
 n@r@x_@f@s@m
@@ -98,13 +121,13 @@ r1
 IQj>5bL;B0hXFDeKMhRzI`3
 !s105 Timing_Gen_sv_unit
 S1
-R0
+R5
 w1448243157
 8//khensu/Home07/dwolf/Desktop/UARTsv/Timing_Gen.sv
 F//khensu/Home07/dwolf/Desktop/UARTsv/Timing_Gen.sv
 L0 1
 R3
-!s108 1448243237.000000
+!s108 1448672189.000000
 !s107 //khensu/Home07/dwolf/Desktop/UARTsv/Timing_Gen.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/Timing_Gen.sv|
 !i113 0
@@ -140,17 +163,17 @@ r1
 !s85 0
 31
 !i10b 1
-!s100 fdShcACT:EOhzi;;5^QXh1
-I2b2UKN<LCkRK6dO1dhQ4C2
+!s100 KLHUT?B:L2;ViNVBGA>4n3
+INDCXL>_N>ZN:@7V@AKIh@2
 !s105 Toplevel_tb_sv_unit
 S1
-R0
-w1448244207
+R5
+w1448672815
 8//khensu/Home07/dwolf/Desktop/UARTsv/Toplevel_tb.sv
 F//khensu/Home07/dwolf/Desktop/UARTsv/Toplevel_tb.sv
 L0 28
 R3
-!s108 1448244373.000000
+!s108 1448672821.000000
 !s107 //khensu/Home07/dwolf/Desktop/UARTsv/Toplevel_tb.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/Toplevel_tb.sv|
 !i113 0
@@ -163,17 +186,17 @@ r1
 !s85 0
 31
 !i10b 1
-!s100 F9AKER>zE]388K9zn:oP21
-IMZ`25<gf6NN_gIJ2bTd_30
+!s100 JRC7J4h>Fe=I3gYSjEFkT2
+IE1GOD7b7c<3n9nC[VIUV`1
 !s105 TX_FSM_sv_unit
 S1
-R0
-w1448243133
+R5
+w1448672061
 8//khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM.sv
 F//khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM.sv
 L0 1
 R3
-!s108 1448243236.000000
+!s108 1448672123.000000
 !s107 //khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM.sv|
 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM.sv|
 !i113 0
@@ -203,26 +226,51 @@ r1
 !i113 0
 R4
 n@t@x_@f@s@m_tb
-vUARTsv
+YUART_IFace
 R1
+Z11 !s110 1448676897
+!i10b 1
+!s100 ^=klO]j?mJhXE;AW@52=N1
+IeTA<HV5PSb7CHG>P:?G=@3
 R2
+Z12 !s105 UART_Top_sv_unit
+S1
+R5
+Z13 w1448676886
+Z14 8//khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv
+Z15 F//khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv
+L0 1
+R3
 r1
 !s85 0
 31
+Z16 !s108 1448676897.000000
+Z17 !s107 //khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv|
+Z18 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv|
+!i113 0
+R4
+n@u@a@r@t_@i@face
+vUARTsv
+R1
+R11
 !i10b 1
-!s100 bQE<QHYcHYnR143Q:cd:d1
-ICL0@O4cRRM3`DU14[M0=N0
-!s105 UART_Top_sv_unit
+!s100 hefNKAYCGhmH_8NAL<UQo0
+II_]_JEAlMG]g7G6G@j>K01
+R2
+R12
 S1
-R0
-w1448241885
-8//khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv
-F//khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv
-L0 1
+R5
+R13
+R14
+R15
+L0 56
 R3
-!s108 1448242176.000000
-!s107 //khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv|
-!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|//khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv|
+r1
+!s85 0
+31
+R16
+R17
+R18
 !i113 0
 R4
 n@u@a@r@tsv

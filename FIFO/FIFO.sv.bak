@@ -1,11 +1,12 @@
-module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_DEPTH = 4)
-		(input logic [DATA_BITS-1:0] Rx_Data,
-		input logic Data_Rdy, 
-		input logic Read_Done,
-		output logic FIFO_Empty, 
-		output logic FIFO_Full, 
-		output logic FIFO_Overflow,
-		output logic [DATA_BITS-1:0] Data_Out);
+module FIFO(Rx_Data, Data_Rdy, Read_Done, FIFO_Empty, FIFO_Full, FIFO_Overflow, Data_Out);
+
+parameter DATA_BITS = 8;
+parameter FIFO_DEPTH = 4;
+
+input [DATA_BITS-1:0] Rx_Data;
+input Data_Rdy, Read_Done;
+output logic FIFO_Empty, FIFO_Full, FIFO_Overflow;
+output logic [DATA_BITS-1:0] Data_Out;
 
 int WPtr, RPtr = 0;
 
