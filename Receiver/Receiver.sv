@@ -13,7 +13,7 @@ output logic [DATA_BITS-1:0] Rx_Data_Out;
 output logic [2:0] Rx_Error;
 
 logic [DATA_BITS-1:0] Data_Reg = 0; 
-logic [[DATA_BITS-2:0]Parity_Bit =0;
+logic [DATA_BITS-2:0]Parity_Bit =0;
 logic [STOP_BITS-1:0] Reg_Stop = 0;
 logic Reg_Start;
 logic Reg_Parity =0;
