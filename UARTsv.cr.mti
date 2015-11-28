@@ -5,6 +5,13 @@ QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 Top level modules:
 	BIST_FSM
 
+} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/UARTIf.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/UARTIf.sv
+QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
+-- Compiling interface UART_IFace
+
+Top level modules:
+	--none--
+
 } {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/Toplevel_tb.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/Toplevel_tb.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 -- Compiling module Toplevel_tb
@@ -18,6 +25,13 @@ QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 
 Top level modules:
 	FIFO
+
+} {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/Timing_tb.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/Timing_tb.sv
+QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
+-- Compiling module Timing_tb
+
+Top level modules:
+	Timing_tb
 
 } {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
@@ -33,19 +47,12 @@ QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 Top level modules:
 	RX_FSM
 
-} {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/Timing_tb.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/Timing_tb.sv
+} {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/UART_Top.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
--- Compiling module Timing_tb
+-- Compiling module UARTsv
 
 Top level modules:
-	Timing_tb
-
-} {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/Timing_Gen.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/Timing_Gen.sv
-QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
--- Compiling module Timing_Gen
-
-Top level modules:
-	Timing_Gen
+	UARTsv
 
 } {} {}} //khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM_tb.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/UARTsv/TX_FSM_tb.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
