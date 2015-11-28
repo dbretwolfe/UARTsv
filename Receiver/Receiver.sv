@@ -52,15 +52,12 @@ case(State)
 			Next_State = Stop_Bit;
   	 
 	Stop_Bit: 
-		if(Stop_Count < STOP_BITS)
-			Next_State = Stop_Bit;	
+		if(Stop_Count == STOP_BITS)
+			Next_State = Rx_Done;	
 		else 
-			Next_State = Rx_Done;
+			Next_State = Stop_Bit;
 	Rx_Done: 	
-		if(Rx_In == 1)
 			Next_State = Ready;
-		else
-			Next_State = Rx_Done;
 endcase;
 end : set_Next_State;
 
