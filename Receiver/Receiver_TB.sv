@@ -1,14 +1,14 @@
-module Receiver_TB;
+module RX_FSM_TB;
 
-parameter DATA_BITS = 9;
+parameter DATA_BITS = 8;
 
 logic Rx_In, Clk, Rst; 
 logic RTS;
 logic Data_Rdy_Out;
-logic [DATA_BITS-2:0] Rx_Data_Out;
+logic [DATA_BITS-1:0] Rx_Data_Out;
 logic [2:0] Rx_Error;
 
-Receiver R1(.Rx_In, .Clk, .Rst, .RTS, .Data_Rdy_Out, .Rx_Data_Out, .Rx_Error);
+RX_FSM R1(.Rx_In, .Clk, .Rst, .RTS, .Data_Rdy_Out, .Rx_Data_Out, .Rx_Error);
 
 initial begin
  Clk = 0; 
@@ -25,12 +25,12 @@ Rx_In = 1'b1;
 #10 Rx_In = 1'b0; // Data and parity
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b1;
+#10 Rx_In = 1'bx;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
 #10 Rx_In = 1'b0;
-#10 Rx_In = 1'b1;
 #10 Rx_In = 1'b1; // Stop
 
 // Test input without any error 
