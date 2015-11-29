@@ -59,7 +59,10 @@ case(State)
 		else 
 			Next_State = Stop_Bit;
 	Rx_Done: 	
+			begin
+			a1: assert (($countones(Data_Reg)%2) == Reg_Parity ); // Immediate assertion for parity bit
 			Next_State = Ready;
+			end
 endcase;
 end : set_Next_State;
 
@@ -93,7 +96,6 @@ case(State)
 			else
 				begin
 				Rx_Data_Out = Data_Reg;	
-				a1: assert ( ($countones(Data_Reg)%2) != Reg_Parity ) else $error ("Parity is not valid");
 				Data_Rdy_Out = 1;
 				end
 			end
