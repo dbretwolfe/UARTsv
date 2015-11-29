@@ -12,10 +12,11 @@ module Toplevel_tb ();
 	localparam TX_BITS = (1 + DATA_BITS + PARITY_BIT + STOP_BITS);
 
 	logic SysClk = 0, Rst = 0, Rx = 1, CTS = 0, Data_Rdy, BIST_Busy, BIST_Error, Tx, RTS;
-	logic [DATA_BITS-1:0] 	Tx_Data;
 	logic [DATA_BITS-1:0] 	Rx_Data;
 	logic [2:0] 			Rx_Error;
 	logic					Clk;
+	logic					RetVal;
+	logic					FIFO_Empty;
 	
 	UART_IFace    #(.SYSCLK_RATE(SYSCLK_RATE),
 					.BAUD_RATE(BAUD_RATE),
@@ -24,7 +25,7 @@ module Toplevel_tb ();
 					.STOP_BITS(STOP_BITS),
 					.FIFO_DEPTH(FIFO_DEPTH)
 				)
-	TestIf (.SysClk(Sysclk),
+	TestIf (.SysClk(SysClk),
 			.Rst(Rst),
 			.Tx(Tx),
 			.Rx(Rx),
@@ -67,8 +68,11 @@ module Toplevel_tb ();
 		Rst = '0;
 		CTS = '1;
 		@(posedge SysClk);
-		TestIf.WriteData(8'hBB);
-		SendData(8'hAA);
+		fork
+			TestIf.WriteData(8'hBB);
+			SendData(8'hAA);
+			TestIf.ReadData(Rx_Data);
+		join
 	end
 	
 endmodule

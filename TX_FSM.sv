@@ -2,8 +2,7 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 		parameter integer STOP_BITS = 2,
 		parameter integer DATA_BITS = 8)
 		
-		(input logic SysClk,
-		input logic Clk,
+		(input logic Clk,
 		input logic Rst,
 		input logic [DATA_BITS-1:0] Tx_Data_In,
 		input logic Transmit_Start_In,
@@ -11,7 +10,7 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 		output logic Tx,
 		output logic Tx_Busy);
 
-	localparam TX_BITS = (PARITY_BIT + DATA_BITS + STOP_BITS + 1);
+	localparam TX_BITS = (1 + DATA_BITS + PARITY_BIT + STOP_BITS);
 
 	typedef enum logic [1:0] {IDLE = 2'b00, START = 2'b01, LOOP = 2'b10} tx_states_t;
 	
@@ -24,7 +23,7 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 	logic Tx_Gate;
 	
 	// State transition block
-	always_ff @ (posedge SysClk or posedge Rst) begin
+	always_ff @ (posedge Clk or posedge Rst) begin
 		if (Rst)
 			current_state <= IDLE;
 		else
@@ -97,28 +96,35 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 	// clocked transmit output logic.  To have a transmit loop, the logic needs 
 	// to be clocked, because the FSM output logic block only triggers on state change
 	// or reset.
-	always_ff @ (posedge Clk) begin
-		if (Tx_Gate) begin
-			if (Tx_Counter === '0 && !Tx_Done) begin	//I.E, the counter only just hit zero this clock
-				Tx <= Tx_Packet[Tx_Counter];
-				Tx_Done <= '1;
-				Tx_Counter <= Tx_Counter;
-			end
-			else if (Tx_Done) begin
-				Tx <= '1;
-				Tx_Done <= '1;
-				Tx_Counter <= Tx_Counter;
-			end
-			else begin
-				Tx <= Tx_Packet[Tx_Counter];
-				Tx_Done <= '0;
-				Tx_Counter <= Tx_Counter - 1;
-			end
-		end
-		else begin
-			Tx_Counter <= TX_BITS -1;
+	always_ff @ (posedge Clk or posedge Rst) begin
+		if (Rst) begin
+			Tx_Counter <= TX_BITS - 1;
 			Tx <= '1;
 			Tx_Done <= '0;
+		end
+		else begin
+			if (Tx_Gate) begin
+				if (Tx_Counter === '0 && !Tx_Done) begin	//I.E, the counter only just hit zero this clock
+					Tx <= Tx_Packet[Tx_Counter];
+					Tx_Done <= '1;
+					Tx_Counter <= Tx_Counter;
+				end
+				else if (Tx_Done) begin
+					Tx <= '1;
+					Tx_Done <= '1;
+					Tx_Counter <= Tx_Counter;
+				end
+				else begin
+					Tx <= Tx_Packet[Tx_Counter];
+					Tx_Done <= '0;
+					Tx_Counter <= Tx_Counter - 1;
+				end
+			end
+			else begin
+				Tx_Counter <= Tx_Counter;
+				Tx <= Tx;
+				Tx_Done <= Tx_Done;
+			end
 		end
 	end
 endmodule

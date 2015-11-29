@@ -25,12 +25,12 @@ typedef enum logic[2:0] {Ready, Start_Bit, Rx_Wait, Parity, Stop_Bit, Rx_Done } 
 
 Rx_States State, Next_State ; 
 
-always_ff @(posedge Clk)
+always_ff @(posedge Clk or posedge Rst)
 begin 
 	if(Rst) 
-	State <= Ready;
+		State <= Ready;
 	else 
-	State <= Next_State;
+		State <= Next_State;
 end
 
 always_comb

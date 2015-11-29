@@ -70,7 +70,6 @@ module UARTsv(UART_IFace.full UARTIf);
 		.DATA_BITS(DATA_BITS)
 		)
 	Transmitter (
-		.SysClk(UARTIf.SysClk),
 		.Clk,
 		.Rst(UARTIf.Rst),
 		.Tx_Data_In,		// Input from de-mux - either from BIST or top module port
@@ -109,6 +108,7 @@ module UARTsv(UART_IFace.full UARTIf);
 		.FIFO_DEPTH(FIFO_DEPTH)
 		)
 	fifo_initialize(
+		.Rst(UARTIf.Rst),
 		.Rx_Data(Rx_Data_Out),
 		.Data_Rdy(Data_Rdy_Out),  		//	To write data to FIFO 
 		.Read_Done(UARTIf.Read_Done), 		// 	To read data from FIFO

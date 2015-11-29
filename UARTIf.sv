@@ -48,16 +48,14 @@ interface UART_IFace  #(parameter SYSCLK_RATE = 100000000,
 		$display("Got here.");
 	endtask
 
-	function automatic logic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
-		if (!FIFO_Empty) begin		// Make sure the fifo is not empty
-			ReadBuf = Data_Out; 	// Copy the data from the FIFO output
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
-			Read_Done = '0;		// in new data.
-			return '0;
-		end
-		else
-			return '1;
-	endfunction
+	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
+		while (FIFO_Empty);// Make sure the fifo is not empty
+		@(posedge SysClk);
+		Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+		@(posedge SysClk);
+		Read_Done = '0;		// in new data.
+		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+	endtask
 	
 	// Modport for the UART side
 	modport full   (output SysClk,

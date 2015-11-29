@@ -1,0 +1,14 @@
+# Current time Sat Nov 28 20:23:51 2015
+# Program = vish
+# Id = "10.4c"
+# Version = "2015.07"
+# Date = "Jul 20 2015"
+# Platform = win64
+
+Exception c0000005 has occurred at address 10087cf6. Traceback:
+# 0    0x10087cf6: 'TclListObjSetElement + 0x3f6'
+# 1    0x10086dec: 'Tcl_ListObjLength + 0x4c'
+# 2    0x02be2f80: '<unknown (@0x2be2f80)>'
+StackWalk failed 487
+# End of Stack Trace
+
