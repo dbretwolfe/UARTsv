@@ -29,21 +29,34 @@ interface UART_IFace  #(parameter SYSCLK_RATE = 100000000,
 	logic			FIFO_Overflow;		// Output from FIFO
 	
 	// Modport for the testbench user
-	modport RWFunctions (import Write_Data,
-			     import Read_Data);
+	modport RWFunctions    (import Write_Data,
+			     	import Read_Data,
+			     	input FIFO_Empty,
+				input FIFO_Full,
+				input FIFO_Overflow,
+				input BIST_Error,
+				input Rx_Error);
 
 	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf);
-		while (Tx_Busy);
-		@(negedge SysClk);
-		Tx_Data = WriteBuf;
-		@(negedge SysClk);
-		Transmit_Start = '1;
-		@(negedge SysClk);
+		while (Tx_Busy);	// Wait until the current transmission is finished, if any
+		Tx_Data = WriteBuf;	// Set the transmit data reg
+		@(negedge SysClk);	// On the next negative clock edge,
+		Transmit_Start = '1;	// assert transmit start.
+		@(negedge Tx);
+		Transmit_Start = '1;	// Hold transmit start until the start bit is set on Tx.  The 
+					// transmission should now be started.
 	endtask
 
-	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
-
-	endtask
+	function automatic logic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
+		if (!FIFO_Empty) begin		// Make sure the fifo is not empty
+			ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Read_Done = '0;		// in new data.
+			return '0;
+		end
+		else
+			return '1;
+	endfunction
 	
 	// Modport for the UART side
 	modport full   (output SysClk,
