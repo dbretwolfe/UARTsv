@@ -1,3 +1,4 @@
+
 module RX_FSM (Rx_In, Clk, Rst, RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error); 
 
 parameter DATA_BITS = 8; 
@@ -15,13 +16,14 @@ output logic [2:0] Rx_Error;
 logic [DATA_BITS-1:0] Data_Reg = 0; 
 logic [DATA_BITS-2:0]Parity_Bit =0;
 logic [STOP_BITS-1:0] Reg_Stop = 0;
-logic Reg_Start;
 logic Reg_Parity =0;
 
 int Count;
-int Stop_Count;
+int Stop_Count;	
 
-enum {Ready, Start_Bit, Rx_Wait, Parity, Stop_Bit, Rx_Done } State, Next_State ; 	
+typedef enum logic[2:0] {Ready, Start_Bit, Rx_Wait, Parity, Stop_Bit, Rx_Done } Rx_States;
+
+Rx_States State, Next_State ; 
 
 always_ff @(posedge Clk)
 begin 
@@ -86,11 +88,12 @@ case(State)
 			if(Reg_Stop != '1) Rx_Error[2] = 1'b1;
 			
 			// Data bits Output if there is no error in the data sent 
-			if ( (Rx_Error[2] == 1'b1) | (Rx_Error[1] == 1'b1) |(Rx_Error[0] == 1'b1) | $isunknown(Reg_Start) | $isunknown(Data_Reg) | $isunknown(Reg_Stop))
+			if ( (Rx_Error[2] == 1'b1) | (Rx_Error[1] == 1'b1) |(Rx_Error[0] == 1'b1) | $isunknown(Data_Reg) | $isunknown(Reg_Stop))
 				Rx_Data_Out = 0;
 			else
 				begin
-				Rx_Data_Out = Data_Reg;		
+				Rx_Data_Out = Data_Reg;	
+				a1: assert ( ($countones(Data_Reg)%2) != Reg_Parity ) else $error ("Parity is not valid");
 				Data_Rdy_Out = 1;
 				end
 			end
@@ -100,16 +103,14 @@ end : set_Outputs
 
 always_ff @(posedge Clk)
 begin 
-if (Next_State == Ready ) 
+if (State == Ready ) 
 begin
 	Count = 0;
 	Stop_Count=0;
 	Data_Reg =0 ;
 	Parity_Bit = 0;
+	Reg_Stop = 0;
 end
-else if (Next_State == Start_Bit)
-	Reg_Start = Rx_In;
-
 else if (Next_State == Rx_Wait)
 begin   
 	Count = Count+1;
@@ -130,4 +131,19 @@ else if (Next_State == Parity)
 		begin Parity_Bit[i+1] = (Data_Reg[i+2] ^ Parity_Bit[i]); end
 	end
 end
+
+property Data_Valid;
+@(posedge Clk)
+	$isunknown(Data_Reg)== 0 ;
+endproperty
+
+property Reset_Valid;
+@(posedge Clk)
+	($rose(Rst))	|-> $isunknown ({RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error}) == 0  ;	
+endproperty
+
+
+assert_Data_Valid : assert property(Data_Valid); 
+assert_Reset_Valid: assert property(Reset_Valid);
+
 endmodule
