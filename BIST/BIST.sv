@@ -108,7 +108,7 @@ begin
 unique case (State)
 	READY:
 		begin
-		if (BIST_Start)
+		if (BIST_Start && !Data_Rdy_Out)
 			NextState = BIST_ACTIVE;
 		else
 			NextState = READY;
@@ -135,7 +135,5 @@ unique case (State)
 endcase
 end
 
-//ap_A2B: assert property (@(posedge 	Clk) 
-//State== BIST_ACTIVE |-> $past(State)==READY);
 endmodule
 
