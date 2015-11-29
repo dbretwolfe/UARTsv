@@ -46,21 +46,29 @@ case(State)
 			
 	Rx_Wait: 
 		if (Count == DATA_BITS)
+			begin
 			Next_State = Parity;
+			a1: assert (($countones(Data_Reg)%2) == Reg_Parity ); // Immediate assertion for Parity bit
+			end
 		else 	
 			Next_State = Rx_Wait;
 			
-	Parity  : 
+	Parity  : 	
+			begin
 			Next_State = Stop_Bit;
-  	 
+			
+  	 		end
 	Stop_Bit: 
 		if(Stop_Count == STOP_BITS)
+			begin
 			Next_State = Rx_Done;	
-		else 
+			a2: assert ( Reg_Stop == '1) ; // Immediate assertion to check the Stop Bits 
+			end
+		else 	
 			Next_State = Stop_Bit;
 	Rx_Done: 	
 			begin
-			a1: assert (($countones(Data_Reg)%2) == Reg_Parity ); // Immediate assertion for parity bit
+			
 			Next_State = Ready;
 			end
 endcase;
