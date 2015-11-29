@@ -152,8 +152,15 @@ property Reset_Valid;
 	($rose(Rst))	|-> $isunknown ({RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error}) == 0  ;	
 endproperty
 
+property Done;
+@(posedge Clk)
+	State == Rx_Done |=> RTS ;
+endproperty
 
-assert_Data_Valid : assert property(Data_Valid); 
+assert_Data_Valid : assert property(Data_Valid);
+ 
 assert_Reset_Valid: assert property(Reset_Valid);
+
+aseert_Done : assert property(Done);
 
 endmodule
