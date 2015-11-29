@@ -46,20 +46,31 @@ case(State)
 			
 	Rx_Wait: 
 		if (Count == DATA_BITS)
+			begin
 			Next_State = Parity;
+			a1: assert (($countones(Data_Reg)%2) == Reg_Parity ); // Immediate assertion for Parity bit
+			end
 		else 	
 			Next_State = Rx_Wait;
 			
-	Parity  : 
+	Parity  : 	
+			begin
 			Next_State = Stop_Bit;
-  	 
+			
+  	 		end
 	Stop_Bit: 
 		if(Stop_Count == STOP_BITS)
+			begin
 			Next_State = Rx_Done;	
-		else 
+			a2: assert ( Reg_Stop == '1) ; // Immediate assertion to check the Stop Bits 
+			end
+		else 	
 			Next_State = Stop_Bit;
 	Rx_Done: 	
+			begin
+			
 			Next_State = Ready;
+			end
 endcase;
 end : set_Next_State;
 
@@ -93,7 +104,6 @@ case(State)
 			else
 				begin
 				Rx_Data_Out = Data_Reg;	
-				a1: assert ( ($countones(Data_Reg)%2) != Reg_Parity ) else $error ("Parity is not valid");
 				Data_Rdy_Out = 1;
 				end
 			end
@@ -142,8 +152,15 @@ property Reset_Valid;
 	($rose(Rst))	|-> $isunknown ({RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error}) == 0  ;	
 endproperty
 
+property Done;
+@(posedge Clk)
+	State == Rx_Done |=> RTS ;
+endproperty
 
-assert_Data_Valid : assert property(Data_Valid); 
+assert_Data_Valid : assert property(Data_Valid);
+ 
 assert_Reset_Valid: assert property(Reset_Valid);
+
+aseert_Done : assert property(Done);
 
 endmodule

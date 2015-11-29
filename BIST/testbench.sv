@@ -1,10 +1,10 @@
 module TestBench;
-
+parameter integer DATA_BITS = 8;
 reg Clk, Rst, BIST_Start, Data_Rdy;
-bit [7:0]Rx_Data_Out;
-bit BIST_Error;
+logic [DATA_BITS-1:0]Rx_Data_Out;
+logic BIST_Error;
 wire BIST_Mode, BIST_Tx_Start_Out, BIST_Busy;
-bit [7:0]BIST_Tx_Data_Out;
+logic [DATA_BITS-1:0]BIST_Tx_Data_Out;
 
 parameter TRUE   = 1'b1;
 parameter FALSE  = 1'b0;
@@ -67,13 +67,24 @@ end
 initial
 begin
 
-@(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'b10, 8'b00000000};   //   Next clock
+@(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'b11, 8'b00000000};   //   Next clock MORE THAN ONE INPUT CANNOT TRANSITION TO START OF BIST
+repeat (4) @(negedge Clk);
+
+
+@(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'b10, 8'b00000000};   //   Next clock JUST ONE INPUT CAN TRANSITION TO START OF BIST
+repeat (4) @(negedge Clk);
+
+@(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'b10, 8'b00000000};   //   Next clock MORE THAN ONE INPUT CANNOT TRANSITION TO START OF BIST
 repeat (4) @(negedge Clk);
 
 @(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'b01, 8'b00000000};   //  Next clock
 repeat (4) @(negedge Clk);
 
+@(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'bx1, 8'b00000000};   //  Next clock
+repeat (4) @(negedge Clk); // checking if the assertion for all valid inputs is working or no
 
+@(negedge Clk); {BIST_Start, Data_Rdy, Rx_Data_Out} = {2'b11, 8'b00000000};   //  Next clock
+repeat (4) @(negedge Clk); // more than one input enabled
 
 BFSM.State = BFSM.State.first;
 forever
@@ -87,21 +98,33 @@ forever
 $stop;
 end
 
-/*  sequence state_transitions_s;
-(State == READY) ##1
-((State == BIST_ACTIVE)||(State == BIST_LOOP )||(State == BIST_DONE))
-endsequence
- 
-property state_transitions_p;
+// checking for valid inputs 
+
+property state_validinputs_p;
 @(posedge Clk)
-($fell(Rst) |-> state_transitions_s)
+($fell(Rst)) |-> $isunknown({Rst, BIST_Start, Data_Rdy, Rx_Data_Out}) == 0; 
 endproperty
 
-state_transitions_a: assert property(state_transitions_p);  */
+// Checking valid outputs once everything is reset
+
+property state_validoutputs_p;
+@(posedge Clk)
+($fell(Rst)) |-> $isunknown({BIST_Mode, BIST_Error, BIST_Tx_Data_Out, BIST_Tx_Start_Out, BIST_Busy}) == 0; 
+endproperty
 
 
-//ap_A2B: assert property(@(posedge Clk) 
-//$past(state)==A && !c |-> state==A; //
+// Checking not more than one input
+
+//property state_notmorethanoneput_p;
+//@(posedge Clk)
+//($fell(Rst)) |-> $onehot({BIST_Start, Data_Rdy}) == 1; 
+//endproperty
+
+
+
+state_validinputs_a: assert property(state_validinputs_p); 
+state_validoutputs_a: assert property(state_validoutputs_p);
+//state_notmorethanoneput_a: assert property(state_notmorethanoneput_p);
 
 endmodule
 
