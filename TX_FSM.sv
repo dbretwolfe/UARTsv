@@ -2,12 +2,14 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 		parameter integer STOP_BITS = 2,
 		parameter integer DATA_BITS = 8)
 		
-		(input logic Clk,
+		(input logic SysClk,
+		input logic Clk,
 		input logic Rst,
 		input logic [DATA_BITS-1:0] Tx_Data_In,
 		input logic Transmit_Start_In,
 		input logic CTS,
-		output logic Tx);
+		output logic Tx,
+		output logic Tx_Busy);
 
 	localparam TX_BITS = (PARITY_BIT + DATA_BITS + STOP_BITS + 1);
 
@@ -22,7 +24,7 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 	logic Tx_Gate;
 	
 	// State transition block
-	always_ff @ (posedge Clk or posedge Rst) begin
+	always_ff @ (posedge SysClk or posedge Rst) begin
 		if (Rst)
 			current_state <= IDLE;
 		else
@@ -63,6 +65,7 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 			Tx_Gate = '0;
 			Parity = '0;
 			Tx_Packet = '0;
+			Tx_Busy = '0;
 		end
 		else begin
 			unique case (current_state)
@@ -70,9 +73,11 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 						Tx_Gate = '0;
 						Parity = '0;		
 						Tx_Packet = '0;
+						Tx_Busy = '0;
 					end
 				START:	begin
 						Tx_Gate = '0;
+						Tx_Busy = '1;
 						for (i = '0; i < DATA_BITS; i = i + 1) begin
 							Parity = Tx_Data_In[i] ^ Parity;
 						end
@@ -82,6 +87,7 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 						Tx_Gate = '1;
 						Parity = Parity;
 						Tx_Packet = Tx_Packet;
+						Tx_Busy = '1;
 					end
 			endcase
 		end
@@ -95,6 +101,11 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 		if (Tx_Gate) begin
 			if (Tx_Counter === '0 && !Tx_Done) begin	//I.E, the counter only just hit zero this clock
 				Tx <= Tx_Packet[Tx_Counter];
+				Tx_Done <= '1;
+				Tx_Counter <= Tx_Counter;
+			end
+			else if (Tx_Done) begin
+				Tx <= '1;
 				Tx_Done <= '1;
 				Tx_Counter <= Tx_Counter;
 			end

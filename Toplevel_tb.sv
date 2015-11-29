@@ -1,75 +1,74 @@
 `timescale 1ns/1ps
 
-//module UARTsv #(
-//	parameter SYSCLK_RATE = 100000000,
-//	parameter BAUD_RATE = 9600,
-//	parameter DATA_BITS = 8,
-//	parameter PARITY_BIT = 1,
-//	parameter STOP_BITS = 2,
-//	parameter FIFO_SIZE = 8
-//)
-//(
-//	input logic SysClk,
-//	input logic Rst,
-//	input logic Rx,
-//	input logic CTS,
-//	input logic [DATA_BITS-1:0] Tx_Data,
-//	input logic Transmit_Start,
-//	input logic BIST_Start,
-//	output logic [DATA_BITS-1:0] Rx_Data,
-//	output logic Data_Rdy,
-//	output logic [2:0] Rx_Error,
-//	output logic BIST_Busy,
-//	output logic Tx,
-//	output logic RTS
-//	
-//);
-
 module Toplevel_tb ();
-	parameter SYSCLK_RATE = 9600;
-	parameter BAUD_RATE = 9600;
+	parameter SYSCLK_RATE = 4;
+	parameter BAUD_RATE = 1;
 	parameter DATA_BITS = 8;
 	parameter PARITY_BIT = 1;
 	parameter STOP_BITS = 2;
-	parameter FIFO_SIZE = 8;
+	parameter FIFO_DEPTH = 8;
 
-	localparam CLOCK_DELAY = 9600/SYSCLK_RATE;
+	localparam CLOCK_DELAY = 5;
+	localparam TX_BITS = (1 + DATA_BITS + PARITY_BIT + STOP_BITS);
 
-	logic SysClk = 0, Rst, Rx, CTS, Transmit_Start, BIST_Start, Data_Rdy, BIST_Busy, BIST_Error, Tx, RTS;
-	logic [DATA_BITS-1:0] Tx_Data;
-	logic [DATA_BITS-1:0] Rx_Data;
-	logic [2:0] Rx_Error;
+	logic SysClk = 0, Rst = 0, Rx = 1, CTS = 0, Data_Rdy, BIST_Busy, BIST_Error, Tx, RTS;
+	logic [DATA_BITS-1:0] 	Tx_Data;
+	logic [DATA_BITS-1:0] 	Rx_Data;
+	logic [2:0] 			Rx_Error;
+	logic					Clk;
 	
+	UART_IFace    #(.SYSCLK_RATE(SYSCLK_RATE),
+					.BAUD_RATE(BAUD_RATE),
+					.DATA_BITS(DATA_BITS),
+					.PARITY_BIT(PARITY_BIT),
+					.STOP_BITS(STOP_BITS),
+					.FIFO_DEPTH(FIFO_DEPTH)
+				)
+	TestIf (.SysClk(Sysclk),
+			.Rst(Rst),
+			.Tx(Tx),
+			.Rx(Rx),
+			.CTS(CTS),
+			.RTS(RTS));
+	
+	Timing_Gen #(
+		.SYSCLK_RATE(SYSCLK_RATE),
+		.BAUD_RATE(BAUD_RATE)
+		)
+	BaudGen (
+		.SysClk,
+		.Rst,
+		.Clk
+		);
+		
+	task automatic SendData(input logic [DATA_BITS-1:0] Buf);
+		logic Parity = 0;
+		logic [TX_BITS-1:0] Tx_Packet;
+		
+		for (int i = '0; i < DATA_BITS; i = i + 1) begin
+			Parity = Buf[i] ^ Parity;
+		end
+		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+		for (int i = TX_BITS-1; i >=0; i--) begin
+			Rx = Tx_Packet[i];
+			@(posedge Clk);
+		end
+	endtask
+
 	always begin
 		#CLOCK_DELAY SysClk = ~SysClk;
 	end
 
-	UARTsv #(.SYSCLK_RATE(SYSCLK_RATE),
-		.BAUD_RATE(BAUD_RATE),
-		.PARITY_BIT(PARITY_BIT),
-		.STOP_BITS(STOP_BITS),
-		.FIFO_SIZE(FIFO_SIZE))
-	UART (.SysClk,
-		.Rst,
-		.Rx,
-		.CTS,
-		.Tx_Data,
-		.Transmit_Start,
-		.BIST_Start,
-		.Rx_Data,
-		.Data_Rdy,
-		.Rx_Error,
-		.BIST_Busy,
-		.BIST_Error,
-		.Tx,
-		.RTS);
+	UARTsv TestUART(TestIf.full);
 
 	initial begin
 		Rst = '1;
-		#CLOCK_DELAY Rst = '0;
-		Tx_Data = 8'hAA;
-		#2 Transmit_Start = 1;
-		#4 Transmit_Start = 0;
+		@(posedge SysClk);
+		Rst = '0;
+		CTS = '1;
+		@(posedge SysClk);
+		TestIf.WriteData(8'hBB);
+		SendData(8'hAA);
 	end
 	
 endmodule

@@ -1,28 +1,11 @@
-module UARTsv #(
-	parameter SYSCLK_RATE = 100000000,
-	parameter BAUD_RATE = 9600,
-	parameter DATA_BITS = 8,
-	parameter PARITY_BIT = 1,
-	parameter STOP_BITS = 2,
-	parameter FIFO_SIZE = 8
-)
-(
-	input logic SysClk,
-	input logic Rst,
-	input logic Rx,
-	input logic CTS,
-	input logic [DATA_BITS-1:0] Tx_Data,
-	input logic Transmit_Start,
-	input logic BIST_Start,
-	output logic [DATA_BITS-1:0] Rx_Data,
-	output logic Data_Rdy,
-	output logic [2:0] Rx_Error,
-	output logic BIST_Busy,
-	output logic BIST_Error,
-	output logic Tx,
-	output logic RTS
-	
-);
+module UARTsv(UART_IFace.full UARTIf);
+
+	localparam SYSCLK_RATE = UARTIf.SYSCLK_RATE;
+	localparam BAUD_RATE = UARTIf.BAUD_RATE;
+	localparam DATA_BITS = UARTIf.DATA_BITS;
+	localparam PARITY_BIT = UARTIf.PARITY_BIT;
+	localparam STOP_BITS = UARTIf.STOP_BITS;
+	localparam FIFO_DEPTH = UARTIf.FIFO_DEPTH;
 	
 	//Internal nets and variables
 	wire [DATA_BITS-1:0]	Rx_Data_Out;
@@ -36,23 +19,24 @@ module UARTsv #(
 	wire 			Clk;			// Clock generated from the timing module
 	
 	//Mux assignments
-	assign Tx_Data_In = BIST_Mode ? BIST_Tx_Data_Out : Tx_Data; // If BIST is active, the Tx FSM gets its parallel data input from the BIST module,
+	assign Tx_Data_In = BIST_Mode ? BIST_Tx_Data_Out : UARTIf.Tx_Data; // If BIST is active, the Tx FSM gets its parallel data input from the BIST module,
 								    // otherwise from the top module port.
-	assign Transmit_Start_In = BIST_Mode ? BIST_Tx_Start_Out : Transmit_Start; //Likewise, the Tx FSM will get its transmit start command
+	assign Transmit_Start_In = BIST_Mode ? BIST_Tx_Start_Out : UARTIf.Transmit_Start; //Likewise, the Tx FSM will get its transmit start command
 								    // from the BIST module, otherwise from the top module port.
-	assign Rx_In = BIST_Mode ? Tx : Rx;		// If BIST is active, the Rx FSM gets it's serial data input from the serial output of the Tx FSM,
+	assign Rx_In = BIST_Mode ? UARTIf.Tx : UARTIf.Rx;		// If BIST is active, the Rx FSM gets it's serial data input from the serial output of the Tx FSM,
 							// otherwise the Rx FSM gets its data from the top module port
 	
-	assign Rx_Data = Rx_Data_Out;			// The Rx_Data top module output gets the bits of the Rx FSM output
-	assign Data_Rdy = Data_Rdy_Out;
+	assign UARTIf.Data_Rdy = Data_Rdy_Out;
 	
 	//*********************************************
 	//
-	//		Finite State Machines
+	//		Modules
 	//
+	//  Timing Generator
 	//  Receiver
 	//  Transmitter
 	//  Built-in Self Test
+	//  FIFO
 	//
 	//*********************************************
 	Timing_Gen #(
@@ -60,8 +44,8 @@ module UARTsv #(
 		.BAUD_RATE(BAUD_RATE)
 		)
 	BaudGen (
-		.SysClk,
-		.Rst,
+		.SysClk(UARTIf.SysClk),
+		.Rst(UARTIf.Rst),
 		.Clk
 		);
 
@@ -72,12 +56,12 @@ module UARTsv #(
 		)
 	Receiver (
 		.Clk,
-		.Rst,
+		.Rst(UARTIf.Rst),
 		.Rx_In,			// Input from de-mux
-		.RTS,			// Output to module port
+		.RTS(UARTIf.RTS),			// Output to module port
 		.Data_Rdy_Out,		// Output to mux
 		.Rx_Data_Out,		// Output to module port and BIST FSM
-		.Rx_Error
+		.Rx_Error(UARTIf.Rx_Error)
 	);
 
 	TX_FSM #(
@@ -86,12 +70,14 @@ module UARTsv #(
 		.DATA_BITS(DATA_BITS)
 		)
 	Transmitter (
+		.SysClk(UARTIf.SysClk),
 		.Clk,
-		.Rst,
+		.Rst(UARTIf.Rst),
 		.Tx_Data_In,		// Input from de-mux - either from BIST or top module port
 		.Transmit_Start_In,	// Input from de-mux - either from BIST or top module port
-		.CTS,			// Input from module port
-		.Tx			// Output to module port
+		.CTS(UARTIf.CTS),			// Input from module port
+		.Tx(UARTIf.Tx),			// Output to module port
+		.Tx_Busy(UARTIf.Tx_Busy)
 	);
 
 	BIST_FSM #(
@@ -99,15 +85,15 @@ module UARTsv #(
 		)
 	SelfTest (
 		.Clk,
-		.Rst,
-		.BIST_Start,		// Input from module port
+		.Rst(UARTIf.Rst),
+		.BIST_Start(UARTIf.BIST_Start),		// Input from module port
 		.Data_Rdy_Out,		// Input from Rx FSM
 		.Rx_Data_Out,		// Input from Rx FSM
 		.BIST_Mode,		// Output to mux/demux
 		.BIST_Tx_Data_Out,	// Output to the Tx FSM input mux
 		.BIST_Tx_Start_Out,	// Output to the Tx FSM input mux
-		.BIST_Error,
-		.BIST_Busy
+		.BIST_Error(UARTIf.BIST_Error),
+		.BIST_Busy(UARTIf.BIST_Busy)
 	);
 
 	//*********************************************
@@ -119,16 +105,16 @@ module UARTsv #(
 	//*********************************************
 	
 	FIFO #(
-		.DATA_BITS(DATA_BITS);
-		.FIFO_DEPTH(FIFO_DEPTH);
+		.DATA_BITS(DATA_BITS),
+		.FIFO_DEPTH(FIFO_DEPTH)
 		)
 	fifo_initialize(
-		.Rx_Data,
-		.Data_Rdy,  		//	To write data to FIFO 
-		.Read_Done, 		// 	To read data from FIFO
-		.FIFO_Empty, 
-		.FIFO_Full, 
-		.FIFO_Overflow, 
-		.Data_Out
+		.Rx_Data(Rx_Data_Out),
+		.Data_Rdy(Data_Rdy_Out),  		//	To write data to FIFO 
+		.Read_Done(UARTIf.Read_Done), 		// 	To read data from FIFO
+		.FIFO_Empty(UARTIf.FIFO_Empty), 
+		.FIFO_Full(UARTIf.FIFO_Full), 
+		.FIFO_Overflow(UARTIf.FIFO_Overflow), 
+		.Data_Out(UARTIf.Data_Out)
 	);	
 endmodule

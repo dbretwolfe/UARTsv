@@ -45,6 +45,7 @@ interface UART_IFace  #(parameter SYSCLK_RATE = 100000000,
 		@(negedge Tx);
 		Transmit_Start = '1;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
+		$display("Got here.");
 	endtask
 
 	function automatic logic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
