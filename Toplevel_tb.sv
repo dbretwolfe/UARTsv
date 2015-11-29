@@ -56,6 +56,15 @@ module Toplevel_tb ();
 		end
 	endtask
 
+		
+	task automatic Check_BIST();
+		TestIf.BIST_Start =1;
+		@(posedge SysClk);
+		Data_Rdy = 1;
+		if (Data_Rdy == 1) TestIf.BIST_Start = 0;
+		else TestIf.BIST_Start = 1;	
+	endtask
+
 	always begin
 		#CLOCK_DELAY SysClk = ~SysClk;
 	end
@@ -68,11 +77,12 @@ module Toplevel_tb ();
 		Rst = '0;
 		CTS = '1;
 		@(posedge SysClk);
-		fork
-			TestIf.WriteData(8'hBB);
-			SendData(8'hAA);
-			TestIf.ReadData(Rx_Data);
-		join
+//		fork
+//			TestIf.WriteData(8'hBB);
+//			SendData(8'hAA);
+//			TestIf.ReadData(Rx_Data);
+//		join
+	Check_BIST();
 	end
 	
 endmodule
