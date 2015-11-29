@@ -55,7 +55,7 @@ begin
 	if (Rst) begin
 		FIFO_Full = 0;
 	end
-	else if(WPtr == 0.75 * FIFO_DEPTH) FIFO_Full = 1;
+	else if(WPtr == (FIFO_DEPTH >> 1)) FIFO_Full = 1;
 		else FIFO_Full = 0;
 end
 

@@ -38,23 +38,32 @@ interface UART_IFace  #(parameter SYSCLK_RATE = 100000000,
 				input Rx_Error);
 
 	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf);
-		while (Tx_Busy);	// Wait until the current transmission is finished, if any
+		while (Tx_Busy)	// Wait until the current transmission is finished, if any
+			@(posedge SysClk);
 		Tx_Data = WriteBuf;	// Set the transmit data reg
 		@(negedge SysClk);	// On the next negative clock edge,
 		Transmit_Start = '1;	// assert transmit start.
 		@(negedge Tx);
-		Transmit_Start = '1;	// Hold transmit start until the start bit is set on Tx.  The 
+		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
-		$display("Got here.");
 	endtask
 
 	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
-		while (FIFO_Empty);// Make sure the fifo is not empty
+		while (FIFO_Empty)// Make sure the fifo is not empty
+			@(posedge SysClk);
 		@(posedge SysClk);
 		Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
 		@(posedge SysClk);
 		Read_Done = '0;		// in new data.
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+		$display("Read data: %h", ReadBuf);
+	endtask
+	
+	task automatic Start_BIST();
+		BIST_Start = '1;
+		while(!BIST_Busy)
+			@(posedge SysClk);
+		BIST_Start = '0;
 	endtask
 	
 	// Modport for the UART side

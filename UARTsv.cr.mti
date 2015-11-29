@@ -5,26 +5,19 @@ QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 Top level modules:
 	UARTsv
 
-} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/UARTIf.sv {1 {vlog -work work -vopt -sv -stats=none {\\khensu\Home07\dwolf\Desktop\Repo\UARTsv\UARTIf.sv}
+} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/UARTIf.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/UARTIf.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 -- Compiling interface UART_IFace
 
 Top level modules:
 	--none--
 
-} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv {1 {vlog -work work -vopt -sv -stats=none {\\khensu\Home07\dwolf\Desktop\Repo\UARTsv\FIFO\FIFO.sv}
+} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/FIFO/FIFO.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 -- Compiling module FIFO
 
 Top level modules:
 	FIFO
-
-} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/BIST/BIST.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/BIST/BIST.sv
-QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
--- Compiling module BIST_FSM
-
-Top level modules:
-	BIST_FSM
 
 } {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Toplevel_tb.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Toplevel_tb.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
@@ -33,19 +26,19 @@ QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 Top level modules:
 	Toplevel_tb
 
-} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Receiver/Receiver.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Receiver/Receiver.sv
-QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
--- Compiling module RX_FSM
-
-Top level modules:
-	RX_FSM
-
 } {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/TX_FSM.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/TX_FSM.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
 -- Compiling module TX_FSM
 
 Top level modules:
 	TX_FSM
+
+} {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Receiver/Receiver.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Receiver/Receiver.sv
+QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015
+-- Compiling module RX_FSM
+
+Top level modules:
+	RX_FSM
 
 } {} {}} //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Timing_Gen.sv {1 {vlog -work work -vopt -sv -stats=none //khensu/Home07/dwolf/Desktop/Repo/UARTsv/Timing_Gen.sv
 QuestaSim-64 vlog 10.4c Compiler 2015.07 Jul 20 2015

@@ -88,6 +88,8 @@ module UARTsv(UART_IFace.full UARTIf);
 		.BIST_Start(UARTIf.BIST_Start),		// Input from module port
 		.Data_Rdy_Out,		// Input from Rx FSM
 		.Rx_Data_Out,		// Input from Rx FSM
+		.RTS(UARTIf.RTS),
+		.Tx_Busy(UARTIf.Tx_Busy),
 		.BIST_Mode,		// Output to mux/demux
 		.BIST_Tx_Data_Out,	// Output to the Tx FSM input mux
 		.BIST_Tx_Start_Out,	// Output to the Tx FSM input mux

@@ -121,9 +121,9 @@ module TX_FSM #(parameter logic PARITY_BIT = 1,
 				end
 			end
 			else begin
-				Tx_Counter <= Tx_Counter;
-				Tx <= Tx;
-				Tx_Done <= Tx_Done;
+				Tx_Counter <= TX_BITS - 1;
+				Tx <= '1;
+				Tx_Done <= 0;
 			end
 		end
 	end
