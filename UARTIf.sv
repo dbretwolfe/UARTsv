@@ -56,7 +56,6 @@ interface UART_IFace  #(parameter SYSCLK_RATE = 100000000,
 		@(posedge SysClk);
 		Read_Done = '0;		// in new data.
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
-		$display("Read data: %h", ReadBuf);
 	endtask
 	
 	task automatic Start_BIST();

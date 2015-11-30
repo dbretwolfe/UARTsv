@@ -1,27 +1,28 @@
 //
-// behavioral model BIST FSM
+// Built-In Self-Test module
 //
+// This module controls the BIST process, which changes the internal wiring of the UART module
+// using the BIST_Mode signal, so that the Transmitter sends directly to the receivers.  Also,
+// when BIST_Mode is asserted, the transmitter gets it's data directly from the BIST module, 
+// which has a parameterized test sequence.  The receiver then sends the received data back to 
+// the BIST instead of to the FIFO, and the BIST compares the received data to the sent data.
+// If the received data does not match the sent data, the BIST should assert it's BIST_Error
+// output.
 
 module BIST_FSM#(parameter integer DATA_BITS = 8,
-				 parameter integer BIST_DATA = 8'b10101010
-				)
-				(
-				input 	logic	Clk,
+				 parameter integer BIST_DATA = 8'b10101010)
+				(input 	logic	Clk,
 				input 	logic	Rst,
-				input 	logic	BIST_Start,
-				input 	logic	Data_Rdy_Out,
-				input 	logic [DATA_BITS-1:0]Rx_Data_Out,
-				input	logic	RTS,
-				input	logic	Tx_Busy,
-				output 	logic BIST_Mode,
-				output 	logic [DATA_BITS-1:0]BIST_Tx_Data_Out,
-				output 	logic BIST_Tx_Start_Out,
-				output  logic BIST_Error,
-				output 	logic BIST_Busy);
-
-//input Clk, Rst, BIST_Start, Data_Rdy_Out, [7:0]Rx_Data_Out;
-//output BIST_Mode, [7:0]Tx_Data, BIST_Tx_Start_Out, [2:0]BIST_Error, BIST_Busy;
-//reg BIST_Mode, BIST_Tx_Data_Out[DATA_BITS-1:0], BIST_Tx_Start_Out, [2:0]BIST_Error, BIST_Busy;
+				input 	logic	BIST_Start,						// Signal to start the BIST
+				input 	logic	Data_Rdy_Out,					// Input from the Receiver indicating ready data
+				input 	logic [DATA_BITS-1:0]Rx_Data_Out,		// Parallel data from the receiver
+				input	logic	RTS,							// Used as a receiver busy signal
+				input	logic	Tx_Busy,						// Busy signal for the transmitter
+				output 	logic BIST_Mode,						// Output to top level module to route signals
+				output 	logic [DATA_BITS-1:0]BIST_Tx_Data_Out,  // Parallel data output to the transmitter
+				output 	logic BIST_Tx_Start_Out,				// Transmit start signal output to transmitter
+				output  logic BIST_Error,						// Error flag output to top level module
+				output 	logic BIST_Busy);						// Busy signal from BIST
 
 parameter ON  = 1'b1;
 parameter OFF = 1'b0;
@@ -30,11 +31,11 @@ parameter OFF = 1'b0;
 // Using one-hot method, we have one bit per state
 
 typedef enum logic [4:0] {
-	READY  		= 5'b00001,
-	BIST_ACTIVE	= 5'b00010,
-	BIST_INIT 	= 5'b00100,
-	BIST_LOOP 	= 5'b01000,
-	BIST_DONE  	= 5'b10000} FSMState;
+	READY  		= 5'b00001,				// Default idle state
+	BIST_ACTIVE	= 5'b00010,				// BIST start has been asserted
+	BIST_INIT 	= 5'b00100,				// Transmit is started
+	BIST_LOOP 	= 5'b01000,				// Wait loop
+	BIST_DONE  	= 5'b10000} FSMState;	// Data received, and error flag is set
 	
 FSMState State, NextState;
 

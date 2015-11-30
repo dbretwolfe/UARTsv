@@ -1,16 +1,15 @@
-module TX_FSM #(parameter logic PARITY_BIT = 1,
-		parameter integer STOP_BITS = 2,
-		parameter integer DATA_BITS = 8)
+module TX_FSM #(parameter integer STOP_BITS = 2,
+				parameter integer DATA_BITS = 8)
 		
-		(input logic Clk,
-		input logic Rst,
-		input logic [DATA_BITS-1:0] Tx_Data_In,
-		input logic Transmit_Start_In,
-		input logic CTS,
-		output logic Tx,
-		output logic Tx_Busy);
+				(input logic Clk,
+				input logic Rst,
+				input logic [DATA_BITS-1:0] Tx_Data_In,
+				input logic Transmit_Start_In,
+				input logic CTS,
+				output logic Tx,
+				output logic Tx_Busy);
 
-	localparam TX_BITS = (1 + DATA_BITS + PARITY_BIT + STOP_BITS);
+	localparam TX_BITS = (1 + DATA_BITS + 1 + STOP_BITS);
 
 	typedef enum logic [1:0] {IDLE = 2'b00, START = 2'b01, LOOP = 2'b10} tx_states_t;
 	

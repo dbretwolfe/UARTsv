@@ -3,7 +3,6 @@ module UARTsv(UART_IFace.full UARTIf);
 	localparam SYSCLK_RATE = UARTIf.SYSCLK_RATE;
 	localparam BAUD_RATE = UARTIf.BAUD_RATE;
 	localparam DATA_BITS = UARTIf.DATA_BITS;
-	localparam PARITY_BIT = UARTIf.PARITY_BIT;
 	localparam STOP_BITS = UARTIf.STOP_BITS;
 	localparam FIFO_DEPTH = UARTIf.FIFO_DEPTH;
 	
@@ -50,7 +49,6 @@ module UARTsv(UART_IFace.full UARTIf);
 		);
 
 	RX_FSM #(
-		.PARITY_BIT(PARITY_BIT),
 		.STOP_BITS(STOP_BITS),
 		.DATA_BITS(DATA_BITS)
 		)
@@ -65,7 +63,6 @@ module UARTsv(UART_IFace.full UARTIf);
 	);
 
 	TX_FSM #(
-		.PARITY_BIT(PARITY_BIT),
 		.STOP_BITS(STOP_BITS),
 		.DATA_BITS(DATA_BITS)
 		)

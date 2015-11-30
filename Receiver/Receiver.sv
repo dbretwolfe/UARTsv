@@ -3,7 +3,6 @@ module RX_FSM (Rx_In, Clk, Rst, RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error);
 
 parameter DATA_BITS = 8; 
 parameter STOP_BITS = 2;
-parameter PARITY_BIT = 1;
 
 input Rx_In;
 input Clk; 
