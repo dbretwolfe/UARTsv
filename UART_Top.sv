@@ -19,6 +19,7 @@ module UARTsv(UART_IFace UARTIf);
 	
 	//Mux assignments
 	assign Tx_Data_In = BIST_Mode ? BIST_Tx_Data_Out : UARTIf.Tx_Data; // If BIST is active, the Tx FSM gets its parallel data input from the BIST module,
+	//assign Tx_Data_In = UARTIf.Tx_Data;
 								    // otherwise from the top module port.
 	assign Transmit_Start_In = BIST_Mode ? BIST_Tx_Start_Out : UARTIf.Transmit_Start; //Likewise, the Tx FSM will get its transmit start command
 								    // from the BIST module, otherwise from the top module port.

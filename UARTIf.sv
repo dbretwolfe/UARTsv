@@ -1,64 +1,59 @@
-interface UART_IFace  #(parameter SYSCLK_RATE = 100000000,
-			parameter BAUD_RATE = 9600,
-			parameter DATA_BITS = 8,
-			parameter PARITY_BIT = 1,
-			parameter STOP_BITS = 2,
-			parameter FIFO_DEPTH = 8)
+interface UART_IFace;
 
-		    // These inputs and outputs always need to be hooked up.  The last four
-		    // would be the external connections to board IO.
-		    (input logic SysClk, 
-		     input logic Rst,
-		     input logic Rx,
-		     input logic CTS,
-		     output logic Tx,
-		     output logic RTS);
+	parameter SYSCLK_RATE = 100000000;
+	parameter BAUD_RATE = 9600;
+	parameter DATA_BITS = 8;
+	parameter PARITY_BIT = 1;
+	parameter STOP_BITS = 2;
+	parameter FIFO_DEPTH = 8;
 
-	logic 			BIST_Start;
+	//pragma attribute UART_IFace partition_interface_xif 
+	logic 					SysClk;
+	logic 					Rst;
+	logic 					Rx;
+	logic 					CTS;
+	logic 					Tx;
+	logic 					RTS;
+	logic 					BIST_Start;
 	logic [DATA_BITS-1:0] 	Tx_Data;
-	logic 			Transmit_Start;
-	logic			Tx_Busy;
+	logic 					Transmit_Start;
+	logic					Tx_Busy;
 	logic [DATA_BITS-1:0] 	Data_Out;
-	logic 			Data_Rdy;
-	logic [2:0] 		Rx_Error;
-	logic 			BIST_Busy;
-	logic 			BIST_Error;
-	logic 			Read_Done;		// Input to FIFO to cycle new data onto output
-	logic			FIFO_Empty;		// Output from FIFO - no data
-	logic			FIFO_Full; 		// Output from FIFO - 
-	logic			FIFO_Overflow;		// Output from FIFO
+	logic 					Data_Rdy;
+	logic [2:0] 			Rx_Error;
+	logic 					BIST_Busy;
+	logic 					BIST_Error;
+	logic 					Read_Done;		// Input to FIFO to cycle new data onto output
+	logic					FIFO_Empty;		// Output from FIFO - no data
+	logic					FIFO_Full; 		// Output from FIFO - 
+	logic					FIFO_Overflow;		// Output from FIFO
+
+	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf); //pragma tbx xtf
+		while (Tx_Busy)	// Wait until the current transmission is finished, if any
+			@(posedge SysClk);
+		Tx_Data = WriteBuf;	// Set the transmit data reg
+		@(negedge SysClk);	// On the next negative clock edge,
+		Transmit_Start = '1;	// assert transmit start.
+		@(negedge Tx);
+		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
+					// transmission should now be started.
+	endtask
+
+	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
+		while (FIFO_Empty)// Make sure the fifo is not empty
+			@(posedge SysClk);
+		@(posedge SysClk);
+		Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+		@(posedge SysClk);
+		Read_Done = '0;		// in new data.
+		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+	endtask
 	
-	// Modport for the testbench user
-	modport RWFunctions    (import Write_Data,
-			     	import Read_Data,
-			     	input FIFO_Empty,
-				input FIFO_Full,
-				input FIFO_Overflow,
-				input BIST_Error,
-				input Rx_Error);
+	task automatic Start_BIST(); //pragma tbx xtf
+		BIST_Start = '1;
+		while(!BIST_Busy)
+			@(posedge SysClk);
+		BIST_Start = '0;
+	endtask
 	
-	// Modport for the UART side
-	/*
-	modport full   (output SysClk,
-			output Rst,
-			input Tx,
-			output Rx,
-			output CTS,
-			input RTS,
-			output Tx_Data,
-			output Transmit_Start,
-			output BIST_Start,
-			output Read_Done,
-			input Tx_Busy,
-			input Data_Rdy,
-			input Rx_Error,
-			input BIST_Busy,
-			input BIST_Error,
-			input Data_Out,
-			input FIFO_Empty,
-			input FIFO_Full,
-			input  FIFO_Overflow
-			
-	);
-	*/
 endinterface
