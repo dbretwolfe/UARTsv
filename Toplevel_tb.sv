@@ -86,13 +86,13 @@ module Toplevel_tb ();
 			Parity = Buf[i] ^ Parity;
 		end
 		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
-		`ifdef DEBUG
-			$display("Send Data packet: %h ", Tx_Packet);
-		`endif
 		for (int i = TX_BITS-1; i >=0; i--) begin
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		`ifdef DEBUG_DONE
+			$display("Sent Data packet: %h ", Tx_Packet);
+		`endif
 	endtask
 	
 	// This task calls the write data task in the interface, and then captures
@@ -208,15 +208,12 @@ module Toplevel_tb ();
 		DoReset();
 		CTS = '1;
 		@(posedge SysClk);
-		fork begin
-			WriteData(8'hBB);
-			SendData(8'hAA);
-			ReadData(Rx_Data);
-		end
-		join
+		WriteData(8'hBB);
+		//SendData(8'hAA);
+		//ReadData(Rx_Data);
 		CheckTransmit(8'hAB);
 		BIST_Check;
-		//Fill_FIFO;
+		Fill_FIFO;
 		$finish;
 	end
 	

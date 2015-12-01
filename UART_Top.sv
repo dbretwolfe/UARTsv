@@ -111,6 +111,7 @@ module UARTsv(UART_IFace UARTIf);
 		.Rx_Data(Rx_Data_Out),
 		.Data_Rdy(Data_Rdy_Out),  		//	To write data to FIFO 
 		.Read_Done(UARTIf.Read_Done), 		// 	To read data from FIFO
+		.BIST_Mode,
 		.FIFO_Empty(UARTIf.FIFO_Empty), 
 		.FIFO_Full(UARTIf.FIFO_Full), 
 		.FIFO_Overflow(UARTIf.FIFO_Overflow), 

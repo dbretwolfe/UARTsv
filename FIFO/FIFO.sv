@@ -3,6 +3,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_DEPTH = 4)
 		input logic [DATA_BITS-1:0] Rx_Data,
 		input logic Data_Rdy, 
 		input logic Read_Done,
+		input logic BIST_Mode,
 		output logic FIFO_Empty, 
 		output logic FIFO_Full, 
 		output logic FIFO_Overflow,
@@ -26,7 +27,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 				end
 			end
 		end
-		else if ((Read_Done) && (Data_Rdy))begin
+		else if (Read_Done && Data_Rdy)begin
 		Data_Out <= FIFO_Array[RPtr];
 		WPtr = WPtr-1;
 		FIFO_Overflow =0;
@@ -35,7 +36,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		FIFO_Array[FIFO_DEPTH-1] = 0;
 		end	
 		
-		else if ((Read_Done) && (!Data_Rdy))	begin
+		else if (Read_Done)	begin
 		Data_Out <= FIFO_Array[RPtr];
 		WPtr = WPtr-1;
 		FIFO_Overflow =0;
@@ -44,7 +45,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		FIFO_Array[FIFO_DEPTH-1] = 0;
 		end	
 		
-		else if((Data_Rdy) && (!Read_Done))begin	
+		else if(Data_Rdy && !BIST_Mode)begin	
 		if (WPtr < FIFO_DEPTH)
 		begin
 			FIFO_Array[WPtr] = Rx_Data;
