@@ -1,4 +1,4 @@
-module UARTsv(UART_IFace.full UARTIf);
+module UARTsv(UART_IFace UARTIf);
 
 	localparam SYSCLK_RATE = UARTIf.SYSCLK_RATE;
 	localparam BAUD_RATE = UARTIf.BAUD_RATE;

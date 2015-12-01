@@ -43,6 +43,34 @@ module Toplevel_tb ();
 		.Rst,
 		.Clk
 		);
+		
+	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf);
+		while (TestIf.Tx_Busy)	// Wait until the current transmission is finished, if any
+			@(posedge SysClk);
+		TestIf.Tx_Data = WriteBuf;	// Set the transmit data reg
+		@(negedge SysClk);	// On the next negative clock edge,
+		TestIf.Transmit_Start = '1;	// assert transmit start.
+		@(negedge Tx);
+		TestIf.Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
+					// transmission should now be started.
+	endtask
+
+	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf);
+		while (FIFO_Empty)// Make sure the fifo is not empty
+			@(posedge SysClk);
+		@(posedge SysClk);
+		TestIf.Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+		@(posedge SysClk);
+		TestIf.Read_Done = '0;		// in new data.
+		ReadBuf = TestIf.Data_Out; 	// Copy the data from the FIFO output
+	endtask
+	
+	task automatic Start_BIST();
+		TestIf.BIST_Start = '1;
+		while(!TestIf.BIST_Busy)
+			@(posedge SysClk);
+		TestIf.BIST_Start = '0;
+	endtask
 	
 	// This task sends a single valid data packet to the UART.  It uses the data
 	// input and the UART parameters to calculate parity, 
@@ -86,7 +114,7 @@ module Toplevel_tb ();
 		ExpectedPacket = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		
 		@(negedge Clk);		// Wait until the negative slow clock edge to start the transmit
-		TestIf.WriteData(Buf);
+		WriteData(Buf);
 		// The WriteData task finishes when it sees the start bit
 		for (int i = TX_BITS -1; i >= 0; i = i -1) begin
 			@(negedge Clk);	// Check the Tx values on the negative clock edge to avoid the transition
@@ -111,9 +139,11 @@ module Toplevel_tb ();
 
 		for( int i = 0 ; i < FIFO_DEPTH; i++) begin
 			SendData(i);
+			repeat (8)
+				@(posedge Clk);
 		end
 		for( int j = 0 ; j < FIFO_DEPTH; j++) begin
-			TestIf.ReadData(Buf);
+			ReadData(Buf);
 			if (Buf !== j) begin
 				Tests_Failed = 1;
 				Num_Tests_Failed = Num_Tests_Failed + 1;
@@ -135,7 +165,7 @@ module Toplevel_tb ();
 	// bist should assert it's error bit.  This test fails either if the BIST does not assert it's
 	// error bit when it should, or if it asserts the error bit when it should not.
 	task automatic BIST_Check();
-		TestIf.Start_BIST();
+		Start_BIST();
 		while(TestIf.BIST_Busy)
 			@(posedge SysClk);
 		if (TestUART.SelfTest.BIST_Tx_Data_Out == TestUART.SelfTest.Rx_Data_Out) begin
@@ -172,16 +202,16 @@ module Toplevel_tb ();
 		#CLOCK_DELAY SysClk = ~SysClk;
 	end
 
-	UARTsv TestUART(TestIf.full);
+	UARTsv TestUART(TestIf);
 
 	initial begin
 		DoReset();
 		CTS = '1;
 		@(posedge SysClk);
 		fork begin
-			TestIf.WriteData(8'hBB);
+			WriteData(8'hBB);
 			SendData(8'hAA);
-			TestIf.ReadData(Rx_Data);
+			ReadData(Rx_Data);
 		end
 		join
 		CheckTransmit(8'hAB);
