@@ -63,9 +63,9 @@ interface UART_IFace;
 	// Start the BIST process
 	task automatic Start_BIST(logic [DATA_BITS-1:0] TestData); //pragma tbx xtf
 		while (Tx_Busy)
-			@posedge Clk;
+			@(posedge Clk);
 		Tx_Data = TestData;
-		@posedge SysClk;
+		@(posedge SysClk);
 		BIST_Start = '1;
 		while(!BIST_Busy)
 			@(posedge SysClk);
