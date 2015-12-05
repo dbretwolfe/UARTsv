@@ -66,6 +66,7 @@ module TX_FSM #(parameter integer STOP_BITS = 2,
 			Tx_Busy = '0;
 		end
 		else begin
+			a1: assert 
 			unique case (current_state)
 				IDLE:	begin
 						Tx_Gate = '0;
@@ -126,5 +127,21 @@ module TX_FSM #(parameter integer STOP_BITS = 2,
 			end
 		end
 	end
+	
+	// Concurrent assertion to check the default values of being reset
+	property Reset_Valid;
+	@(posedge Clk)
+		($rose(Rst))	|-> $isunknown ({Tx, Tx_Busy}) == 0  ;	
+	endproperty
+	
+	property Busy_State;
+	@(posedge Clk)
+		(!Tx_Busy)		|-> Tx == '1;
+	endproperty
+	
+	assert_Reset_Valid: assert property(Reset_Valid);
+	
+	assert_Busy_State: assert property(Busy_State);
+	
 endmodule
 		
