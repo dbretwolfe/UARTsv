@@ -1,8 +1,9 @@
+// Receiver module of UART 
 
 module RX_FSM (Rx_In, Clk, Rst, RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error); 
 
-parameter DATA_BITS = 8; 
-parameter STOP_BITS = 2;
+parameter DATA_BITS = 8; // Parameter to define the number of data bits
+parameter STOP_BITS = 2; // Parameter to define the number of stop bits
 
 input Rx_In;
 input Clk; 
@@ -20,9 +21,10 @@ logic Reg_Parity =0;
 int Count;
 int Stop_Count;	
 
-typedef enum logic[2:0] {Ready, Start_Bit, Rx_Wait, Parity, Stop_Bit, Rx_Done } Rx_States;
+typedef enum logic[2:0] {Ready, Start_Bit, Rx_Wait, Parity, Stop_Bit, Rx_Done } Rx_States; // Receiver states 
 
 Rx_States State, Next_State ; 
+
 
 always_ff @(posedge Clk or posedge Rst)
 begin 
@@ -32,6 +34,7 @@ begin
 		State <= Next_State;
 end
 
+// Next State logic block
 always_comb
 begin : set_Next_State
 
@@ -72,6 +75,7 @@ case(State)
 endcase;
 end : set_Next_State;
 
+// Output block
 always_comb
 begin: set_Outputs	
 
@@ -96,7 +100,7 @@ case(State)
 			// Framing Error 
 			if(Reg_Stop != '1) Rx_Error[2] = 1'b1;
 			
-			// Data bits Output if there is no error in the data sent 
+			// Data bits Output only if there is no error in the data sent 
 			if ( (Rx_Error[2] == 1'b1) | (Rx_Error[1] == 1'b1) |(Rx_Error[0] == 1'b1) | $isunknown(Data_Reg) | $isunknown(Reg_Stop))
 				Rx_Data_Out = 0;
 			else
@@ -108,7 +112,7 @@ case(State)
 endcase;
 end : set_Outputs
  
-
+// Extra block to loop through collecting the data bits, stroting the parity and stop bits 
 always_ff @(posedge Clk)
 begin 
 if (State == Ready ) 
@@ -140,16 +144,19 @@ else if (Next_State == Parity)
 	end
 end
 
+// Concurrent assertion to verify if valid data is being received
 property Data_Valid;
 @(posedge Clk)
 	$isunknown(Data_Reg)== 0 ;
 endproperty
 
+// Concurrent assertion to check the default values of being reset
 property Reset_Valid;
 @(posedge Clk)
 	($rose(Rst))	|-> $isunknown ({RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error}) == 0  ;	
 endproperty
 
+// Concurrent assertion to check it RTS is assertedin next clock after Rx_Done state 
 property Done;
 @(posedge Clk)
 	State == Rx_Done |=> RTS ;
