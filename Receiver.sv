@@ -156,7 +156,7 @@ property Reset_Valid;
 	($rose(Rst))	|-> $isunknown ({RTS, Data_Rdy_Out, Rx_Data_Out, Rx_Error}) == 0  ;	
 endproperty
 
-// Concurrent assertion to check it RTS is assertedin next clock after Rx_Done state 
+// Concurrent assertion to check it RTS is asserted in next clock after Rx_Done state 
 property Done;
 @(posedge Clk)
 	State == Rx_Done |=> RTS ;
