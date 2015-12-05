@@ -37,9 +37,10 @@ interface UART_IFace;
 	//
 	//**************************************
 	
+	// Write a data packet
 	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf); //pragma tbx xtf
 		while (Tx_Busy)	// Wait until the current transmission is finished, if any
-			@(posedge SysClk);
+			@(posedge Clk);
 		Tx_Data = WriteBuf;	// Set the transmit data reg
 		@(negedge SysClk);	// On the next negative clock edge,
 		Transmit_Start = '1;	// assert transmit start.
@@ -47,7 +48,8 @@ interface UART_IFace;
 		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
 	endtask
-
+	
+	// Read a data packet from the FIFO
 	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
 		while (FIFO_Empty)// Make sure the fifo is not empty
 			@(posedge SysClk);
@@ -58,7 +60,12 @@ interface UART_IFace;
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
 	endtask
 	
-	task automatic Start_BIST(); //pragma tbx xtf
+	// Start the BIST process
+	task automatic Start_BIST(logic [DATA_BITS-1:0] TestData); //pragma tbx xtf
+		while (Tx_Busy)
+			@posedge Clk;
+		Tx_Data = TestData;
+		@posedge SysClk;
 		BIST_Start = '1;
 		while(!BIST_Busy)
 			@(posedge SysClk);
@@ -119,6 +126,7 @@ interface UART_IFace;
 			Result = 0;
 	endtask
 	
+	//
 	task automatic Fill_FIFO(output logic Result); //pragma tbx xtf
 		
 		logic [DATA_BITS-1:0] Buf = 0;
@@ -144,8 +152,8 @@ interface UART_IFace;
 	// received data to the sent data.  If the received data does not match the sent data, the
 	// bist should assert it's error bit.  This test fails either if the BIST does not assert it's
 	// error bit when it should, or if it asserts the error bit when it should not.
-	task automatic BIST_Check(output logic Result); //pragma tbx xtf
-		TestIf.Start_BIST();
+	task automatic BIST_Check(input logic [DATA_BITS-1:0] TestData, output logic Result); //pragma tbx xtf
+		TestIf.Start_BIST(TestData);
 		while(TestIf.BIST_Busy)
 			@(posedge SysClk);
 		if (TestUART.SelfTest.BIST_Tx_Data_Out == TestUART.SelfTest.Rx_Data_Out) begin
