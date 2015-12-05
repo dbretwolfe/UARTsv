@@ -14,12 +14,12 @@ module BIST_FSM#(parameter integer DATA_BITS = 8,
 				(input 	logic	Clk,
 				input 	logic	Rst,
 				input 	logic	BIST_Start,						// Signal to start the BIST
+				input 	logic [DATA_BITS-1:0]Tx_Data_In,  		// Parallel data output to the transmitter, Input from user
 				input 	logic	Data_Rdy_Out,					// Input from the Receiver indicating ready data
 				input 	logic [DATA_BITS-1:0]Rx_Data_Out,		// Parallel data from the receiver
 				input	logic	RTS,							// Used as a receiver busy signal
 				input	logic	Tx_Busy,						// Busy signal for the transmitter
 				output 	logic BIST_Mode,						// Output to top level module to route signals
-				output 	logic [DATA_BITS-1:0]BIST_Tx_Data_Out,  // Parallel data output to the transmitter
 				output 	logic BIST_Tx_Start_Out,				// Transmit start signal output to transmitter
 				output  logic BIST_Error,						// Error flag output to top level module
 				output 	logic BIST_Busy);						// Busy signal from BIST
@@ -108,7 +108,6 @@ unique case (State)
 	READY:
 		begin
 		BIST_Mode = 0;
-		BIST_Tx_Data_Out[DATA_BITS-1:0] = 8'b00000000;
 		BIST_Tx_Start_Out = 0;
 		BIST_Busy = 0;
 		BIST_Error =0;
@@ -117,7 +116,6 @@ unique case (State)
 	BIST_ACTIVE:
 		begin
 		BIST_Mode = 1;
-		BIST_Tx_Data_Out = BIST_DATA;
 		BIST_Tx_Start_Out = 0;
 		BIST_Busy = 1;
 		BIST_Error = 0;
@@ -126,7 +124,6 @@ unique case (State)
 	BIST_INIT:
 		begin
 		BIST_Mode = 1;
-		BIST_Tx_Data_Out= BIST_DATA;
 		BIST_Tx_Start_Out = 1;
 		BIST_Busy = 1;
 		BIST_Error = 0;
@@ -135,7 +132,6 @@ unique case (State)
 	BIST_LOOP:
 		begin
 		BIST_Mode = 1;
-		BIST_Tx_Data_Out= BIST_DATA;
 		BIST_Tx_Start_Out = 0;
 		BIST_Busy = 1;
 		BIST_Error = 0;
@@ -143,10 +139,9 @@ unique case (State)
 
 	BIST_DONE:
 		begin
-		if (BIST_Tx_Data_Out != Rx_Data_Out) BIST_Error = 1;
+		if (Tx_Data_In != Rx_Data_Out) BIST_Error = 1;
 		
 		BIST_Mode = 0;
-		BIST_Tx_Data_Out[DATA_BITS-1:0] = 8'b00000000;
 		BIST_Tx_Start_Out = 0;
 		BIST_Busy = 0;
 		end
@@ -154,5 +149,32 @@ unique case (State)
 endcase
 end
 
-endmodule
+// System verilog assertions
 
+// Check if the outputs are valid at Reset
+
+property Reset_valid_p;
+@(posedge Clk)
+($rose(Rst)) |-> $isunknown ({BIST_Mode, BIST_Tx_Start_Out, BIST_Error, BIST_Busy}) == 0  ;	
+endproperty
+
+Reset_valid_a: assert property(Reset_valid_p);
+
+// Check if the state has transitioned well
+
+property Check_state_p;
+@(posedge Clk)
+(State == BIST_ACTIVE) |=> (State == BIST_INIT);
+endproperty
+
+Check_state_a: assert property(Check_state_p);
+
+// Check if error bits are set
+
+property Check_errorbit_p;
+@(posedge Clk)
+($rose(BIST_Error)) |-> (Tx_Data_In != Rx_Data_Out);
+endproperty
+
+Check_errorbit_a: assert property(Check_errorbit_p);
+endmodule
