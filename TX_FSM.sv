@@ -66,7 +66,6 @@ module TX_FSM #(parameter integer STOP_BITS = 2,
 			Tx_Busy = '0;
 		end
 		else begin
-			a1: assert 
 			unique case (current_state)
 				IDLE:	begin
 						Tx_Gate = '0;
