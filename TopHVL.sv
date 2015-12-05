@@ -2,10 +2,10 @@
 
 module TopHVL;
 
-bit result = 0, testsFailed = 0;
+logic result = 0, testsFailed = 0;
 int numTestsFailed = 0;
 
-task CheckResult(input logic result, ref logic testsFailed, ref logic numTestsFailed);
+task CheckResult(input logic result, ref logic testsFailed, ref int numTestsFailed);
 	if (result) begin
 		testsFailed = 1;
 		numTestsFailed += 1;
