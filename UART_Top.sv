@@ -27,6 +27,7 @@ module UARTsv(UART_IFace UARTIf);
 							// otherwise the Rx FSM gets its data from the top module port
 	
 	assign UARTIf.Data_Rdy = Data_Rdy_Out;
+	assign UARTIf.Clk = Clk;
 	
 	//*********************************************
 	//
