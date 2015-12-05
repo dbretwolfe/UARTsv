@@ -156,7 +156,7 @@ interface UART_IFace;
 		TestIf.Start_BIST(TestData);
 		while(TestIf.BIST_Busy)
 			@(posedge SysClk);
-		if (TestUART.SelfTest.BIST_Tx_Data_Out == TestUART.SelfTest.Rx_Data_Out) begin
+		if (TestUART.SelfTest.Tx_Data_In == TestUART.SelfTest.Rx_Data_Out) begin
 			if (TestIf.BIST_Error == 1) // False positive case
 				Result = 1;
 			else
