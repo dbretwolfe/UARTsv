@@ -6,10 +6,10 @@ int numTestsFailed = 0;
 
 initial begin
 	$display("Starting tests");
-	TopHDL.TestIf.TestPkg.DoReset();
+	TopHDL.TestIf.DoReset();
 	TopHDL.TestIf.CTS = '1;
 	
-	TopHDL.TestIf.TestPkg.CheckTransmit(8'hAB, result);
+	TopHDL.TestIf.CheckTransmit(8'hAB, result);
 	if (result) begin
 		testsFailed = 1;
 		numTestsFailed += 1;
