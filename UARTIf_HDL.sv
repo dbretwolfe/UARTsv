@@ -84,6 +84,9 @@ interface UART_IFace;
 		logic Parity = 0;
 		logic [TX_BITS-1:0] Tx_Packet;
 		
+		while(!RTS)
+			@(posedge Clk);
+			
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -175,7 +178,10 @@ interface UART_IFace;
 		logic Parity = 0;
 		logic [DATA_BITS-1:0] Buf = 8'hAA;
 		logic [TX_BITS-1:0] Tx_Packet;
-
+		
+		while(!RTS)
+			@(posedge Clk);
+			
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -200,7 +206,10 @@ interface UART_IFace;
 		logic Parity = 0;
 		logic [DATA_BITS-1:0] Buf = 8'hAA;
 		logic [TX_BITS-1:0] Tx_Packet;
-
+		
+		while(!RTS)
+			@(posedge Clk);
+			
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -223,7 +232,8 @@ interface UART_IFace;
 	// Check Break Rx error
 	task automatic SendData_BreakError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
 		logic [TX_BITS-1:0] Tx_Packet = '0;
-		
+		while(!RTS)
+			@(posedge Clk);
 		for (int i = TX_BITS-1; i >=0; i--) begin
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
