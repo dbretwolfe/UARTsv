@@ -187,6 +187,7 @@ interface UART_IFace;
 			@(posedge Clk);
 		end
 		@(posedge Clk);
+		@(posedge Clk);
 		if (!Rx_Error[1])
 			Result = 1;
 		else
