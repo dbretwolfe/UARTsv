@@ -243,5 +243,11 @@ interface UART_IFace;
 		@(posedge SysClk);
 		Rst = '0;
 	endtask
+	
+	// Wait for 8 baud clock cycles
+	task wait8();
+		repeat(8)
+			@(posedge Clk);
+	endtask
 			
 endinterface

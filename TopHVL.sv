@@ -66,6 +66,7 @@ initial begin
 			$display("Failed to produce Rx parity error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 			
 	`endif
+	TopHDL.TesIf.wait8();
 	
 	TopHDL.TestIf.SendData_FrameError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
@@ -73,6 +74,7 @@ initial begin
 		if (result)
 			$display("Failed to produce Rx frame error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 	`endif
+	TopHDL.TesIf.wait8();
 	
 	TopHDL.TestIf.SendData_BreakError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
@@ -80,6 +82,7 @@ initial begin
 		if (result)
 			$display("Failed to produce Rx break error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 	`endif
+	TopHDL.TesIf.wait8();
 	
 	if (!testsFailed)
 		$display("All tests have passed!");
