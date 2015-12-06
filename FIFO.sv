@@ -29,7 +29,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		end
 		
 		else if (Read_Done)	begin
-			if (!WPtr) begin
+			if (WPtr > 0) begin
 				Data_Out <= FIFO_Array[RPtr];
 				WPtr = WPtr-1;
 				FIFO_Overflow =0;
