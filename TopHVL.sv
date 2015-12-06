@@ -71,14 +71,14 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx frame error! err = %h", Err);
+			$display("Failed to produce Rx frame error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 	`endif
 	
 	TopHDL.TestIf.SendData_BreakError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx break error! err = %h", Err);
+			$display("Failed to produce Rx break error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 	`endif
 	
 	if (!testsFailed)
