@@ -171,7 +171,7 @@ interface UART_IFace;
 	endtask
 	
 	 // Check Parity Rx error
-	task automatic SendData_ParityError(output logic Result); //pragma tbx xtf
+	task automatic SendData_ParityError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
 		logic Parity = 0;
 		logic [DATA_BITS-1:0] Buf = 8'hAA;
 		logic [TX_BITS-1:0] Tx_Packet;
@@ -191,10 +191,11 @@ interface UART_IFace;
 			Result = 1;
 		else
 			Result = 0;
+		Err = Rx_Error;
 	endtask
 
 	// Check Frame Rx error
-	task automatic SendData_FrameError(output logic Result); //pragma tbx xtf
+	task automatic SendData_FrameError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
 		logic Parity = 0;
 		logic [DATA_BITS-1:0] Buf = 8'hAA;
 		logic [TX_BITS-1:0] Tx_Packet;
@@ -210,14 +211,15 @@ interface UART_IFace;
 			@(posedge Clk);
 		end
 		@(posedge Clk);
-			if (!Rx_Error[2])
-				Result = 1;
-			else
-				Result = 0;
+		if (!Rx_Error[2])
+			Result = 1;
+		else
+			Result = 0;
+		Err = Rx_Error;
 	endtask
 
 	// Check Break Rx error
-	task automatic SendData_BreakError(output logic Result); //pragma tbx xtf
+	task automatic SendData_BreakError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
 		logic [TX_BITS-1:0] Tx_Packet = '0;
 		
 		for (int i = TX_BITS-1; i >=0; i--) begin
@@ -225,10 +227,11 @@ interface UART_IFace;
 			@(posedge Clk);
 		end
 		@(posedge Clk);
-			if (!Rx_Error[0])
-				Result = 1;
-			else
-				Result = 0;
+		if (!Rx_Error[0])
+			Result = 1;
+		else
+			Result = 0;
+		Err = Rx_Error;
 	endtask
 
 	// Simple task to perform a system wide reset

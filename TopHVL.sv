@@ -3,6 +3,7 @@
 module TopHVL;
 
 logic result = 0, testsFailed = 0;
+logic [2:0] Err;
 int numTestsFailed = 0;
 
 task automatic CheckResult(input logic result, ref logic testsFailed, ref int numTestsFailed);
@@ -58,25 +59,25 @@ initial begin
 	`endif
 	
 	// The following 3 tasks stimulate all of the possible Rx error signals.
-	TopHDL.TestIf.SendData_ParityError(result);
+	TopHDL.TestIf.SendData_ParityError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx parity error!");
+			$display("Failed to produce Rx parity error! err = %h", Err);
 	`endif
 	
-	TopHDL.TestIf.SendData_FrameError(result);
+	TopHDL.TestIf.SendData_FrameError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx frame error!");
+			$display("Failed to produce Rx frame error! err = %h", Err);
 	`endif
 	
-	TopHDL.TestIf.SendData_BreakError(result);
+	TopHDL.TestIf.SendData_BreakError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx break error!");
+			$display("Failed to produce Rx break error! err = %h", Err);
 	`endif
 	
 	if (!testsFailed)
