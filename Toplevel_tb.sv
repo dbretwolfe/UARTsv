@@ -39,7 +39,7 @@ module Toplevel_tb ();
 		.Clk
 		);
 	
-	UARTsv TestUART(TestIf.full);
+	UARTsv TestUART(TestIf);
 	
 	// This task sends a single valid data packet to the UART.  It uses the data
 	// input and the UART parameters to calculate parity, 
@@ -133,6 +133,7 @@ module Toplevel_tb ();
 	// received data to the sent data.  If the received data does not match the sent data, the
 	// bist should assert it's error bit.  This test fails either if the BIST does not assert it's
 	// error bit when it should, or if it asserts the error bit when it should not.
+	/*
 	task automatic BIST_Check();
 		TestIf.Start_BIST();
 		while(TestIf.BIST_Busy)
@@ -159,12 +160,13 @@ module Toplevel_tb ();
 			$display("BIST test done");
 		`endif
 	endtask
+	*/
 	
 	// Simple task to perform a system wide reset
 	task automatic DoReset();
-		Rst = '1;
+		TestIf.Rst = '1;
 		@(posedge SysClk);
-		Rst = '0;
+		TestIf.Rst = '0;
 	endtask
 		
 	always begin
@@ -175,11 +177,14 @@ module Toplevel_tb ();
 		DoReset();
 		CTS = '1;
 		@(posedge SysClk);
+		/*
 		TestIf.WriteData(8'hBB);
 		SendData(8'hAA);
 		TestIf.ReadData(Rx_Data);
 		CheckTransmit(8'hAB);
 		BIST_Check;
+		*/
+		Fill_FIFO;
 		Fill_FIFO;
 		$finish;
 	end

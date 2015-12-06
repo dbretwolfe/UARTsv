@@ -1,14 +1,15 @@
-interface UART_IFace;
+interface UART_IFace# (
 
-	parameter SYSCLK_RATE = 100000000;
-	parameter BAUD_RATE = 9600;
-	parameter DATA_BITS = 8;
-	parameter PARITY_BIT = 1;
-	parameter STOP_BITS = 2;
-	parameter FIFO_DEPTH = 8;
+	parameter SYSCLK_RATE = 100000000,
+	parameter BAUD_RATE = 9600,
+	parameter DATA_BITS = 8,
+	parameter PARITY_BIT = 1,
+	parameter STOP_BITS = 2,
+	parameter FIFO_DEPTH = 8);
 
 	//pragma attribute UART_IFace partition_interface_xif 
 	logic 					SysClk;
+	logic					Clk;
 	logic 					Rst;
 	logic 					Rx;
 	logic 					CTS;
