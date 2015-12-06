@@ -29,13 +29,14 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		end
 		
 		else if (Read_Done)	begin
-		Data_Out <= FIFO_Array[RPtr];
-		if (WPtr)
-			WPtr = WPtr-1;
-		FIFO_Overflow =0;
-		for (int i = 0; i< FIFO_DEPTH-1; i = i+1)
-			FIFO_Array[i] = FIFO_Array[i+1];
-		FIFO_Array[FIFO_DEPTH-1] = 0;
+			if (!WPtr) begin
+				Data_Out <= FIFO_Array[RPtr];
+				WPtr = WPtr-1;
+				FIFO_Overflow =0;
+				for (int i = 0; i< FIFO_DEPTH-1; i = i+1)
+					FIFO_Array[i] = FIFO_Array[i+1];
+				FIFO_Array[FIFO_DEPTH-1] = 0;
+			end
 		end	
 		
 		else if(Data_Rdy && !BIST_Mode)begin	
