@@ -187,7 +187,7 @@ interface UART_IFace;
 			@(posedge Clk);
 		end
 		@(posedge Clk);
-		@(posedge Clk);
+		@(negedge Clk);
 		if (!Rx_Error[1])
 			Result = 1;
 		else
@@ -211,6 +211,8 @@ interface UART_IFace;
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		@(posedge Clk);
+		@(negedge Clk);
 		if (!Rx_Error[2])
 			Result = 1;
 		else
@@ -226,6 +228,8 @@ interface UART_IFace;
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		@(posedge Clk);
+		@(negedge Clk);
 		if (!Rx_Error[0])
 			Result = 1;
 		else
