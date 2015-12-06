@@ -44,6 +44,14 @@ initial begin
 	`endif
 	$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 	
+	TopHDL.TestIf.Fill_FIFO(result);
+	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
+	`ifdef DEBUG
+		if (result)
+			$display("Fill FIFO task failed!");
+	`endif
+	$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+	
 	TopHDL.TestIf.FIFO_Full_Check(result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
