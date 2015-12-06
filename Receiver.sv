@@ -101,7 +101,7 @@ case(State)
 			if(Reg_Stop != '1) Rx_Error[2] = 1'b1;
 			
 			// Data bits Output only if there is no error in the data sent 
-			if ( (Rx_Error) || $isunknown(Data_Reg) or $isunknown(Reg_Stop))
+			if ( (Rx_Error) || $isunknown(Data_Reg) || $isunknown(Reg_Stop))
 				Rx_Data_Out = 0;
 			else begin
 				Rx_Data_Out = Data_Reg;	
