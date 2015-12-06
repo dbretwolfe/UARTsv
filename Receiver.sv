@@ -92,7 +92,7 @@ case(State)
 			
 	Rx_Done: 	begin
 			// Break Error 
-			if((Data_Reg == 0) & (Reg_Stop != '1)) Rx_Error[0] = 1'b1;
+			if((!Data_Reg) and (Reg_Stop != '1)) Rx_Error[0] = 1'b1;
 			
 			// Parity Error 
 			if(Parity_Bit[DATA_BITS-2] != Reg_Parity) Rx_Error[1] = 1'b1;
@@ -101,7 +101,7 @@ case(State)
 			if(Reg_Stop != '1) Rx_Error[2] = 1'b1;
 			
 			// Data bits Output only if there is no error in the data sent 
-			if ( (Rx_Error[2] == 1'b1) | (Rx_Error[1] == 1'b1) |(Rx_Error[0] == 1'b1) | $isunknown(Data_Reg) | $isunknown(Reg_Stop))
+			if ( (Rx_Error) or $isunknown(Data_Reg) or $isunknown(Reg_Stop))
 				Rx_Data_Out = 0;
 			else
 				begin
