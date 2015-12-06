@@ -54,7 +54,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce FIFO_Overflow signal!");
+			$display("Failed to produce FIFO_Overflow signal! Wptr = %d", TopHDL.TestUART.FIFO.WPtr);
 	`endif
 	
 	//This task exercises the BIST system.  
