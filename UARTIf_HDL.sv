@@ -129,7 +129,9 @@ interface UART_IFace;
 			Result = 0;
 	endtask
 	
-	//
+	// This task completely fills the FIFO, and then reads out the
+	// data.  If the read data does not match the written data,
+	// the task reports a failure.
 	task automatic Fill_FIFO(output logic Result); //pragma tbx xtf
 		
 		logic [DATA_BITS-1:0] Buf = 0;
@@ -140,11 +142,57 @@ interface UART_IFace;
 				@(posedge Clk);
 		end
 		for( int j = 0 ; j < FIFO_DEPTH; j++) begin
-			TestIf.ReadData(Buf);
+			ReadData(Buf);
 			if (Buf !== j)
 				Result = 1;
 			else
 				Result = 0;
+		end
+	endtask
+	
+	// This task verifies that the FIFO_Full signal is being asserted
+	// when the FIFO is half full plus one entry, as per the FIFO spec.
+	// If the FIFO_Full signal is NOT asserted, the task reports failure.
+	task automatic FIFO_Full_Check(output logic Result); //pragma tbx xtf
+		
+		logic [DATA_BITS-1:0] Buf = 0;
+		
+
+		for( int i = 0 ; i < (FIFO_DEPTH>>1); i++) begin
+			SendData(i);
+			repeat(8)
+				@(posedge Clk);
+		end
+		if (!FIFO_Full)
+			Result = 1;
+		else
+			Result = 0;
+			
+		for( int j = 0 ; j < (FIFO_DEPTH>>1); j++) begin
+			ReadData(Buf);
+		end
+	endtask
+	
+	// This task verifies that the FIFO_Overflow signal is being asserted
+	// when the FIFO is half full plus one entry, as per the FIFO spec.
+	// If the FIFO_Overflow signal is NOT asserted, the task reports failure.
+	task automatic FIFO_Overflow_Check(output logic Result); //pragma tbx xtf
+		
+		logic [DATA_BITS-1:0] Buf = 0;
+		
+
+		for( int i = 0 ; i <FIFO_DEPTH; i++) begin
+			SendData(i);
+			repeat(8)
+				@(posedge Clk);
+		end
+		if (!FIFO_Overflow)
+			Result = 1;
+		else
+			Result = 0;
+			
+		for( int j = 0 ; j < FIFO_DEPTH; j++) begin
+			ReadData(Buf);
 		end
 	endtask
 	

@@ -43,6 +43,20 @@ initial begin
 			$display("Fill FIFO task failed!");
 	`endif
 	
+	TopHDL.TestIf.FIFO_Full_Check(result);
+	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
+	`ifdef DEBUG
+		if (result)
+			$display("Failed to produce FIFO_Full signal!");
+	`endif
+	
+	TopHDL.TestIf.FIFO_Overflow_Check(result);
+	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
+	`ifdef DEBUG
+		if (result)
+			$display("Failed to produce FIFO_Overflow signal!");
+	`endif
+	
 	//This task exercises the BIST system.  
 	TopHDL.TestIf.BIST_Check(8'h00, result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
@@ -80,7 +94,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx break error! err = %h State = %s Count = %d", Err, TopHDL.TestUART.Receiver.State, TopHDL.TestUART.Receiver.Count);
+			$display("Failed to produce Rx break error! err = %h State = %s Count = %d", Err, TopHDL.TestUART.Receiver.State);
 	`endif
 	TopHDL.TestIf.wait8();
 	
