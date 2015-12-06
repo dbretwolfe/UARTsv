@@ -63,7 +63,8 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx parity error! err = %h", Err);
+			$display("Failed to produce Rx parity error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
+			
 	`endif
 	
 	TopHDL.TestIf.SendData_FrameError(result, Err);
