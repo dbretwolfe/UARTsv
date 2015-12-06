@@ -94,7 +94,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx break error! err = %h State = %s Count = %d", Err, TopHDL.TestUART.Receiver.State);
+			$display("Failed to produce Rx break error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 	`endif
 	TopHDL.TestIf.wait8();
 	
