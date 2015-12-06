@@ -89,8 +89,10 @@ begin: set_Outputs
 case(State)
 	Ready: 
 		 	RTS = 1'b1;
-			
+	Start_Bit:
+			RTS = 1'b0;
 	Rx_Done: 	begin
+			RTS = 1'b1;
 			// Break Error 
 			if((!Data_Reg) && (Reg_Stop != '1)) Rx_Error[0] = 1'b1;
 			

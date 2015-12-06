@@ -89,8 +89,8 @@ interface UART_IFace;
 		end
 		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		for (int i = TX_BITS-1; i >=0; i--) begin
-			Rx = Tx_Packet[i];
 			@(posedge Clk);
+			Rx = Tx_Packet[i];
 		end
 	endtask
 	
@@ -183,8 +183,8 @@ interface UART_IFace;
 		Tx_Packet = {1'b0, Buf, (!Parity), {STOP_BITS{1'b1}}};
 
 		for (int i = TX_BITS-1; i >=0; i--) begin
-			Rx = Tx_Packet[i];
 			@(posedge Clk);
+			Rx = Tx_Packet[i];
 		end
 		if (!Rx_Error[1])
 			Result = 1;
@@ -206,8 +206,8 @@ interface UART_IFace;
 		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b0}}};
 
 		for (int i = TX_BITS-1; i >=0; i--) begin
-			Rx = Tx_Packet[i];
 			@(posedge Clk);
+			Rx = Tx_Packet[i];
 		end
 		if (!Rx_Error[2])
 			Result = 1;
@@ -221,8 +221,8 @@ interface UART_IFace;
 		logic [TX_BITS-1:0] Tx_Packet = '0;
 		
 		for (int i = TX_BITS-1; i >=0; i--) begin
-			Rx = Tx_Packet[i];
 			@(posedge Clk);
+			Rx = Tx_Packet[i];
 		end
 		if (!Rx_Error[0])
 			Result = 1;
