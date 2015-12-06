@@ -103,12 +103,11 @@ case(State)
 			// Data bits Output only if there is no error in the data sent 
 			if ( (Rx_Error) || $isunknown(Data_Reg) or $isunknown(Reg_Stop))
 				Rx_Data_Out = 0;
-			else
-				begin
+			else begin
 				Rx_Data_Out = Data_Reg;	
 				Data_Rdy_Out = 1;
-				end
 			end
+	end
 endcase;
 end : set_Outputs
  
