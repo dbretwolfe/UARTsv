@@ -4,7 +4,7 @@
 #Specify the mode- could be either puresim or veloce
 #Always make sure that everything works fine in puresim before changing to veloce
 
-MODE ?= veloce
+MODE ?= puresim
 
 #make all does everything
 all: work build run
@@ -30,8 +30,8 @@ ifeq ($(MODE),puresim)		#If mode is puresim, compile everything else
 else						#else, synthesize!
 	velanalyze -extract_hvl_info +define+QUESTA TopHVL.sv	#Analyze the HVL for external task calls in BFM 
 	velanalyze UARTIf_HDL.sv			#Analyze the interface for synthesis
-	velanalyze TopHDL.sv		#Analyze the HDL top for synthesis 
 	velanalyze UART_Top.sv			#Analyze the UART DUT for synthesis
+	velanalyze TopHDL.sv		#Analyze the HDL top for synthesis 
 	velanalyze Timing_Gen.sv
 	velanalyze TX_FSM.sv
 	velanalyze Receiver.sv

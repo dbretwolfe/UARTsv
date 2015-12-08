@@ -114,9 +114,9 @@ interface UART_IFace;
 	// the output on the Tx net.  If the packet is sent incorrectly, the task
 	// will set the test failed flag and increment the number of test failed counter.
 	task CheckTransmit(input logic [DATA_BITS-1:0] Buf, output logic Result); //pragma tbx xtf
-		logic [TX_BITS -1:0] TestCapture = 0;
-		logic [TX_BITS -1:0] ExpectedPacket = 0;
-		logic Parity = 0;
+		logic [TX_BITS -1:0] TestCapture;
+		logic [TX_BITS -1:0] ExpectedPacket;
+		logic Parity;
 		
 		@(posedge Clk);
 		// Wait until the transmitter is free
@@ -124,6 +124,7 @@ interface UART_IFace;
 			@(posedge Clk);
 		
 		// Calculate the parity bit and assemble the expected packet
+		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -157,9 +158,9 @@ interface UART_IFace;
 	// data.  If the read data does not match the written data,
 	// the task reports a failure.
 	task Fill_FIFO(output logic Result); //pragma tbx xtf
-		logic Parity = 0;
-		logic [TX_BITS-1:0] Tx_Packet = 0;
-		logic [DATA_BITS-1:0] Buf = 0;
+		logic Parity;
+		logic [TX_BITS-1:0] Tx_Packet;
+		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
 		for( int i = 0 ; i < FIFO_DEPTH; i++) begin
@@ -204,9 +205,9 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Full signal is NOT asserted, the task reports failure.
 	task FIFO_Full_Check(output logic Result); //pragma tbx xtf
-		logic Parity = 0;
-		logic [TX_BITS-1:0] Tx_Packet = 0;
-		logic [DATA_BITS-1:0] Buf = 0;
+		logic Parity;
+		logic [TX_BITS-1:0] Tx_Packet;
+		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
 		for( int i = 0 ; i < (FIFO_DEPTH>>1); i++) begin
@@ -252,9 +253,9 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Overflow signal is NOT asserted, the task reports failure.
 	task FIFO_Overflow_Check(output logic Result); //pragma tbx xtf
-		logic Parity = 0;
-		logic [TX_BITS-1:0] Tx_Packet = 0;
-		logic [DATA_BITS-1:0] Buf = 0;
+		logic Parity;
+		logic [TX_BITS-1:0] Tx_Packet;
+		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
 		for( int i = 0 ; i <FIFO_DEPTH; i++) begin
@@ -333,14 +334,15 @@ interface UART_IFace;
 	
 	 // Check Parity Rx error
 	task SendData_ParityError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
-		logic Parity = 0;
-		logic [DATA_BITS-1:0] Buf = 8'hAA;
-		logic [TX_BITS-1:0] Tx_Packet = 0;
+		logic Parity;
+		logic [DATA_BITS-1:0] Buf;
+		logic [TX_BITS-1:0] Tx_Packet;
 		
 		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
 			
+		Buf = 8'hAA;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -363,14 +365,15 @@ interface UART_IFace;
 
 	// Check Frame Rx error
 	task SendData_FrameError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
-		logic Parity = 0;
-		logic [DATA_BITS-1:0] Buf = 8'hAA;
-		logic [TX_BITS-1:0] Tx_Packet = 0;
+		logic Parity;
+		logic [DATA_BITS-1:0] Buf;
+		logic [TX_BITS-1:0] Tx_Packet;
 		
 		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
-			
+		
+		Buf = 8'hAA;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -393,11 +396,12 @@ interface UART_IFace;
 
 	// Check Break Rx error
 	task SendData_BreakError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
-		logic [TX_BITS-1:0] Tx_Packet = '0;
+		logic [TX_BITS-1:0] Tx_Packet;
 		
 		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
+		Tx_Packet = '0;
 		for (int i = TX_BITS-1; i >=0; i--) begin
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
