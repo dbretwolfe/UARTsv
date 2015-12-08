@@ -112,7 +112,7 @@ initial begin
 			$display("Transmit check failed!");
 	`endif
 	
-	// Now, we check the FIFO output to make sure it is zero, and try to do a read.
+	// Now, we check the FIFO output to make sure it is zero
 	if (TopHDL.TestIf.Data_Out) begin
 		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
 		`ifdef DEBUG

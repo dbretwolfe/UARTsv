@@ -9,7 +9,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_DEPTH = 4)
 		output logic FIFO_Overflow,
 		output logic [DATA_BITS-1:0] Data_Out);		
 
-int WPtr, i, j;
+int WPtr, RPtr, i, j;
 
 logic [DATA_BITS-1:0] FIFO_Array [FIFO_DEPTH-1:0];
 
@@ -30,7 +30,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		
 		else if (Read_Done)	begin
 			if (WPtr > 0) begin
-				Data_Out = FIFO_Array[0];
+				Data_Out = FIFO_Array[RPtr];
 				WPtr = WPtr-1;
 				FIFO_Overflow =0;
 				for (int i = 0; i< FIFO_DEPTH-1; i = i+1)
