@@ -43,14 +43,15 @@ always_ff @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
 		begin
 			FIFO_Array[WPtr] <= Rx_Data;
 			WPtr <= WPtr+1;
-			FIFO_Empty <= 0;
 		end
 	end
 
 
-	if(WPtr == (FIFO_DEPTH - 1)) FIFO_Overflow <= 1;
-	else if(WPtr == 0) FIFO_Empty <= 1;
-	else if(WPtr >= (FIFO_DEPTH >> 1)) FIFO_Full <= 1;
+	if((WPtr-Rptr) == (FIFO_DEPTH - 1)) FIFO_Overflow <= 1;
+	else FIFO_Overflow <= 0;
+	if((WPtr-Rptr) == 0) FIFO_Empty <= 1;
+	else <= 0;
+	if((WPtr-Rptr) >= (FIFO_DEPTH >> 1)) FIFO_Full <= 1;
 	else FIFO_Full <= 0;
 		
 end
