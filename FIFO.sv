@@ -22,7 +22,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 			RPtr = '0;
 			FIFO_Full = 0;
 			FIFO_Overflow = 0;
-			FIFO_Array = '0
+			FIFO_Array = '0;
 		end
 		
 		else if (Read_Done)	begin
