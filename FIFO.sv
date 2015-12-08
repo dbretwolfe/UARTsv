@@ -22,11 +22,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 			RPtr = '0;
 			FIFO_Full = 0;
 			FIFO_Overflow = 0;
-			for (i = 0; i < FIFO_DEPTH; i = i + 1) begin
-				for (j = 0; j < DATA_BITS; j = j + 1) begin
-					FIFO_Array[i][j] = '0;
-				end
-			end
+			FIFO_Array = '0
 		end
 		
 		else if (Read_Done)	begin
