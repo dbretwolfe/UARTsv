@@ -51,7 +51,7 @@ always_ff @ (Rst, WPtr, RPtr) begin
 		FIFO_Full <= 0;
 		FIFO_Overflow <= 0;
 	end
-	if(WPtr - RPtr == (FIFO_DEPTH - 1)) 
+	if(WPtr - RPtr == (FIFO_DEPTH)) 
 		FIFO_Overflow <= 1;
 	else 
 		FIFO_Overflow <= 0;
