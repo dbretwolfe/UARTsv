@@ -4,7 +4,7 @@
 #Specify the mode- could be either puresim or veloce
 #Always make sure that everything works fine in puresim before changing to veloce
 
-MODE ?= puresim
+MODE ?= veloce
 
 #make all does everything
 all: work build run

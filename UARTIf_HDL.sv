@@ -95,6 +95,7 @@ interface UART_IFace;
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		Rx = '1;
 	endtask
 	
 	// This task calls the write data task in the interface, and then captures
@@ -240,6 +241,7 @@ interface UART_IFace;
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		Rx = '1;
 		@(posedge Clk);
 		@(negedge Clk);
 		if (!Rx_Error[1])
@@ -268,6 +270,7 @@ interface UART_IFace;
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		Rx = '1;
 		@(posedge Clk);
 		@(negedge Clk);
 		if (!Rx_Error[2])
@@ -286,6 +289,7 @@ interface UART_IFace;
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
 		end
+		Rx = '1;
 		@(posedge Clk);
 		@(negedge Clk);
 		if (!Rx_Error[0])

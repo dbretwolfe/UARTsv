@@ -2,9 +2,13 @@
 
 module TopHVL;
 
+parameter numRandomTransmits = 1000;
+parameter numRandomReceives = 500;
+
 logic result = 0, testsFailed = 0;
 logic [2:0] Err;
 int numTestsFailed = 0;
+int numTests = 0;
 logic [TopHDL.DATA_BITS-1:0] rdBuf;
 
 // Class to generate a FIFO's worth of random data
@@ -25,8 +29,10 @@ task automatic CheckResult(input logic result, ref logic testsFailed, ref int nu
 		testsFailed = 1;
 		numTestsFailed += 1;
 	end
+	numTests += 1;
 endtask
 
+// This task randomly generates 
 task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref int numTestsFailed);
 	RandomSingle dataPacket;
 	logic result;
@@ -46,15 +52,14 @@ task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref
 				$display("Randomize single failed!");
 			`endif
 			testsFailed = 0;
-		end	
+		end
 	end
 endtask
 
-task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTestsFailed);
+task automatic RandomFill(input int numFills, ref logic testsFailed, ref int numTestsFailed);
 	RandomBulk dataArray;
 	logic [TopHDL.TestIf.DATA_BITS-1:0] Buf = 0;
 	logic Result;
-	
 	dataArray = new();
 	for (int k = 0; k < numFills; k ++) begin
 		if (dataArray.randomize()) begin
@@ -72,6 +77,7 @@ task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTest
 				end
 				else
 					Result = 0;
+				TopHDL.TestIf.wait8();
 			end
 		end
 		else begin
@@ -79,7 +85,8 @@ task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTest
 				$display("Randomize array failed!");
 			`endif
 			testsFailed = 0;
-		end	
+		end
+		numTests += 1;
 	end
 	CheckResult(.result(Result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 endtask
@@ -88,16 +95,17 @@ initial begin
 	$display("Starting tests");
 	TopHDL.TestIf.DoReset();	// First, we have to reset to put the system into a known state
 	TopHDL.TestIf.CTS = '1;		// Since there is no receiving device, we can tie CTS high.
+	TopHDL.TestIf.Rx = '1;		// Rx should start high
 	
 	// The first two directed tasks check sending all zeroes and all ones.
-	TopHDL.TestIf.CheckTransmit(8'h00, result);
+	TopHDL.TestIf.CheckTransmit('0, result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
 			$display("Transmit check failed!");
 	`endif
 	
-	TopHDL.TestIf.CheckTransmit(8'hFF, result);
+	TopHDL.TestIf.CheckTransmit({TopHDL.DATA_BITS{1'b1}}, result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
@@ -109,13 +117,6 @@ initial begin
 		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
 		`ifdef DEBUG
 			$display("Null FIFO data check failed!");
-		`endif
-	end
-	TopHDL.TestIf.ReadData(rdBuf);
-	if (rdBuf) begin
-		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
-		`ifdef DEBUG
-			$display("Null FIFO read check failed!");
 		`endif
 	end
 	
@@ -187,13 +188,13 @@ initial begin
 	TopHDL.TestIf.wait8();
 	
 	// Finally, the randomized tasks for transmit and receive
-	RandomTransmit(100, testsFailed, numTestsFailed);
+	RandomTransmit(numRandomTransmits, testsFailed, numTestsFailed);
 	
-	RandomFill(50, testsFailed, numTestsFailed);
+	RandomFill(numRandomReceives, testsFailed, numTestsFailed);
 	
 	if (!testsFailed)
 		$display("All tests have passed!");
-	$display("Results: Num failed = %d", numTestsFailed);
+	$display("Results: Number of tests: %d Number failed = %d", numTests, numTestsFailed);
 	$finish;
 end
 
