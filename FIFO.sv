@@ -1,4 +1,4 @@
-module FIFO # (parameter DATA_BITS <= 8,	parameter FIFO_DEPTH <= 4)
+module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_DEPTH = 4)
 		(input logic Rst,
 		input logic [DATA_BITS-1:0] Rx_Data,
 		input logic Data_Rdy, 
