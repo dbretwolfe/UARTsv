@@ -187,7 +187,7 @@ initial begin
 	TopHDL.TestIf.wait8();
 	
 	// Finally, the randomized tasks for transmit and receive
-	RandomTransmit(1000, testsFailed, numTestsFailed);
+	RandomTransmit(100, testsFailed, numTestsFailed);
 	
 	RandomFill(50, testsFailed, numTestsFailed);
 	
