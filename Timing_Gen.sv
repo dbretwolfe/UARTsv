@@ -9,20 +9,14 @@ module Timing_Gen #(parameter SYSCLK_RATE = 100000000,
 								// clock edge, meaning we need two clock transitions per baud.
 	integer ClockCounter;
 
-	always @ (posedge SysClk or posedge Rst) begin
-		if (Rst) begin
-			Clk = '0;
+	always @ (posedge SysClk) begin
+		if (ClockCounter === CLOCK_DIV - 1) begin
+			Clk = ~Clk;
 			ClockCounter = '0;
 		end
 		else begin
-			if (ClockCounter === CLOCK_DIV - 1) begin
-				Clk = ~Clk;
-				ClockCounter = '0;
-			end
-			else begin
-				Clk = Clk;
-				ClockCounter = ClockCounter + 1;
-			end
+			Clk = Clk;
+			ClockCounter = ClockCounter + 1;
 		end
 	end
 
