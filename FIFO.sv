@@ -45,7 +45,7 @@ always_ff @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
 
 end
 
-always_ff @ (Rst, WPtr) begin
+always_ff @ (Rst, WPtr, RPtr) begin
 	if (Rst) begin
 		FIFO_Empty <= 1;
 		FIFO_Full <= 0;
