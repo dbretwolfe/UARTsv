@@ -97,6 +97,9 @@ initial begin
 	TopHDL.TestIf.CTS = '1;		// Since there is no receiving device, we can tie CTS high.
 	TopHDL.TestIf.Rx = '1;		// Rx should start high
 	
+	`ifdef DEBUG
+		$display("Transmit checks starting");
+	`endif
 	// The first two directed tasks check sending all zeroes and all ones.
 	TopHDL.TestIf.CheckTransmit('0, result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
@@ -112,6 +115,9 @@ initial begin
 			$display("Transmit check failed!");
 	`endif
 	
+	`ifdef DEBUG
+		$display("FIFO empty check starting");
+	`endif
 	// Now, we check the FIFO output to make sure it is zero
 	if (TopHDL.TestIf.Data_Out) begin
 		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
@@ -120,6 +126,9 @@ initial begin
 		`endif
 	end
 	
+	`ifdef DEBUG
+		$display("FIFO signal checks starting");
+	`endif
 	// The next task fills the FIFO completely, reads the FIFO data, and compares the received
 	// data to the sent data.
 	TopHDL.TestIf.Fill_FIFO(result);
@@ -147,6 +156,9 @@ initial begin
 			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 	`endif
 	
+	`ifdef DEBUG
+		$display("BIST checks starting");
+	`endif
 	//This task exercises the BIST system.  
 	TopHDL.TestIf.BIST_Check(8'h00, result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
@@ -162,6 +174,9 @@ initial begin
 			$display("BIST check failed!");
 	`endif
 	
+	`ifdef DEBUG
+		$display("RX error checks starting");
+	`endif
 	// The following 3 tasks stimulate all of the possible Rx error signals.
 	TopHDL.TestIf.SendData_ParityError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
@@ -187,6 +202,9 @@ initial begin
 	`endif
 	TopHDL.TestIf.wait8();
 	
+	`ifdef DEBUG
+		$display("Random checks starting");
+	`endif
 	// Finally, the randomized tasks for transmit and receive
 	RandomTransmit(numRandomTransmits, testsFailed, numTestsFailed);
 	
