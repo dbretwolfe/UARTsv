@@ -52,6 +52,7 @@ endtask
 task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTestsFailed);
 	RandomBulk dataArray;
 	logic [TopHDL.TestIf.DATA_BITS-1:0] Buf = 0;
+	logic Result;
 	
 	dataArray = new();
 	for (int k = 0; k < numFills; k ++) begin
@@ -62,11 +63,12 @@ task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTest
 			end
 			for( int j = 0 ; j < dataArray.numSends; j++) begin
 				TopHDL.TestIf.ReadData(Buf);
-				if (Buf !== dataArray.data[j])
+				if (Buf !== dataArray.data[j]) begin
 					Result = 1;
 					`ifdef DEBUG
 						$display("Random fill failed! Data read = %h, Expected %h", Buf, dataArray.data[j]);
 					`endif
+				end
 				else
 					Result = 0;
 			end
@@ -78,6 +80,7 @@ task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTest
 			testsFailed = 0;
 		end	
 	end
+	CheckResult(.result(Result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 endtask
 
 initial begin
