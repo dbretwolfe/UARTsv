@@ -87,6 +87,7 @@ interface UART_IFace;
 	//  Return the test results to the HVL module
 	//***************************************************
 	
+	/* Can only be called from HVL side
 	// This task sends a single valid data packet to the UART.  It uses the data
 	// input and the UART parameters to calculate parity, 
 	task automatic SendData(input logic [DATA_BITS-1:0] Buf); //pragma tbx xtf
@@ -107,6 +108,7 @@ interface UART_IFace;
 		end
 		Rx = '1;
 	endtask
+	*/
 	
 	// This task calls the write data task in the interface, and then captures
 	// the output on the Tx net.  If the packet is sent incorrectly, the task
@@ -154,12 +156,34 @@ interface UART_IFace;
 	// data.  If the read data does not match the written data,
 	// the task reports a failure.
 	task automatic Fill_FIFO(output logic Result); //pragma tbx xtf
+		logic Parity = 0;
+		logic [TX_BITS-1:0] Tx_Packet;
+		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
 		for( int i = 0 ; i < FIFO_DEPTH; i++) begin
-			SendData(i);
+			
+			Parity = 0;
+			Tx_Packet = 0;
+			Buf = i;
+			
+			@(posedge Clk);
+			while(!RTS)
+				@(posedge Clk);
+				
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = Buf[i] ^ Parity;
+			end
+			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				Rx = Tx_Packet[i];
+				@(posedge Clk);
+			end
+			Rx = '1;
+			
 			repeat(8)
 				@(posedge Clk);
+				
 		end
 		for( int j = 0 ; j < FIFO_DEPTH; j++) begin
 			while (FIFO_Empty)// Make sure the fifo is not empty
@@ -179,11 +203,34 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Full signal is NOT asserted, the task reports failure.
 	task automatic FIFO_Full_Check(output logic Result); //pragma tbx xtf
+		logic Parity = 0;
+		logic [TX_BITS-1:0] Tx_Packet;
+		logic [DATA_BITS-1:0] Buf;
+		
 		@(posedge Clk);
 		for( int i = 0 ; i < (FIFO_DEPTH>>1); i++) begin
-			SendData(i);
+			
+			Parity = 0;
+			Tx_Packet = 0;
+			Buf = i;
+			
+			@(posedge Clk);
+			while(!RTS)
+				@(posedge Clk);
+				
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = Buf[i] ^ Parity;
+			end
+			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				Rx = Tx_Packet[i];
+				@(posedge Clk);
+			end
+			Rx = '1;
+			
 			repeat(8)
 				@(posedge Clk);
+				
 		end
 		if (!FIFO_Full)
 			Result = 1;
@@ -204,11 +251,34 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Overflow signal is NOT asserted, the task reports failure.
 	task automatic FIFO_Overflow_Check(output logic Result); //pragma tbx xtf
+		logic Parity = 0;
+		logic [TX_BITS-1:0] Tx_Packet;
+		logic [DATA_BITS-1:0] Buf;
+		
 		@(posedge Clk);
 		for( int i = 0 ; i <FIFO_DEPTH; i++) begin
-			SendData(i);
+			
+			Parity = 0;
+			Tx_Packet = 0;
+			Buf = i;
+			
+			@(posedge Clk);
+			while(!RTS)
+				@(posedge Clk);
+				
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = Buf[i] ^ Parity;
+			end
+			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				Rx = Tx_Packet[i];
+				@(posedge Clk);
+			end
+			Rx = '1;
+			
 			repeat(8)
 				@(posedge Clk);
+			
 		end
 		if (!FIFO_Overflow)
 			Result = 1;
