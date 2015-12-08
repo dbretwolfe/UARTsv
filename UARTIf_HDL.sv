@@ -131,7 +131,7 @@ interface UART_IFace;
 
 		while (Tx_Busy)	// Wait until the current transmission is finished, if any
 			@(posedge Clk);
-		Tx_Data = WriteBuf;	// Set the transmit data reg
+		Tx_Data = Buf;	// Set the transmit data reg
 		@(negedge Clk);	// On the next negative clock edge,
 		Transmit_Start = '1;	// assert transmit start.
 		@(negedge Tx);
