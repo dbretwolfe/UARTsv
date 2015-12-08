@@ -10,6 +10,7 @@ logic [2:0] Err;
 int numTestsFailed = 0;
 int numTests = 0;
 logic [TopHDL.DATA_BITS-1:0] rdBuf;
+logic [TopHDL.DATA_BITS-1:0] cap;
 
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
@@ -108,11 +109,11 @@ initial begin
 			$display("Transmit check failed!");
 	`endif
 	
-	TopHDL.TestIf.CheckTransmit({TopHDL.DATA_BITS{1'b1}}, result);
+	TopHDL.TestIf.CheckTransmit({TopHDL.DATA_BITS{1'b1}}, result, cap);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Transmit check failed!");
+			$display("Transmit check failed! Captured data: %h", cap);
 	`endif
 	
 	`ifdef DEBUG
