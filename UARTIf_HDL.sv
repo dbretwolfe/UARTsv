@@ -136,7 +136,8 @@ interface UART_IFace;
 		Tx_Data = Buf;	// Set the transmit data reg
 		@(posedge Clk);	// On the next negative clock edge,
 		Transmit_Start = '1;	// assert transmit start.
-		@(posedge Tx);
+		while (!Tx_Busy)	// Wait until the current transmission is finished, if any
+			@(posedge Clk);
 		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
 					
