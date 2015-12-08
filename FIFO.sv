@@ -9,21 +9,21 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_DEPTH = 4)
 		output logic FIFO_Overflow,
 		output logic [DATA_BITS-1:0] Data_Out);		
 
-int WPtr, RPtr, i, j;
+integer WPtr, RPtr, i, j;
 
-logic [DATA_BITS-1:0] FIFO_Array [FIFO_DEPTH-1:0];
+logic [FIFO_DEPTH-1:0][DATA_BITS-1:0] FIFO_Array;
 
 always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		
 		if (Rst) begin
-		FIFO_Empty = 1;
-		Data_Out = '0;
-		WPtr = '0;
-		FIFO_Full = 0;
-		FIFO_Overflow = 0;
+			FIFO_Empty = 1;
+			Data_Out = '0;
+			WPtr = '0;
+			FIFO_Full = 0;
+			FIFO_Overflow = 0;
 			for (i = 0; i < FIFO_DEPTH; i = i + 1) begin
 				for (j = 0; j < DATA_BITS; j = j + 1) begin
-				FIFO_Array[i][j] = '0;
+					FIFO_Array[i][j] = '0;
 				end
 			end
 		end
