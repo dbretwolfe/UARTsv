@@ -129,20 +129,20 @@ interface UART_IFace;
 		end
 		ExpectedPacket = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		
-		@(negedge Clk);		// Wait until the negative slow clock edge to start the transmit
+		@(posedge Clk);		// Wait until the negative slow clock edge to start the transmit
 
 		while (Tx_Busy)	// Wait until the current transmission is finished, if any
 			@(posedge Clk);
 		Tx_Data = Buf;	// Set the transmit data reg
-		@(negedge Clk);	// On the next negative clock edge,
+		@(posedge Clk);	// On the next negative clock edge,
 		Transmit_Start = '1;	// assert transmit start.
-		@(negedge Tx);
+		@(posedge Tx);
 		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
 					
 		// The WriteData task finishes when it sees the start bit
 		for (int i = TX_BITS -1; i >= 0; i = i -1) begin
-			@(negedge Clk);	// Check the Tx values on the negative clock edge to avoid the transition
+			@(posedge Clk);	// Check the Tx values on the negative clock edge to avoid the transition
 			TestCapture[i] = Tx;
 		end
 		// Finally, compare the captured transmit data with the sent data
@@ -352,7 +352,7 @@ interface UART_IFace;
 		end
 		Rx = '1;
 		@(posedge Clk);
-		@(negedge Clk);
+		@(posedge Clk);
 		if (!Rx_Error[1])
 			Result = 1;
 		else
@@ -382,7 +382,7 @@ interface UART_IFace;
 		end
 		Rx = '1;
 		@(posedge Clk);
-		@(negedge Clk);
+		@(posedge Clk);
 		if (!Rx_Error[2])
 			Result = 1;
 		else
@@ -403,7 +403,7 @@ interface UART_IFace;
 		end
 		Rx = '1;
 		@(posedge Clk);
-		@(negedge Clk);
+		@(posedge Clk);
 		if (!Rx_Error[0])
 			Result = 1;
 		else
