@@ -47,9 +47,9 @@ end
 
 always_comb begin
 	if (Rst) begin
-		FIFO_Empty <= 1;
-		FIFO_Full <= 0;
-		FIFO_Overflow <= 0;
+		FIFO_Empty = 1;
+		FIFO_Full = 0;
+		FIFO_Overflow = 0;
 	end
 	if(WPtr == (FIFO_DEPTH - 1)) 
 		FIFO_Overflow = 1;
