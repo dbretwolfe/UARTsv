@@ -16,12 +16,9 @@ logic [FIFO_DEPTH-1:0][DATA_BITS-1:0] FIFO_Array;
 always_ff @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
 		
 	if (Rst) begin
-		FIFO_Empty <= 1;
 		Data_Out <= '0;
 		WPtr <= '0;
 		RPtr <= '0;
-		FIFO_Full <= 0;
-		FIFO_Overflow <= 0;
 		FIFO_Array <= '0;
 	end
 	
@@ -49,6 +46,11 @@ always_ff @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
 end
 
 always_comb begin
+	if (Rst) begin
+		FIFO_Empty <= 1;
+		FIFO_Full <= 0;
+		FIFO_Overflow <= 0;
+	end
 	if(WPtr == (FIFO_DEPTH - 1)) 
 		FIFO_Overflow = 1;
 	else 
