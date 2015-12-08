@@ -19,6 +19,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 			FIFO_Empty = 1;
 			Data_Out = '0;
 			WPtr = '0;
+			RPtr = '0;
 			FIFO_Full = 0;
 			FIFO_Overflow = 0;
 			for (i = 0; i < FIFO_DEPTH; i = i + 1) begin
