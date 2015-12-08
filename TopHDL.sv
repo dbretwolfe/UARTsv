@@ -8,6 +8,9 @@ module TopHDL;
 
 	localparam CLOCK_DELAY = 5;
 	localparam TX_BITS = (1 + DATA_BITS + 1 + STOP_BITS);
+	logic clk;
+	
+	assign TestIf.SysClk = clk;
 	
 	UART_IFace    #(.SYSCLK_RATE(SYSCLK_RATE),
 					.BAUD_RATE(BAUD_RATE),
@@ -22,9 +25,9 @@ module TopHDL;
 	// tbx clkgen
 	initial
 		begin
-		TestIf.SysClk = 0;
+		clk = 0;
 		forever begin
-		  #10 TestIf.SysClk = ~TestIf.SysClk;
+		  #10 clk = ~clk;
 		end
 	end	
 

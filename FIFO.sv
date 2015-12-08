@@ -30,7 +30,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 		
 		else if (Read_Done)	begin
 			if (WPtr > 0) begin
-				Data_Out <= FIFO_Array[RPtr];
+				Data_Out = FIFO_Array[RPtr];
 				WPtr = WPtr-1;
 				FIFO_Overflow =0;
 				for (int i = 0; i< FIFO_DEPTH-1; i = i+1)
