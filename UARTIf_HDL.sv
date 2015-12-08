@@ -39,10 +39,11 @@ interface UART_IFace;
 	
 	// Write a data packet
 	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf); //pragma tbx xtf
+		@(posedge Clk);
 		while (Tx_Busy)	// Wait until the current transmission is finished, if any
 			@(posedge Clk);
 		Tx_Data = WriteBuf;	// Set the transmit data reg
-		@(negedge SysClk);	// On the next negative clock edge,
+		@(negedge Clk);	// On the next negative clock edge,
 		Transmit_Start = '1;	// assert transmit start.
 		@(negedge Tx);
 		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
@@ -51,24 +52,26 @@ interface UART_IFace;
 	
 	// Read a data packet from the FIFO
 	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
+		@(posedge Clk);
 		while (FIFO_Empty)// Make sure the fifo is not empty
-			@(posedge SysClk);
-		@(posedge SysClk);
+			@(posedge Clk);
+		@(posedge Clk);
 		Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
-		@(posedge SysClk);
+		@(posedge Clk);
 		Read_Done = '0;		// in new data.
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
 	endtask
 	
 	// Start the BIST process
 	task automatic Start_BIST(logic [DATA_BITS-1:0] TestData); //pragma tbx xtf
+		@(posedge Clk);
 		while (Tx_Busy)
 			@(posedge Clk);
 		Tx_Data = TestData;
-		@(posedge SysClk);
+		@(posedge Clk);
 		BIST_Start = '1;
 		while(!BIST_Busy)
-			@(posedge SysClk);
+			@(posedge Clk);
 		BIST_Start = '0;
 	endtask
 	
@@ -84,6 +87,7 @@ interface UART_IFace;
 		logic Parity = 0;
 		logic [TX_BITS-1:0] Tx_Packet;
 		
+		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
 			
@@ -106,9 +110,10 @@ interface UART_IFace;
 		logic [TX_BITS -1:0] ExpectedPacket;
 		logic Parity = 0;
 		
+		@(posedge Clk);
 		// Wait until the transmitter is free
 		while(Tx_Busy)
-			@(posedge SysClk);
+			@(posedge Clk);
 		
 		// Calculate the parity bit and assemble the expected packet
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
@@ -134,9 +139,9 @@ interface UART_IFace;
 	// data.  If the read data does not match the written data,
 	// the task reports a failure.
 	task automatic Fill_FIFO(output logic Result); //pragma tbx xtf
-		
 		logic [DATA_BITS-1:0] Buf = 0;
-
+		
+		@(posedge Clk);
 		for( int i = 0 ; i < FIFO_DEPTH; i++) begin
 			SendData(i);
 			repeat(8)
@@ -155,10 +160,9 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Full signal is NOT asserted, the task reports failure.
 	task automatic FIFO_Full_Check(output logic Result); //pragma tbx xtf
-		
 		logic [DATA_BITS-1:0] Buf = 0;
 		
-
+		@(posedge Clk);
 		for( int i = 0 ; i < (FIFO_DEPTH>>1); i++) begin
 			SendData(i);
 			repeat(8)
@@ -178,10 +182,9 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Overflow signal is NOT asserted, the task reports failure.
 	task automatic FIFO_Overflow_Check(output logic Result); //pragma tbx xtf
-		
 		logic [DATA_BITS-1:0] Buf = 0;
 		
-
+		@(posedge Clk);
 		for( int i = 0 ; i <FIFO_DEPTH; i++) begin
 			SendData(i);
 			repeat(8)
@@ -205,9 +208,10 @@ interface UART_IFace;
 	// bist should assert it's error bit.  This test fails either if the BIST does not assert it's
 	// error bit when it should, or if it asserts the error bit when it should not.
 	task automatic BIST_Check(input logic [DATA_BITS-1:0] TestData, output logic Result); //pragma tbx xtf
+		@(posedge Clk);
 		Start_BIST(TestData);
 		while(BIST_Busy)
-			@(posedge SysClk);
+			@(posedge Clk);
 		if (TestUART.SelfTest.Tx_Data_In == TestUART.SelfTest.Rx_Data_Out) begin
 			if (BIST_Error == 1) // False positive case
 				Result = 1;
@@ -228,6 +232,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf = 8'hAA;
 		logic [TX_BITS-1:0] Tx_Packet;
 		
+		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
 			
@@ -257,6 +262,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf = 8'hAA;
 		logic [TX_BITS-1:0] Tx_Packet;
 		
+		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
 			
@@ -283,6 +289,8 @@ interface UART_IFace;
 	// Check Break Rx error
 	task automatic SendData_BreakError(output logic Result, output logic [2:0] Err); //pragma tbx xtf
 		logic [TX_BITS-1:0] Tx_Packet = '0;
+		
+		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
 		for (int i = TX_BITS-1; i >=0; i--) begin
@@ -301,14 +309,16 @@ interface UART_IFace;
 
 	// Simple task to perform a system wide reset
 	task automatic DoReset(); //pragma tbx xtf
+		@(posedge Clk);
 		Rst = '1;
-		@(posedge SysClk);
+		@(posedge Clk);
 		Rst = '0;
 	endtask
 	
 	// Wait for 8 baud clock cycles
 	task wait8();
-		repeat(8)
+		@(posedge Clk);
+		repeat(7)
 			@(posedge Clk);
 	endtask
 			
