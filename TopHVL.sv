@@ -42,10 +42,10 @@ task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref
 		if (dataPacket.randomize()) begin
 			TopHDL.TestIf.CheckTransmit(dataPacket.data, result);
 			CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
-			`ifdef DEBUG
+			/*`ifdef DEBUG
 				if (result)
 					$display("Random transmit check failed!");
-			`endif
+			`endif*/
 		end
 		else begin
 			`ifdef DEBUG
@@ -71,9 +71,9 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 				TopHDL.TestIf.ReadData(Buf);
 				if (Buf !== dataArray.data[j]) begin
 					Result = 1;
-					`ifdef DEBUG
+					/*`ifdef DEBUG
 						$display("Random fill failed! Data read = %h, Expected %h", Buf, dataArray.data[j]);
-					`endif
+					`endif*/
 				end
 				else
 					Result = 0;

@@ -145,8 +145,8 @@ interface UART_IFace;
 					
 		// The WriteData task finishes when it sees the start bit
 		for (int i = TX_BITS -1; i >= 0; i = i -1) begin
-			@(posedge Clk);	// Check the Tx values on the negative clock edge to avoid the transition
 			TestCapture[i] = Tx;
+			@(posedge Clk);
 		end
 		// Finally, compare the captured transmit data with the sent data
 		if (TestCapture !== ExpectedPacket)
