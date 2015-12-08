@@ -46,21 +46,22 @@ always_ff @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
 		end
 	end
 
+end
 
+always_comb begin
 	if(WPtr == (FIFO_DEPTH - 1)) 
-		FIFO_Overflow <= 1;
+		FIFO_Overflow = 1;
 	else 
-		FIFO_Overflow <= 0;
+		FIFO_Overflow = 0;
 		
 	if(WPtr == 0) 
-		FIFO_Empty <= 1;
+		FIFO_Empty = 1;
 	else 
-		FIFO_Empty <= 0;
+		FIFO_Empty = 0;
 
 	if(WPtr >= (FIFO_DEPTH >> 1)) 
-		FIFO_Full <= 1;
+		FIFO_Full = 1;
 	else 
-		FIFO_Full <= 0;
-		
+		FIFO_Full = 0;	
 end
 endmodule
