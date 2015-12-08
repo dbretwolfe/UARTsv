@@ -51,7 +51,7 @@ interface UART_IFace;
 	endtask
 	
 	// Read a data packet from the FIFO
-	task automatic ReadData(ref logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
+	task automatic ReadData(output logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
 		@(posedge Clk);
 		while (FIFO_Empty)// Make sure the fifo is not empty
 			@(posedge Clk);
