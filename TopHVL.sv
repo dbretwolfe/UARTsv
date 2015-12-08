@@ -6,6 +6,16 @@ logic result = 0, testsFailed = 0;
 logic [2:0] Err;
 int numTestsFailed = 0;
 
+// Class to generate a FIFO's worth of random data
+class RandomBulk;
+	randc logic [TopHDL.FIFO_DEPTH-1:0][TopHDL.DATA_BITS-1:0] data;
+endclass
+
+// Class to generate a single packet of random data
+class RandomSingle;
+	randc logic [TopHDL.DATA_BITS-1:0] data;
+endclass
+
 task automatic CheckResult(input logic result, ref logic testsFailed, ref int numTestsFailed);
 	if (result) begin
 		testsFailed = 1;
@@ -13,6 +23,27 @@ task automatic CheckResult(input logic result, ref logic testsFailed, ref int nu
 	end
 endtask
 
+task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref int numTestsFailed);
+	RandomSingle dataPacket;
+	logic result;
+	
+	dataPacket = new();
+	for (int i = 0; i <numTransmits; i++) begin
+		if (dataPacket.randomize()) begin
+			TopHDL.TestIf.CheckTransmit(dataPacket.data, result);
+			CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
+			`ifdef DEBUG
+				if (result)
+					$display("Random transmit check failed!");
+			`endif
+		end
+		else begin
+			`ifdef DEBUG
+				$display("Randomize single failed!");
+			`endif
+		end	
+	end
+endtask
 
 initial begin
 	$display("Starting tests");
@@ -107,6 +138,8 @@ initial begin
 			$display("Failed to produce Rx break error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
 	`endif
 	TopHDL.TestIf.wait8();
+	
+	RandomTransmit(100, testsFailed, numTestsFailed);
 	
 	if (!testsFailed)
 		$display("All tests have passed!");
