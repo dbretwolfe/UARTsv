@@ -1,0 +1,681 @@
+Script started on Tue Dec  8 14:55:05 2015
+[?1034hbash-4.1$ exitquitmake MODE=veloce
+vlib work.veloce
+vmap work work.veloce
+vmap work work.veloce 
+Model Technology ModelSim SE vmap 10.3 Lib Mapping Utility 2014.01 Jan  6 2014
+vmap work work.veloce 
+Copying /pkgs/mentor/questa/10.3/questasim/linux/../modelsim.ini to modelsim.ini
+Modifying modelsim.ini
+vlog TopHVL.sv			#Compile the testbench 
+QuestaSim vlog 10.3 Compiler 2014.01 Jan  6 2014
+Start time: 14:55:07 on Dec 08,2015
+vlog TopHVL.sv 
+-- Compiling module TopHVL
+
+Top level modules:
+	TopHVL
+End time: 14:55:08 on Dec 08,2015
+Errors: 0, Warnings: 0
+velanalyze -extract_hvl_info +define+QUESTA TopHVL.sv	#Analyze the HVL for external task calls in BFM 
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Warning   [velanalyze-18408]: : No work library found. A logical library 'work' mapping to physical library '/u/dwolf/UARTsv/veloce.med/rtlc_work' will be created and used.
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              -extract_hvl_info +define+QUESTA TopHVL.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Warning   [Analyze-1006]: File /u/dwolf/UARTsv/TopHVL.sv, Line 225: Null port declaration.
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:08 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze UARTIf_HDL.sv			#Analyze the interface for synthesis
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              UARTIf_HDL.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+RTLWarn   [Analyze-1095]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 152: "!==" operator will be treated as "!=".
+RTLWarn   [Analyze-1095]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 199: "!==" operator will be treated as "!=".
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:09 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze UART_Top.sv			#Analyze the UART DUT for synthesis
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              UART_Top.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Status    [Analyze-4513]: : Overall running time for compilation: 1.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:11 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze TopHDL.sv		#Analyze the HDL top for synthesis 
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              TopHDL.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Status    [Analyze-4513]: : Overall running time for compilation: 1.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:12 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze Timing_Gen.sv
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              Timing_Gen.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+RTLWarn   [Analyze-1095]: File /u/dwolf/UARTsv/Timing_Gen.sv, Line 18: "===" operator will be treated as "==".
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:13 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze TX_FSM.sv
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              TX_FSM.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+RTLWarn   [Analyze-1095]: File /u/dwolf/UARTsv/TX_FSM.sv, Line 106: "===" operator will be treated as "==".
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:14 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze Receiver.sv
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              Receiver.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:15 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze BIST.sv
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              BIST.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:16 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velanalyze FIFO.sv
+Info!     [velanalyze-25568]: : Reading the config file 'veloce.config'
+Info!     [velanalyze-25466]: : Velcomp Version 3.0.0.7
+                             
+Info!     [velanalyze-25225]: : Command Line for tool : velanalyze is :
+                              FIFO.sv
+Info!     [velanalyze-18201]: : Started task: compile_analyze_0 (velocesolo.ece.pdx.edu)
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Info!     [velanalyze-18231]: : Completed task: compile_analyze_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velanalyze-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                              Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                             
+Info!     [velanalyze-25220]: : Overall Running time: (Tue Dec 8 14:55:17 2015)
+                              0 minutes.
+                             
+                             
+Info!     [velanalyze-25219]: : Bad Machines:
+                              None.
+                             
+                             
+Info!     [velanalyze-25214]: : Dtask exiting ...
+Info!     [velanalyze-25215]: : Compilation finished successfully.
+velcomp -top TopHDL  	#Synthesize!
+Info!     [velcomp-25225]: : Command Line for tool : velcomp is :
+                           -top TopHDL
+Info!     [velcomp-25466]: : Velcomp Version 3.0.0.7
+                          
+Info!     [velcomp-18201]: : Started task: compile_rtlc_design_check_0 (velocesolo.ece.pdx.edu)
+Status    [RTLC-4578]: : Performing Design Check ...
+Status    [RTLC-4578]: : Design Check successfully completed.
+Info!     [velcomp-18231]: : Completed task: compile_rtlc_design_check_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velcomp-18201]: : Started task: compile_rtlc_0 (velocesolo.ece.pdx.edu)
+Status    [RTLC-4504]: : Partitioning design ....
+Status    [Analyze-4513]: : Overall running time for compilation: 0.0 secs.
+Status    [RTLC-4537]: : Time taken in Partitioning design: 0.63 secs.
+Status    [RTLC-4506]: : Module Timing_Gen{SYSCLK_RATE=>4,BAUD_RATE=>1} Pre-processing...
+Status    [RTLC-4506]: : Module RX_FSM{DATA_BITS=>8,STOP_BITS=>2} Pre-processing...
+Status    [RTLC-4506]: : Module TX_FSM{STOP_BITS=>2,DATA_BITS=>8} Pre-processing...
+Warning   [RTLC-5565]: File /u/dwolf/UARTsv/TX_FSM.sv, Line 37: Default Condition is not given for Unique case.
+Warning   [RTLC-5565]: File /u/dwolf/UARTsv/TX_FSM.sv, Line 69: Default Condition is not given for Unique case.
+Warning   [RTLC-5540]: File /u/dwolf/UARTsv/TX_FSM.sv, Line 117: Index value might be out of prefix index constraints
+Status    [RTLC-4506]: : Module BIST_FSM{DATA_BITS=>8} Pre-processing...
+Warning   [RTLC-5565]: File /u/dwolf/UARTsv/BIST.sv, Line 61: Default Condition is not given for Unique case.
+Warning   [RTLC-5565]: File /u/dwolf/UARTsv/BIST.sv, Line 107: Default Condition is not given for Unique case.
+Status    [RTLC-4506]: : Module FIFO{DATA_BITS=>8,FIFO_DEPTH=>8} Pre-processing...
+Warning   [RTLC-5540]: File /u/dwolf/UARTsv/FIFO.sv, Line 27: Index value might be out of prefix index constraints
+Warning   [RTLC-5737]: File /u/dwolf/UARTsv/FIFO.sv, Line 64: Feedback loop formed due to assignment of the form a <= a.
+Warning   [RTLC-5540]: File /u/dwolf/UARTsv/FIFO.sv, Line 32: Index value might be out of prefix index constraints
+Warning   [RTLC-5540]: File /u/dwolf/UARTsv/FIFO.sv, Line 27: Index value might be out of prefix index constraints
+Warning   [RTLC-5540]: File /u/dwolf/UARTsv/FIFO.sv, Line 32: Index value might be out of prefix index constraints
+Warning   [RTLC-5540]: File /u/dwolf/UARTsv/FIFO.sv, Line 41: Index value might be out of prefix index constraints
+Status    [RTLC-4506]: : Module UARTsv{port =>UART_IFace #(param SYSCLK_RATE=>4param BAUD_RATE=>1param DATA_BITS=>8param PARITY_BIT=>1param STOP_BITS=>2param FIFO_DEPTH=>8) } Pre-processing...
+Status    [RTLC-4508]: : Module Timing_Gen{SYSCLK_RATE=>4,BAUD_RATE=>1} Compiling...
+Status    [RTLC-4508]: : Module RX_FSM{DATA_BITS=>8,STOP_BITS=>2} Compiling...
+Status    [RTLC-4508]: : Module TX_FSM{STOP_BITS=>2,DATA_BITS=>8} Compiling...
+Status    [RTLC-4508]: : Module BIST_FSM{DATA_BITS=>8} Compiling...
+Status    [RTLC-4508]: : Module FIFO{DATA_BITS=>8,FIFO_DEPTH=>8} Compiling...
+Warning   [RTLC-5740]: File /u/dwolf/UARTsv/FIFO.sv, Line 48: Netlist for always_ff block does not contain a flip-flop
+Status    [RTLC-4508]: : Module UARTsv{port =>UART_IFace #(param SYSCLK_RATE=>4param BAUD_RATE=>1param DATA_BITS=>8param PARITY_BIT=>1param STOP_BITS=>2param FIFO_DEPTH=>8) } Compiling...
+Note!     [TBXC-5211]: : Design has no timescale directive. Default timescale(1ns/1ns) will be used.
+Status    [TBXC-4506]: : Module UART_IFace{SYSCLK_RATE=>4,BAUD_RATE=>1,DATA_BITS=>8,STOP_BITS=>2,FIFO_DEPTH=>8} Pre-processing...
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 102: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 107: Index value might be out of prefix index constraints
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 129: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 149: Index value might be out of prefix index constraints
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 178: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 183: Index value might be out of prefix index constraints
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 225: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 230: Index value might be out of prefix index constraints
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 274: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 279: Index value might be out of prefix index constraints
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 350: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 357: Index value might be out of prefix index constraints
+Warning   [TBXC-15443]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 386: Unrolling for/repeat loop. This would increase area and compile time.
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 393: Index value might be out of prefix index constraints
+Warning   [TBXC-5540]: File /u/dwolf/UARTsv/UARTIf_HDL.sv, Line 420: Index value might be out of prefix index constraints
+Status    [TBXC-4522]: : Root Module TopHDL: Pre-processing...
+Status    [TBXC-4508]: : Module UART_IFace{SYSCLK_RATE=>4,BAUD_RATE=>1,DATA_BITS=>8,STOP_BITS=>2,FIFO_DEPTH=>8} Compiling...
+Status    [TBXC-4523]: : Root Module TopHDL: Compiling...
+Status    [RTLC-4537]: : Time taken in compiling all partitions: 4.41 secs.
+Status    [TBXC-14506]: : Post-processing design...
+Status    [RTLC-4537]: : Time taken in Post-processing design: 0.67 secs.
+Status    [RTLC-4513]: : Overall running time for compilation: 6.0 secs.
+Info!     [velcomp-18231]: : Completed task: compile_rtlc_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velcomp-18201]: : Started task: compile_transactor_analysis_final_0 (velocesolo.ece.pdx.edu)
+Info!     [velcomp-18231]: : Completed task: compile_transactor_analysis_final_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velcomp-18201]: : Started task: compile_transactor_compile_final_0 (velocesolo.ece.pdx.edu)
+Info!     [velcomp-18231]: : Completed task: compile_transactor_compile_final_0 (velocesolo.ece.pdx.edu) 1 minute
+Info!     [velcomp-18201]: : Started task: compile_hvl_0 (velocesolo.ece.pdx.edu)
+Info!     [velcomp-18201]: : Started task: compile_velsyn_0 (velocesolo.ece.pdx.edu)
+Note!     [hvlcomp-25778]: : In Questa Mode, please invoke explicit HVL compilation commands to perform hvl compilation. Currently HVL compilation will not be performed.
+Info!     [velcomp-18231]: : Completed task: compile_hvl_0 (velocesolo.ece.pdx.edu) 0 minutes
+Warning   [Velsyn-3535]: : Hardware pod \J114.20 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.21 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.22 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.23 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.24 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.25 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.26 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.28 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.29 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.30 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.31 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.32 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.33 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.34 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.35 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.36 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.38 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.39 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.40 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.41 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.42 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.43 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.44 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.46 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.47 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.48 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.49 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.52 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.53 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.54 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.55 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.56 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.58 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.59 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.60 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.61 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.62 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.63 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.64 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.65 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.66 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.68 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.69 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.70 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.71 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.72 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.73 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.74 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.75 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.76 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.78 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.79 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.80 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.81 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.82 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.83 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.84 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.85 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.86 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.88 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.89 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.90 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.91 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J114.92 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.2 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.3 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.4 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.5 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.6 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.8 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.9 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.10 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.11 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.12 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.13 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.14 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.15 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.16 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.18 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.19 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.20 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.21 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.22 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.23 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.24 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.25 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.26 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.28 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.29 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.30 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.31 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.32 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.33 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.34 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.35 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.36 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.38 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.39 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.40 is unavailable due to resource mapout.
+Warning   [Velsyn-3535]: : Hardware pod \J115.41 is unavailable due to resource mapout.
+Note!     [Velsyn-500026]: : $VMW_MAX_ERROR_COUNT EXCEEDED (100) for message 3535
+                           controlled via environment variable.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.SysClk of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal SysClk of module rtlc_Timing_Gen_SYSCLK_RATE_4_BAUD_RATE_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Clk of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Z of module $assign that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Rst of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Rst of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Rx of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in_0 of module M_RTLSIM_MUXN_2_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.CTS of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal CTS of module rtlc_TX_FSM_STOP_BITS_2_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Tx of module rtlc_TX_FSM_STOP_BITS_2_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.RTS of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal RTS of module rtlc_RX_FSM_DATA_BITS_8_STOP_BITS_2 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.BIST_Start of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal BIST_Start of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[7] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[7] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[6] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[6] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[5] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[5] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[4] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[4] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[3] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[3] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[2] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[2] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[1] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[1] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Data[0] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Tx_Data_In[0] of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Transmit_Start of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in_0 of module M_RTLSIM_MUXN_2_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Tx_Busy of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Tx_Busy of module rtlc_TX_FSM_STOP_BITS_2_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[7] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[7] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[6] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[6] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[5] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[5] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[4] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[4] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[3] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[3] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[2] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[2] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[1] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[1] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Out[0] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Data_Out[0] of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Data_Rdy of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Z of module $assign that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Rx_Error[2] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Rx_Error[2] of module rtlc_RX_FSM_DATA_BITS_8_STOP_BITS_2 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Rx_Error[1] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Rx_Error[1] of module rtlc_RX_FSM_DATA_BITS_8_STOP_BITS_2 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Rx_Error[0] of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Rx_Error[0] of module rtlc_RX_FSM_DATA_BITS_8_STOP_BITS_2 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.BIST_Busy of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal BIST_Busy of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.BIST_Error of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal BIST_Error of module rtlc_BIST_FSM_DATA_BITS_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.Read_Done of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal Read_Done of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.FIFO_Empty of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal FIFO_Empty of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.FIFO_Full of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal FIFO_Full of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal UARTIf.FIFO_Overflow of module rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal FIFO_Overflow of module rtlc_FIFO_DATA_BITS_8_FIFO_DEPTH_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal RealTimeModeOn of module SceMiRunControl from input to inout.
+                          This change was forced by terminal I1 of module MED_LUT4_80A2 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal SysClk of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal CP of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Clk of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal CP of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Rst of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module MED_FD that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Rx of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in_0 of module M_RTLSIM_MUXN_2_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal RTS of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal I0 of module MED_LUT4_5DFF that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal BIST_Start of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module MED_FD that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[7] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[6] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[5] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[4] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[3] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[2] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[1] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Data[0] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Transmit_Start of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module MED_FD that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Tx_Busy of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal I0 of module MED_LUT4_5540 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[7] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_7 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[6] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_6 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[5] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_5 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[4] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_4 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[3] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_3 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[2] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_2 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[1] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_1 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Data_Out[0] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1_0 of module M_RTLSIM_EQ_8 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Rx_Error[2] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in_0 of module M_RTLSIM_MUXN_2_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Rx_Error[1] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in_0 of module M_RTLSIM_MUXN_2_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Rx_Error[0] of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in_0 of module M_RTLSIM_MUXN_2_1 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal BIST_Busy of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal I0 of module MED_LUT4_7530 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal BIST_Error of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal in1 of module M_RTLSIM_XOR_2 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal Read_Done of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to output.
+                          This change was forced by terminal Q of module DSIMU_FDPC_INIT0 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal FIFO_Empty of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal I0 of module MED_LUT4_5540 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal FIFO_Full of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal I0 of module MED_LUT3_C5 that is on the same net.
+Warning   [Velsyn-50069]: : Terminal direction resolution: Changed the direction of terminal FIFO_Overflow of module rtlc_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_STOP_BITS_2_FIFO_DEPTH_8 from inout to input.
+                          This change was forced by terminal I0 of module MED_LUT3_C5 that is on the same net.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiMessageInPort_PortWidth_32 in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: uclockgen in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiClockControl_ClockNum_0 in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_TopHDL_GLOBAL_SIGNAL in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiMessageInPort_PortWidth_68 in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiMessageOutPort_PortWidth_32 in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: M_RTLSIM_TBX_INTERNAL_CLOCKGEN in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiMessageInPort_PortWidth_96 in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiMessageOutPort_PortWidth_480 in user design are empty.
+Warning   [Velsyn-6536]: : Modules of type: rtlc_SceMiMessageOutPort_PortWidth_64 in user design are empty.
+Warning   [Velsyn-14501]: : Net TopHDL.\rtlc_TestIf.CTS : No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcVssm_n2: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcMutexInfo[30]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[0]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[1]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[2]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[3]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[4]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[5]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[6]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[7]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[8]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[9]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[10]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[11]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[12]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[13]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[14]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[15]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[16]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[17]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[18]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[19]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[20]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[21]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[22]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[23]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[24]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[25]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[26]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[27]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[28]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlcI_SceMiRunControl.CrcCounter[29]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.mctcore_inst.targetCclockEnabled[0]: No driver -- tied to logic-0
+Warning   [Velsyn-14501]: : Net TopHDL.mctcore_inst.targetCreset[0]: No driver -- tied to logic-0
+Warning   [Velsyn-2614]: : 895 Luts were reduced to smaller Luts for inactive Inputs
+Warning   [Velsyn-2614]: : 1 Luts were reduced to smaller Luts for inactive Inputs
+Warning   [Velsyn-14028]: : Multiple state elements have been found in a combinational cycle in the clock network.
+                          This net TopHDL.TestUART.fifo_initialize.rtlcs72 is part of that cycle. Use -Dump c1 to identify these cycles.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_TopHDL_transactor_0.e, Line 1438, Path TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlclut_n6442: Module MED_LUT3_80: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 159, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_14: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 158, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_13: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 157, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_12: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 156, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_11: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 155, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_10: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 154, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_9: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 153, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_8: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 152, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_7: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 151, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_6: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 150, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_5: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 149, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_4: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 148, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_3: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 147, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_2: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 146, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_1: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_EQ_30.v, Line 145, Path TopHDL.mctcore_inst.channelController.rtlc5_268.rtlcm_0: Module MED_LUT4_8421: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8807, Path TopHDL.mctcore_inst.channelController.rtlclut_n33444: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8806, Path TopHDL.mctcore_inst.channelController.rtlclut_n33443: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8805, Path TopHDL.mctcore_inst.channelController.rtlclut_n33442: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8804, Path TopHDL.mctcore_inst.channelController.rtlclut_n33441: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8803, Path TopHDL.mctcore_inst.channelController.rtlclut_n33440: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8802, Path TopHDL.mctcore_inst.channelController.rtlclut_n33439: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8801, Path TopHDL.mctcore_inst.channelController.rtlclut_n33438: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8560, Path TopHDL.mctcore_inst.channelController.rtlclut_n33281: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/ChannelController.v, Line 8559, Path TopHDL.mctcore_inst.channelController.rtlclut_n33280: Module MED_LUT4_F800: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_TopHDL_transactor_1.e, Line 824, Path TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_1.rtlclut_n2978: Module MED_LUT2_B: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_TopHDL_transactor_1.e, Line 823, Path TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_1.rtlclut_n2977: Module MED_LUT4_000E: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_TopHDL_transactor_0.e, Line 2091, Path TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlclut_n7015: Module MED_LUT3_07: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_TopHDL_transactor_0.e, Line 2088, Path TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlclut_n7013: Module MED_LUT4_FEEE: Uncontrolled and controlled nets merge within a clock tree.
+Warning   [Velsyn-2587]: : File veloce.med/rtlc.out/NET/M_RTLSIM_TopHDL_transactor_0.e, Line 1961, Path TopHDL.rtlcGlobConnNetwork.rtlcITopHDLTransactorInst_wrapper.rtlcITopHDLTransactorInst_0.rtlclut_n6946: Module MED_LUT2_8: Uncontrolled and controlled nets merge within a clock tree.
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_31 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_0 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_1 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_2 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_3 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_4 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_5 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_6 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_7 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_8 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_9 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_10 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_11 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_12 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_13 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_14 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_15 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_16 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_17 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_18 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_19 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_20 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_21 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_22 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_23 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_24 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_25 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_26 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_27 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_28 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_29 appears to be in a combinational cycle
+Error     [Velsyn-14004]: : The state element TopHDL.TestUART.fifo_initialize.rtlcreg_WPtr_30 appears to be in a combinational cycle
+Error     [velcomp-18295]: : Task compile_velsyn_0 exited, with code 1 (velocesolo.ece.pdx.edu)
+Error     [velcomp-18069]: : Task compile_velsyn_0 will not be compiled.
+Error     [velcomp-25428]: : Refer /u/dwolf/UARTsv/veloce.log/compile_velsyn_0.log for details regarding task failure.
+                          
+Info!     [velcomp-18234]: : Failed task: compile_velsyn_0 (velocesolo.ece.pdx.edu) 0 minutes
+Info!     [velcomp-25218]: : Dtask compile report is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.report
+                           Each detailed task information is saved in /u/dwolf/UARTsv/veloce.med/veloce.out/veloce.stat
+                          
+Info!     [velcomp-25220]: : Overall Running time: (Tue Dec 8 14:56:08 2015)
+                           1 minute.
+                          
+                          
+Info!     [velcomp-25219]: : Bad Machines:
+                           None.
+                          
+                          
+Info!     [velcomp-25214]: : Dtask exiting ...
+Info!     [velcomp-25216]: : Compilation failed.
+Error     [velcomp-25227]: : Tasks that failed in this compile : compile_velsyn_0
+                          
+make: *** [build] Error 1
+bash-4.1$ exit
+exit
+
+Script done on Tue Dec  8 14:56:11 2015

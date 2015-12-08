@@ -1,7 +1,7 @@
 # vsim -do "run -all" -c TopHVL TopHDL 
-# Start time: 00:36:58 on Dec 08,2015
-# Loading /var/tmp/dwolf@velocesolo.ece.pdx.edu_dpi_24616/linux_gcc-4.5.0/export_tramp.so
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Start time: 14:45:18 on Dec 08,2015
+# Loading /var/tmp/dwolf@velocesolo.ece.pdx.edu_dpi_1695/linux_gcc-4.5.0/export_tramp.so
+# ** Note: (vsim-3812) Design is being optimized...
 # //  Questa Sim
 # //  Version 10.3 linux Jan  6 2014
 # //
@@ -44,5 +44,5 @@
 # Random checks starting
 # All tests have passed!
 # Results: Number of tests:        1511 Number failed =           0
-# ** Note: $finish    : TopHVL.sv(220)
+# ** Note: $finish    : TopHVL.sv(222)
 #    Time: 13483470 ns  Iteration: 2  Instance: /TopHVL
