@@ -114,7 +114,7 @@ interface UART_IFace;
 	// This task calls the write data task in the interface, and then captures
 	// the output on the Tx net.  If the packet is sent incorrectly, the task
 	// will set the test failed flag and increment the number of test failed counter.
-	task CheckTransmit(input logic [DATA_BITS-1:0] Buf, output logic Result, output logic [DATA_BITS-1:0] TestCapture); //pragma tbx xtf
+	task CheckTransmit(input logic [DATA_BITS-1:0] Buf, output logic Result, output logic [DATA_BITS-1:0] Capture); //pragma tbx xtf
 		logic [TX_BITS -1:0] TestCapture;
 		logic [TX_BITS -1:0] ExpectedPacket;
 		logic Parity;
