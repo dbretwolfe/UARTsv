@@ -52,7 +52,7 @@ interface UART_IFace;
 	endtask
 	*/
 	
-	/*
+	
 	// Read a data packet from the FIFO
 	task automatic ReadData(output logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
 		@(posedge Clk);
@@ -64,7 +64,7 @@ interface UART_IFace;
 		Read_Done = '0;		// in new data.
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
 	endtask
-	*/
+	
 	
 	/*
 	// Start the BIST process
