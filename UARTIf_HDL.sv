@@ -201,7 +201,6 @@ interface UART_IFace;
 			else
 				Result = 0;
 		end
-		$display("WPtr = %d, RPtr = %d", TestUART.fifo_initialize.WPtr, TestUART.fifo_initialize.RPtr);
 	endtask
 	
 	// This task verifies that the FIFO_Full signal is being asserted
