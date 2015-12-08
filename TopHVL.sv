@@ -189,7 +189,7 @@ initial begin
 	// Finally, the randomized tasks for transmit and receive
 	RandomTransmit(1000, testsFailed, numTestsFailed);
 	
-	RandomFill(250, testsFailed, numTestsFailed);
+	RandomFill(50, testsFailed, numTestsFailed);
 	
 	if (!testsFailed)
 		$display("All tests have passed!");
