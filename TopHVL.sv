@@ -9,6 +9,9 @@ int numTestsFailed = 0;
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
 	randc logic [TopHDL.FIFO_DEPTH-1:0][TopHDL.DATA_BITS-1:0] data;
+	rand int numSends;
+	constraint c1 { numSends < TopHDL.FIFO_DEPTH;} 
+	constraint c2 { numSends > 0;} 
 endclass
 
 // Class to generate a single packet of random data
@@ -41,6 +44,38 @@ task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref
 			`ifdef DEBUG
 				$display("Randomize single failed!");
 			`endif
+			testsFailed = 0;
+		end	
+	end
+endtask
+
+task automatic RandomFill(input numFills, ref logic testsFailed, ref int numTestsFailed);
+	RandomBulk dataArray;
+	logic [TopHDL.TestIf.DATA_BITS-1:0] Buf = 0;
+	
+	dataArray = new();
+	for (int k = 0; k < numFills; k ++) begin
+		if (dataArray.randomize()) begin
+			for( int i = 0 ; i < dataArray.numSends; i++) begin
+				TopHDL.TestIf.SendData(dataArray.data[i]);
+				TopHDL.TestIf.wait8();
+			end
+			for( int j = 0 ; j < dataArray.numSends; j++) begin
+				TopHDL.TestIf.ReadData(Buf);
+				if (Buf !== dataArray.data[j])
+					Result = 1;
+					`ifdef DEBUG
+						$display("Random fill failed! Data read = %h, Expected %h", Buf, dataArray.data[j]);
+					`endif
+				else
+					Result = 0;
+			end
+		end
+		else begin
+			`ifdef DEBUG
+				$display("Randomize array failed!");
+			`endif
+			testsFailed = 0;
 		end	
 	end
 endtask
@@ -65,6 +100,22 @@ initial begin
 			$display("Transmit check failed!");
 	`endif
 	
+	// Now, we check the FIFO output to make sure it is zero, and try to do a read.
+	if (TopHDL.TestIf.Data_Out) begin
+		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
+		`ifdef DEBUG
+			$display("Null FIFO data check failed!");
+		`endif
+	end
+	int rdBuf;
+	TopHDL.TestIf.ReadData(rdBuf);
+	if (rdBuf) begin
+		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
+		`ifdef DEBUG
+			$display("Null FIFO read check failed!");
+		`endif
+	end
+	
 	// The next task fills the FIFO completely, reads the FIFO data, and compares the received
 	// data to the sent data.
 	TopHDL.TestIf.Fill_FIFO(result);
@@ -72,30 +123,24 @@ initial begin
 	`ifdef DEBUG
 		if (result)
 			$display("Fill FIFO task failed!");
+			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 	`endif
-	$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
-	
-	TopHDL.TestIf.Fill_FIFO(result);
-	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
-	`ifdef DEBUG
-		if (result)
-			$display("Fill FIFO task failed!");
-	`endif
-	$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 	
 	TopHDL.TestIf.FIFO_Full_Check(result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
 			$display("Failed to produce FIFO_Full signal!");
+			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 	`endif
-	$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+	
 	
 	TopHDL.TestIf.FIFO_Overflow_Check(result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce FIFO_Overflow signal! Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+			$display("Failed to produce FIFO_OverFlow signal!");
+			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 	`endif
 	
 	//This task exercises the BIST system.  
@@ -118,8 +163,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx parity error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
-			
+			$display("Failed to produce Rx parity error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);		
 	`endif
 	TopHDL.TestIf.wait8();
 	
@@ -139,7 +183,7 @@ initial begin
 	`endif
 	TopHDL.TestIf.wait8();
 	
-	RandomTransmit(100, testsFailed, numTestsFailed);
+	RandomTransmit(1000, testsFailed, numTestsFailed);
 	
 	if (!testsFailed)
 		$display("All tests have passed!");
