@@ -87,17 +87,18 @@ interface UART_IFace;
 	//  Return the test results to the HVL module
 	//***************************************************
 	
-	/* Can only be called from HVL side
+
 	// This task sends a single valid data packet to the UART.  It uses the data
 	// input and the UART parameters to calculate parity, 
-	task automatic SendData(input logic [DATA_BITS-1:0] Buf); //pragma tbx xtf
-		logic Parity = 0;
+	task SendData(input logic [DATA_BITS-1:0] Buf); //pragma tbx xtf
+		logic Parity;
 		logic [TX_BITS-1:0] Tx_Packet;
 		
 		@(posedge Clk);
 		while(!RTS)
 			@(posedge Clk);
-			
+		
+		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -108,7 +109,7 @@ interface UART_IFace;
 		end
 		Rx = '1;
 	endtask
-	*/
+
 	
 	// This task calls the write data task in the interface, and then captures
 	// the output on the Tx net.  If the packet is sent incorrectly, the task
