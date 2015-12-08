@@ -107,7 +107,7 @@ interface UART_IFace;
 		logic Parity = 0;
 		
 		// Wait until the transmitter is free
-		while(TestIf.Tx_Busy)
+		while(Tx_Busy)
 			@(posedge SysClk);
 		
 		// Calculate the parity bit and assemble the expected packet
@@ -117,11 +117,11 @@ interface UART_IFace;
 		ExpectedPacket = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		
 		@(negedge Clk);		// Wait until the negative slow clock edge to start the transmit
-		TestIf.WriteData(Buf);
+		WriteData(Buf);
 		// The WriteData task finishes when it sees the start bit
 		for (int i = TX_BITS -1; i >= 0; i = i -1) begin
 			@(negedge Clk);	// Check the Tx values on the negative clock edge to avoid the transition
-			TestCapture[i] = TestIf.Tx;
+			TestCapture[i] = Tx;
 		end
 		// Finally, compare the captured transmit data with the sent data
 		if (TestCapture !== ExpectedPacket)
@@ -205,17 +205,17 @@ interface UART_IFace;
 	// bist should assert it's error bit.  This test fails either if the BIST does not assert it's
 	// error bit when it should, or if it asserts the error bit when it should not.
 	task automatic BIST_Check(input logic [DATA_BITS-1:0] TestData, output logic Result); //pragma tbx xtf
-		TestIf.Start_BIST(TestData);
-		while(TestIf.BIST_Busy)
+		Start_BIST(TestData);
+		while(BIST_Busy)
 			@(posedge SysClk);
 		if (TestUART.SelfTest.Tx_Data_In == TestUART.SelfTest.Rx_Data_Out) begin
-			if (TestIf.BIST_Error == 1) // False positive case
+			if (BIST_Error == 1) // False positive case
 				Result = 1;
 			else
 				Result = 0;
 		end
 		else begin
-			if (TestIf.BIST_Error == 0) // False negative case
+			if (BIST_Error == 0) // False negative case
 				Result = 1;
 			else
 				Result = 0;
