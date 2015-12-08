@@ -60,6 +60,12 @@ Emulation:
 	
 Project Contributions:
 
-Top level testbench, HVL/HDL testbench, interfaces, DUT module, Tx FSM, Timing gen, emulation - Devin Wolfe
-Receiver - Goutham
+
+Simulation testbench, HVL/HDL testbench, Interfaces, DUT top module, Tx FSM, Timing gen, Emulation - Devin Wolfe
+Receiver - Goutham Konidala
+BIST - Nikhil Marda
+FIFO - Goutham and Nikhil, synchronous changes by Devin
+Assertions - All
+Project presentation - Nikhil Marda
+Test tasks - All
 	
