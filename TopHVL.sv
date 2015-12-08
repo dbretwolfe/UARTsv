@@ -5,7 +5,7 @@ module TopHVL;
 logic result = 0, testsFailed = 0;
 logic [2:0] Err;
 int numTestsFailed = 0;
-int rdBuf;
+logic [TopHDL.DATA_BITS-1:0] rdBuf;
 
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
@@ -186,7 +186,10 @@ initial begin
 	`endif
 	TopHDL.TestIf.wait8();
 	
+	// Finally, the randomized tasks for transmit and receive
 	RandomTransmit(1000, testsFailed, numTestsFailed);
+	
+	RandomFill(250, testsFailed, numTestsFailed);
 	
 	if (!testsFailed)
 		$display("All tests have passed!");
