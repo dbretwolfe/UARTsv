@@ -13,7 +13,7 @@ integer WPtr, RPtr, i, j;
 
 logic [FIFO_DEPTH-1:0][DATA_BITS-1:0] FIFO_Array;
 
-always_FF @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
+always_ff @(posedge Data_Rdy or posedge Rst or posedge Read_Done ) begin
 		
 	if (Rst) begin
 		FIFO_Empty <= 1;
