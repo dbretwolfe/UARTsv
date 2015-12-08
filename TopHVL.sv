@@ -5,6 +5,7 @@ module TopHVL;
 logic result = 0, testsFailed = 0;
 logic [2:0] Err;
 int numTestsFailed = 0;
+int rdBuf;
 
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
@@ -110,7 +111,6 @@ initial begin
 			$display("Null FIFO data check failed!");
 		`endif
 	end
-	int rdBuf;
 	TopHDL.TestIf.ReadData(rdBuf);
 	if (rdBuf) begin
 		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
