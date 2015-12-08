@@ -419,9 +419,9 @@ interface UART_IFace;
 
 	// Simple task to perform a system wide reset
 	task DoReset(); //pragma tbx xtf
-		@(posedge Clk);
+		@(posedge SysClk);
 		Rst = '1;
-		@(posedge Clk);
+		@(posedge SysClk);
 		Rst = '0;
 	endtask
 	
