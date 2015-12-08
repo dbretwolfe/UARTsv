@@ -10,7 +10,7 @@ logic [2:0] Err;
 int numTestsFailed = 0;
 int numTests = 0;
 logic [TopHDL.DATA_BITS-1:0] rdBuf;
-logic [TopHDL.DATA_BITS-1:0] cap;
+logic [TopHDL.TX_BITS-1:0] cap;
 
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
@@ -41,12 +41,12 @@ task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref
 	dataPacket = new();
 	for (int i = 0; i <numTransmits; i++) begin
 		if (dataPacket.randomize()) begin
-			TopHDL.TestIf.CheckTransmit(dataPacket.data, result);
+			TopHDL.TestIf.CheckTransmit(dataPacket.data, result, cap);
 			CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
-			/*`ifdef DEBUG
+			`ifdef DEBUG
 				if (result)
 					$display("Random transmit check failed!");
-			`endif*/
+			`endif
 		end
 		else begin
 			`ifdef DEBUG
@@ -72,9 +72,9 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 				TopHDL.TestIf.ReadData(Buf);
 				if (Buf !== dataArray.data[j]) begin
 					Result = 1;
-					/*`ifdef DEBUG
+					`ifdef DEBUG
 						$display("Random fill failed! Data read = %h, Expected %h", Buf, dataArray.data[j]);
-					`endif*/
+					`endif
 				end
 				else
 					Result = 0;
@@ -102,18 +102,18 @@ initial begin
 		$display("Transmit checks starting");
 	`endif
 	// The first two directed tasks check sending all zeroes and all ones.
-	TopHDL.TestIf.CheckTransmit('0, result);
+	TopHDL.TestIf.CheckTransmit('0, result, cap);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Transmit check failed!");
+			$display("Transmit check failed! Captured data: %b", cap);
 	`endif
 	
 	TopHDL.TestIf.CheckTransmit({TopHDL.DATA_BITS{1'b1}}, result, cap);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Transmit check failed! Captured data: %h", cap);
+			$display("Transmit check failed! Captured data: %b", cap);
 	`endif
 	
 	`ifdef DEBUG
@@ -135,26 +135,29 @@ initial begin
 	TopHDL.TestIf.Fill_FIFO(result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
-		if (result)
+		if (result) begin
 			$display("Fill FIFO task failed!");
 			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+		end
 	`endif
 	
 	TopHDL.TestIf.FIFO_Full_Check(result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
-		if (result)
+		if (result) begin
 			$display("Failed to produce FIFO_Full signal!");
-			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+			$display("Wptr = %d, FIFO_Full = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestIf.FIFO_Full);
+		end
 	`endif
 	
 	
 	TopHDL.TestIf.FIFO_Overflow_Check(result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
-		if (result)
+		if (result) begin
 			$display("Failed to produce FIFO_OverFlow signal!");
 			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+		end
 	`endif
 	
 	`ifdef DEBUG
@@ -176,14 +179,14 @@ initial begin
 	`endif
 	
 	`ifdef DEBUG
-		$display("RX error checks starting");
+		$display("RX error checks starting, ignore assertions until random checks");
 	`endif
 	// The following 3 tasks stimulate all of the possible Rx error signals.
 	TopHDL.TestIf.SendData_ParityError(result, Err);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx parity error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);		
+			$display("Failed to produce Rx parity error! err = %h State = %s, Parity = %b, Expected = %b", Err, TopHDL.TestUART.Receiver.State, TopHDL.TestUART.Receiver.Parity_Bit[6], TopHDL.TestUART.Receiver.Reg_Parity);		
 	`endif
 	TopHDL.TestIf.wait8();
 	

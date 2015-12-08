@@ -1,0 +1,48 @@
+# vsim -do "run -all" -c TopHVL TopHDL 
+# Start time: 00:36:58 on Dec 08,2015
+# Loading /var/tmp/dwolf@velocesolo.ece.pdx.edu_dpi_24616/linux_gcc-4.5.0/export_tramp.so
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# //  Questa Sim
+# //  Version 10.3 linux Jan  6 2014
+# //
+# //  Copyright 1991-2014 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Loading sv_std.std
+# Loading work.TopHVL(fast)
+# Loading work.TopHDL(fast)
+# Loading work.UARTsv(fast)
+# Loading work.RX_FSM(fast)
+# Loading work.TX_FSM(fast)
+# Loading work.BIST_FSM(fast)
+# Loading work.FIFO(fast)
+# run -all 
+# Starting tests
+# ** Warning: (vsim-8315) TX_FSM.sv(37): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) TX_FSM.sv(69): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) BIST.sv(61): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) BIST.sv(107): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) BIST.sv(107): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) BIST.sv(61): No condition is true in the unique/priority if/case statement.
+# Transmit checks starting
+# FIFO empty check starting
+# FIFO signal checks starting
+# BIST checks starting
+# RX error checks starting, ignore assertions until random checks
+# ** Error: Assertion error.
+#    Time: 93550 ns  Scope: TopHDL.TestUART.Receiver.set_Next_State.a1 File: Receiver.sv Line: 71
+# ** Error: Assertion error.
+#    Time: 97230 ns  Scope: TopHDL.TestUART.Receiver.set_Next_State.a1 File: Receiver.sv Line: 71
+# ** Error: Assertion error.
+#    Time: 97230 ns  Scope: TopHDL.TestUART.Receiver.set_Next_State.a2 File: Receiver.sv Line: 72
+# ** Error: Assertion error.
+#    Time: 100910 ns  Scope: TopHDL.TestUART.Receiver.set_Next_State.a2 File: Receiver.sv Line: 72
+# Random checks starting
+# All tests have passed!
+# Results: Number of tests:        1511 Number failed =           0
+# ** Note: $finish    : TopHVL.sv(220)
+#    Time: 13483470 ns  Iteration: 2  Instance: /TopHVL

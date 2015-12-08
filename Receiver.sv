@@ -78,17 +78,23 @@ end : set_Next_State;
 // Output block
 always_comb
 begin: set_Outputs	
-
+if (Rst) begin
 	RTS = 1'b0;
+	Data_Rdy_Out = 0;
+	Rx_Data_Out = 0;
 	Rx_Error[2] = 1'b0;
 	Rx_Error[1] = 1'b0;
 	Rx_Error[0] = 1'b0;
-	Rx_Data_Out = 0;
-	Data_Rdy_Out = 0;
-
+end
 case(State)
-	Ready: 
+	Ready: 		begin
 		 	RTS = 1'b1;
+			Data_Rdy_Out = 0;
+			Rx_Data_Out = 0;
+			Rx_Error[2] = 1'b0;
+			Rx_Error[1] = 1'b0;
+			Rx_Error[0] = 1'b0;
+	end
 	Start_Bit:
 			RTS = 1'b0;
 	Rx_Done: 	begin

@@ -50,7 +50,7 @@ always@(posedge Data_Rdy or posedge Rst or posedge Read_Done )
 
 		if(WPtr == (FIFO_DEPTH - 1)) FIFO_Overflow = 1;
 		else if(WPtr == 0) FIFO_Empty = 1;
-		else if(WPtr == (FIFO_DEPTH >> 1)-1) FIFO_Full = 1;
+		else if(WPtr >= (FIFO_DEPTH >> 1)) FIFO_Full = 1;
 		else FIFO_Full = 0;
 		
 	end

@@ -54,7 +54,7 @@ interface UART_IFace;
 	
 	
 	// Read a data packet from the FIFO
-	task automatic ReadData(output logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
+	task ReadData(output logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
 		@(posedge Clk);
 		while (FIFO_Empty)// Make sure the fifo is not empty
 			@(posedge Clk);
@@ -114,7 +114,7 @@ interface UART_IFace;
 	// This task calls the write data task in the interface, and then captures
 	// the output on the Tx net.  If the packet is sent incorrectly, the task
 	// will set the test failed flag and increment the number of test failed counter.
-	task CheckTransmit(input logic [DATA_BITS-1:0] Buf, output logic Result, output logic [DATA_BITS-1:0] Capture); //pragma tbx xtf
+	task CheckTransmit(input logic [DATA_BITS-1:0] Buf, output logic Result, output logic [TX_BITS-1:0] Capture); //pragma tbx xtf
 		logic [TX_BITS -1:0] TestCapture;
 		logic [TX_BITS -1:0] ExpectedPacket;
 		logic Parity;
@@ -142,17 +142,18 @@ interface UART_IFace;
 			@(posedge Clk);
 		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
-					
+		@(posedge Clk);		
 		// The WriteData task finishes when it sees the start bit
 		for (int i = TX_BITS -1; i >= 0; i = i -1) begin
-			TestCapture[i] = Tx;
 			@(posedge Clk);
+			TestCapture[i] = Tx;		
 		end
 		// Finally, compare the captured transmit data with the sent data
 		if (TestCapture !== ExpectedPacket)
 			Result = 1;
 		else
 			Result = 0;
+		Capture = TestCapture;
 	endtask
 	
 	// This task completely fills the FIFO, and then reads out the
@@ -211,7 +212,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
-		for( int i = 0 ; i < (FIFO_DEPTH>>1); i++) begin
+		for( int i = 0 ; i <= (FIFO_DEPTH>>1); i++) begin
 			
 			Parity = 0;
 			Tx_Packet = 0;
@@ -240,13 +241,14 @@ interface UART_IFace;
 		else
 			Result = 0;
 			
-		for( int j = 0 ; j < (FIFO_DEPTH>>1); j++) begin
+		for( int j = 0 ; j <= (FIFO_DEPTH>>1); j++) begin
 			@(posedge Clk);
-		while (FIFO_Empty)// Make sure the fifo is not empty
+			while (FIFO_Empty)// Make sure the fifo is not empty
+				@(posedge Clk);
 			@(posedge Clk);
-		Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
-		@(posedge Clk);
-		Read_Done = '0;		// in new data.
+			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			@(posedge Clk);
+			Read_Done = '0;		// in new data.
 		end
 	endtask
 	
@@ -344,6 +346,7 @@ interface UART_IFace;
 			@(posedge Clk);
 			
 		Buf = 8'hAA;
+		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
@@ -357,8 +360,13 @@ interface UART_IFace;
 		Rx = '1;
 		@(posedge Clk);
 		@(posedge Clk);
-		if (!Rx_Error[1])
+		if (!Rx_Error[1]) begin
 			Result = 1;
+			@(posedge Clk);
+			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			@(posedge Clk);
+			Read_Done = '0;		// in new data.
+		end
 		else
 			Result = 0;
 		Err = Rx_Error;
@@ -388,8 +396,13 @@ interface UART_IFace;
 		Rx = '1;
 		@(posedge Clk);
 		@(posedge Clk);
-		if (!Rx_Error[2])
+		if (!Rx_Error[2]) begin
 			Result = 1;
+			@(posedge Clk);
+			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			@(posedge Clk);
+			Read_Done = '0;		// in new data.
+		end
 		else
 			Result = 0;
 		Err = Rx_Error;
@@ -410,8 +423,13 @@ interface UART_IFace;
 		Rx = '1;
 		@(posedge Clk);
 		@(posedge Clk);
-		if (!Rx_Error[0])
+		if (!Rx_Error[0]) begin
 			Result = 1;
+			@(posedge Clk);
+			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			@(posedge Clk);
+			Read_Done = '0;		// in new data.
+		end
 		else
 			Result = 0;
 		Err = Rx_Error;
