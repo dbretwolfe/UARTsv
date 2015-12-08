@@ -67,11 +67,11 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 			for( int i = 0 ; i < dataArray.numSends; i++) begin
 				TopHDL.TestIf.SendData(dataArray.data[i]);
 				TopHDL.TestIf.wait8();
-				$display("WPtr = %d, RPtr = %d, Empty = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestUART.fifo_initialize.RPtr, TopHDL.TestIF.FIFO_Empty);
+				$display("WPtr = %d, RPtr = %d, Empty = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestUART.fifo_initialize.RPtr, TopHDL.TestIf.FIFO_Empty);
 			end
 			for( int j = 0 ; j < dataArray.numSends; j++) begin
 				TopHDL.TestIf.ReadData(Buf);
-				$display("WPtr = %d, RPtr = %d, Empty = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestUART.fifo_initialize.RPtr, TopHDL.TestIF.FIFO_Empty);
+				$display("WPtr = %d, RPtr = %d, Empty = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestUART.fifo_initialize.RPtr, TopHDL.TestIf.FIFO_Empty);
 				if (Buf !== dataArray.data[j]) begin
 					Result = 1;
 					`ifdef DEBUG
