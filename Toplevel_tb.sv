@@ -9,7 +9,18 @@ module Toplevel_tb ();
 	parameter DATA_BITS = 8;
 	parameter STOP_BITS = 2;
 	parameter FIFO_DEPTH = 8;
-
+/////////////////////////////////////////////////////////Jonathan's Top Assertions////////////////////////////////////////////////////////////////////////	
+// are there assertions or rules for how we should have the setup that we can let the users know they can't have 30000 Stop bits ex
+//assert range of SysCLK_Rate
+//assert range of Baud_Rate
+//assert range of Data Bits
+//assert range of Stop_bits
+//assert range of FIFO_Depth
+//Assert critical relationships Baud rate, sysCLK_Rate, clock delay(below)
+//Assert the that test Tests_Failed ==0 if it ==1 then it shows that there was a failure
+//?Should we assert that they systm clock is ossilating, if the system clock isn't osscilating then we might not see some errors we would otherwise see (might be superfluous as in theory should be noticeable)
+//other assertions are below inline completely left justified and should have -JF
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	localparam CLOCK_DELAY = 5;
 	localparam TX_BITS = (1 + DATA_BITS + 1 + STOP_BITS);
 
@@ -79,6 +90,7 @@ module Toplevel_tb ();
 		// Calculate the parity bit and assemble the expected packet
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
+//Assert the parity bit correctly? -JF
 		end
 		ExpectedPacket = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		
@@ -90,6 +102,7 @@ module Toplevel_tb ();
 			TestCapture[i] = TestIf.Tx;
 		end
 		// Finally, compare the captured transmit data with the sent data
+//assert TestCapture ==ExpectedPackets -JF
 		if (TestCapture !== ExpectedPacket) begin
 			`ifdef DEBUG
 				$display("Transmit failed! Expected Data: %h  Captured Data: %h", ExpectedPacket, TestCapture);
@@ -163,12 +176,15 @@ module Toplevel_tb ();
 	*/
 	
 	// Simple task to perform a system wide reset
+	
+//We could Assert that there is only one reset during our test? -JF
+//eg. wait ##50 (or CLOCK_Delay) clock cycles then check if the reset is ever toggled again-JF
 	task automatic DoReset();
 		TestIf.Rst = '1;
 		@(posedge SysClk);
 		TestIf.Rst = '0;
 	endtask
-		
+//should we limit clock delay? Clock delay is between 0 and ###
 	always begin
 		#CLOCK_DELAY SysClk = ~SysClk;
 	end
@@ -184,6 +200,7 @@ module Toplevel_tb ();
 		CheckTransmit(8'hAB);
 		BIST_Check;
 		*/
+//Not sure what filling FIFO is other than generating random test data? -JF
 		Fill_FIFO;
 		Fill_FIFO;
 		$finish;
