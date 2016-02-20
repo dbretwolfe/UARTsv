@@ -11,14 +11,21 @@ module Toplevel_tb ();
 	parameter FIFO_DEPTH = 8;
 /////////////////////////////////////////////////////////Jonathan's Top Assertions////////////////////////////////////////////////////////////////////////	
 // are there assertions or rules for how we should have the setup that we can let the users know they can't have 30000 Stop bits ex
-//assert range of SysCLK_Rate
+//assert range of SysCLK_Rate\
+//assert ((SYSCLK_RATE > 0) && (SYSCLK_RATE<1000000)) else $error("SYSCLK_RATE is not in bounds");
 //assert range of Baud_Rate
+//assert ((BAUD_RATE > 0) && (BAUD_RATE<1000000)) else $error("BAUD_RATE is not in bounds");
 //assert range of Data Bits
+//assert ((DATA_BITS > 0) && (DATA_BITS<1000000)) else $error("DATA_BITS is not in bounds");
 //assert range of Stop_bits
+//assert ((STOP_BITS > 0) && (STOP_BITS<1000000)) else $error("STOP_BITS is not in bounds");
 //assert range of FIFO_Depth
+//assert ((FIFO_DEPTH > 0) && (FIFO_DEPTH<1000000)) else $error("FIFO_DEPTH is not in bounds");
 //Assert critical relationships Baud rate, sysCLK_Rate, clock delay(below)
+//I don't know what this should look like I defer to Damien
 //Assert the that test Tests_Failed ==0 if it ==1 then it shows that there was a failure
-//?Should we assert that they systm clock is ossilating, if the system clock isn't osscilating then we might not see some errors we would otherwise see (might be superfluous as in theory should be noticeable)
+//assert (Tests_Failed ==0) else $error("There was a failure");
+//?Should we assert that they system clock is oscillating, if the system clock isn't oscillating then we might not see some errors we would otherwise see (might be superfluous as in theory should be noticeable)
 //other assertions are below inline completely left justified and should have -JF
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	localparam CLOCK_DELAY = 5;
@@ -103,6 +110,7 @@ module Toplevel_tb ();
 		end
 		// Finally, compare the captured transmit data with the sent data
 //assert TestCapture ==ExpectedPackets -JF
+//assert (TestCapture == ExpectedPacket) else $error("It's gone wrong");
 		if (TestCapture !== ExpectedPacket) begin
 			`ifdef DEBUG
 				$display("Transmit failed! Expected Data: %h  Captured Data: %h", ExpectedPacket, TestCapture);
@@ -179,12 +187,14 @@ module Toplevel_tb ();
 	
 //We could Assert that there is only one reset during our test? -JF
 //eg. wait ##50 (or CLOCK_Delay) clock cycles then check if the reset is ever toggled again-JF
+//s1 ##[m:n] s2 //S1 would be reset s2 would be the other thing that we are evaluating
 	task automatic DoReset();
 		TestIf.Rst = '1;
 		@(posedge SysClk);
 		TestIf.Rst = '0;
 	endtask
 //should we limit clock delay? Clock delay is between 0 and ###
+//
 	always begin
 		#CLOCK_DELAY SysClk = ~SysClk;
 	end
