@@ -5,8 +5,9 @@ interface UART_IFace;
 	parameter DATA_BITS = 8;
 	parameter PARITY_BIT = 1;
 	parameter STOP_BITS = 2;
-	parameter FIFO_DEPTH = 8;
+	parameter FIFO_WIDTH = 8;
 	
+	localparam FIFO_ENTRIES = 2**FIFO_WIDTH;
 	localparam TX_BITS = (1 + DATA_BITS + 1 + STOP_BITS);
 
 	//pragma attribute UART_IFace partition_interface_xif 
@@ -26,7 +27,7 @@ interface UART_IFace;
 	logic [2:0] 			Rx_Error;
 	logic 					BIST_Busy;
 	logic 					BIST_Error;
-	logic 					Read_Done;		// Input to FIFO to cycle new data onto output
+	logic 					Pop_Data;		// Input to FIFO to cycle new data onto output
 	logic					FIFO_Empty;		// Output from FIFO - no data
 	logic					FIFO_Full; 		// Output from FIFO - 
 	logic					FIFO_Overflow;		// Output from FIFO
@@ -59,9 +60,9 @@ interface UART_IFace;
 		while (FIFO_Empty)// Make sure the fifo is not empty
 			@(posedge Clk);
 		@(posedge Clk);
-		Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+		Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 		@(posedge Clk);
-		Read_Done = '0;		// in new data.
+		Pop_Data = '0;		// in new data.
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
 	endtask
 	
@@ -165,7 +166,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
-		for( int i = 0 ; i < FIFO_DEPTH; i++) begin
+		for( int i = 0 ; i < FIFO_ENTRIES; i++) begin
 			
 			Parity = 0;
 			Tx_Packet = 0;
@@ -189,13 +190,13 @@ interface UART_IFace;
 				@(posedge Clk);
 				
 		end
-		for( int j = 0 ; j < FIFO_DEPTH; j++) begin
+		for( int j = 0 ; j < FIFO_ENTRIES; j++) begin
 			while (FIFO_Empty)// Make sure the fifo is not empty
 				@(posedge Clk);
 			@(posedge Clk);
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
-			Read_Done = '0;		// in new data.			
+			Pop_Data = '0;		// in new data.			
 			if (Data_Out !== j)
 				Result = 1;
 			else
@@ -212,7 +213,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
-		for( int i = 0 ; i <= (FIFO_DEPTH>>1); i++) begin
+		for( int i = 0 ; i <= (FIFO_ENTRIES>>1); i++) begin
 			
 			Parity = 0;
 			Tx_Packet = 0;
@@ -241,14 +242,14 @@ interface UART_IFace;
 		else
 			Result = 0;
 			
-		for( int j = 0 ; j <= (FIFO_DEPTH>>1); j++) begin
+		for( int j = 0 ; j <= (FIFO_ENTRIES>>1); j++) begin
 			@(posedge Clk);
 			while (FIFO_Empty)// Make sure the fifo is not empty
 				@(posedge Clk);
 			@(posedge Clk);
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
-			Read_Done = '0;		// in new data.
+			Pop_Data = '0;		// in new data.
 		end
 	endtask
 	
@@ -261,7 +262,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
-		for( int i = 0 ; i <FIFO_DEPTH; i++) begin
+		for( int i = 0 ; i <FIFO_ENTRIES; i++) begin
 			
 			Parity = 0;
 			Tx_Packet = 0;
@@ -290,13 +291,13 @@ interface UART_IFace;
 		else
 			Result = 0;
 			
-		for( int j = 0 ; j < FIFO_DEPTH; j++) begin
+		for( int j = 0 ; j < FIFO_ENTRIES; j++) begin
 			while (FIFO_Empty)// Make sure the fifo is not empty
 				@(posedge Clk);
 			@(posedge Clk);
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
-			Read_Done = '0;		// in new data.
+			Pop_Data = '0;		// in new data.
 		end
 	endtask
 	
@@ -363,9 +364,9 @@ interface UART_IFace;
 		if (!Rx_Error[1]) begin
 			Result = 1;
 			@(posedge Clk);
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
-			Read_Done = '0;		// in new data.
+			Pop_Data = '0;		// in new data.
 		end
 		else
 			Result = 0;
@@ -399,9 +400,9 @@ interface UART_IFace;
 		if (!Rx_Error[2]) begin
 			Result = 1;
 			@(posedge Clk);
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
-			Read_Done = '0;		// in new data.
+			Pop_Data = '0;		// in new data.
 		end
 		else
 			Result = 0;
@@ -426,9 +427,9 @@ interface UART_IFace;
 		if (!Rx_Error[0]) begin
 			Result = 1;
 			@(posedge Clk);
-			Read_Done = '1;		// Strobe the Read_Done input to tell the FIFO to cycle
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
-			Read_Done = '0;		// in new data.
+			Pop_Data = '0;		// in new data.
 		end
 		else
 			Result = 0;
