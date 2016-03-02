@@ -4,7 +4,8 @@ module UARTsv(UART_IFace UARTIf);
 	localparam BAUD_RATE = UARTIf.BAUD_RATE;
 	localparam DATA_BITS = UARTIf.DATA_BITS;
 	localparam STOP_BITS = UARTIf.STOP_BITS;
-	localparam FIFO_DEPTH = UARTIf.FIFO_DEPTH;
+	localparam FIFO_WIDTH = UARTIf.FIFO_WIDTH;
+	
 	
 	//Internal nets and variables
 	wire [DATA_BITS-1:0]	Rx_Data_Out;
@@ -103,13 +104,13 @@ module UARTsv(UART_IFace UARTIf);
 	
 	FIFO #(
 		.DATA_BITS(DATA_BITS),
-		.FIFO_DEPTH(FIFO_DEPTH)
+		.FIFO_WIDTH(FIFO_WIDTH)
 		)
 	fifo_initialize(
 		.Rst(UARTIf.Rst),
 		.Rx_Data(Rx_Data_Out),
 		.Data_Rdy(Data_Rdy_Out),  		//	To write data to FIFO 
-		.Read_Done(UARTIf.Read_Done), 		// 	To read data from FIFO
+		.Pop_Data(UARTIf.Pop_Data), 		// 	To read data from FIFO
 		.BIST_Mode,
 		.FIFO_Empty(UARTIf.FIFO_Empty), 
 		.FIFO_Full(UARTIf.FIFO_Full), 
