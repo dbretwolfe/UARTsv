@@ -1,5 +1,6 @@
 ERATA for more information refer to error file
 13 # ** Error: (vsim-3009) [TSCALE] - Module 'TopHDL' does not have a timeunit/timeprecision specification in effect, but other modules do. 
+Error     [Velsyn-12561]: : File veloce.med/rtlc.out/NET/rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_WIDTH_8.v, Line 59, Path rtlc_UARTsv_UART_IFace_SYSCLK_RATE_4_BAUD_RATE_1_DATA_BITS_8_PARITY_BIT_1_STOP_BITS_2_FIFO_WIDTH_8.Receiver: Undefined module RX_FSM
 
 
 /************************************************
