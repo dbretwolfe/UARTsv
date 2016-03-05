@@ -16,14 +16,15 @@ module UARTsv(UART_IFace UARTIf);
 	wire 			BIST_Tx_Start_Out;	// Output from the BIST module, muxed with Transmit_Start
 	wire			BIST_Mode;		// Control signal to the mux/demux, from BIST
 	wire 			Clk;			// Clock generated from the timing module
+	wire			Tx_Out;			// Output from transmitter
 	
 	//Mux assignments
 								    // otherwise from the top module port.
 	assign Transmit_Start_In = BIST_Mode ? BIST_Tx_Start_Out : UARTIf.Transmit_Start; //Likewise, the Tx FSM will get its transmit start command
 								    // from the BIST module, otherwise from the top module port.
-	assign Rx_In = BIST_Mode ? UARTIf.Tx : UARTIf.Rx;		// If BIST is active, the Rx FSM gets it's serial data input from the serial output of the Tx FSM,
+	assign Rx_In = BIST_Mode ? Tx_Out : UARTIf.Rx;		// If BIST is active, the Rx FSM gets it's serial data input from the serial output of the Tx FSM,
 							// otherwise the Rx FSM gets its data from the top module port
-	
+	assign UARTIf.Tx = BIST_Mode ? 1'b1 : Tx_Out;
 	assign UARTIf.Data_Rdy = Data_Rdy_Out;
 	assign UARTIf.Clk = Clk;
 	
@@ -72,7 +73,7 @@ module UARTsv(UART_IFace UARTIf);
 		.Tx_Data_In(UARTIf.Tx_Data),		// Input from de-mux - either from BIST or top module port
 		.Transmit_Start_In,	// Input from de-mux - either from BIST or top module port
 		.CTS(UARTIf.CTS),			// Input from module port
-		.Tx(UARTIf.Tx),			// Output to module port
+		.Tx(Tx_Out),			// Output to module port
 		.Tx_Busy(UARTIf.Tx_Busy)
 	);
 
