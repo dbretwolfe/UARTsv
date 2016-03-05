@@ -1,4 +1,4 @@
-module RX_FSM_NEW (input Rx_In,
+module RX_FSM (input Rx_In,
                 input Clk,
                 input Rst,
                 output logic RTS,
@@ -22,7 +22,7 @@ module RX_FSM_NEW (input Rx_In,
      *
      *************************************************************/
     
-    typedef enum integer {READY, RECEIVING, OUTPUT, RESET} rx_states_t;
+    typedef enum integer {READY, RECEIVING, OUTPUT, CALC_ERROR, RESET} rx_states_t;
     
     // General variables
     logic rx_gate;
@@ -191,7 +191,10 @@ module RX_FSM_NEW (input Rx_In,
                     end
                 end
                 OUTPUT: begin                       // Output takes one clock cycle to copy data from
-                    next_state = RESET;             // the rx buffer to the module output.
+                    next_state = CALC_ERROR;        // the rx buffer to the module output.
+                end
+                CALC_ERROR: begin                   // Calc error takes a clock cycle to generate the error
+                    next_state = RESET;             // bits.
                 end
                 RESET: begin                        // Once the data is copied, reset deasserts rx_gate,
                     next_state = READY;             // which resets all of the signal generator blocks.
@@ -233,23 +236,30 @@ module RX_FSM_NEW (input Rx_In,
                     rx_gate = 1'b1;
                     Data_Rdy_Out = 1'b0;
 					for (i = STOP_BITS+1; i < STOP_BITS+DATA_BITS+1; i = i + 1) begin
-						Parity_Reg = rx_buffer[i] ^ Parity_Reg;
-					end
+                        Parity_Reg = rx_buffer[i] ^ Parity_Reg;
+                    end
                     Rx_Data_Out = rx_buffer[(NUM_RX_BITS-2)-:DATA_BITS];    // The rx data goes onto the output one clock
                     RTS = 0;                                                // before the data ready signal is asserted,
                 end                                                         // so that the FIFO does not grab invalid data.
+                CALC_ERROR: begin
+                    rx_gate = 1'b1;                    // rx gate is deasserted, which resets all of the signal generation blocks
+                    Data_Rdy_Out = 1'b0;            // Data ready is asserted, which causes the FIFO to push the new data.
+                    if (rx_buffer == '0) begin			// Line break error - line stays low after start bit
+                        Rx_Error[0] = 1'b1;
+                    end
+                    if(rx_buffer[STOP_BITS] != Parity_Reg) begin    // Parity error - parity bit doesn't match calculated parity
+                        Rx_Error[1] = 1'b1;
+                    end
+                    if (rx_buffer[STOP_BITS-1:0] != '1) begin        // Frame error - stop bits not present
+                        Rx_Error[2] = 1'b1;
+                    end
+                    Rx_Data_Out = Rx_Data_Out;
+                    RTS = 0;                        // RTS does not go high until the next clock in the READY state.
+                    Parity_Reg = Parity_Reg;
+                end                                           
                 RESET: begin
                     rx_gate = 0;                    // rx gate is deasserted, which resets all of the signal generation blocks
-                    Data_Rdy_Out = 1'b1;            // Data ready is asserted, which causes the FIFO to push the new data.
-					if (!rx_buffer) begin			// Line break error - line stays low after start bit
-						Rx_Error[0] = 1'b1;
-					end
-					if(rx_buffer[STOP_BITS] != Parity_Reg) begin	// Parity error - parity bit doesn't match calculated parity
-						Rx_Error[1] = 1'b1;
-					end
-					if (rx_buffer[STOP_BITS-1:0] != '1) begin		// Frame error - stop bits not present
-						Rx_Error[2] = 1'b1;
-					end		
+                    Data_Rdy_Out = 1'b1;            // Data ready is asserted, which causes the FIFO to push the new data.	
 					Rx_Error = Rx_Error;
                     Rx_Data_Out = Rx_Data_Out;
                     RTS = 0;                        // RTS does not go high until the next clock in the READY state.
