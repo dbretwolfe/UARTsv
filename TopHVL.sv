@@ -5,7 +5,7 @@ module TopHVL;
 parameter numRandomTransmits = 1000;
 parameter numRandomReceives = 500;
 parameter DATA_BITS = 8;
-parameter FIFO_WIDTH = 8;
+parameter FIFO_WIDTH = 4;
 parameter STOP_BITS = 2;
 localparam TX_BITS = (1 + DATA_BITS + 1 + STOP_BITS);
 
