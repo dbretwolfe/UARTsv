@@ -445,7 +445,7 @@ interface UART_IFace;
 	endtask
 	
 	// Wait for 8 baud clock cycles
-	task wait8();
+	task wait8(); //pragma tbx xtf
 		@(posedge Clk);
 		repeat(7)
 			@(posedge Clk);
