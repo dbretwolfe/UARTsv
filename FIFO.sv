@@ -72,6 +72,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         // These outputs are not changes in this part of the block
                         readPointer <= readPointer;
                         Data_Out <= Data_Out;
+						display("Numentries = %d", numEntries);
                     end // Write to FIFO
                     
                     else if (Pop_Data) begin                                   // Data needs to be popped out of the FIFO
@@ -97,6 +98,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         end
                         // The write pointer never changes in this part of the block
                         writePointer <= writePointer;
+						display("Numentries = %d", numEntries);
                     end // Read from FIFO
                 end // Not BIST Mode
                 else begin                                                  // Bist mode is active, don't do anything

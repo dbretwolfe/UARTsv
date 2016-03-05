@@ -171,7 +171,6 @@ interface UART_IFace;
 			Parity = 0;
 			Tx_Packet = 0;
 			Buf = i;
-			$display("Inside IF: i = %d", i);
 			@(posedge Clk);
 			while(!RTS)
 				@(posedge Clk);
@@ -191,7 +190,6 @@ interface UART_IFace;
 				
 		end
 		for( int j = 0 ; j < FIFO_ENTRIES; j++) begin
-			$display("Inside IF2: j = %d", j);
 			while (FIFO_Empty)// Make sure the fifo is not empty
 				@(posedge Clk);
 			@(posedge Clk);
