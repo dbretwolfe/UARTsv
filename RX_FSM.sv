@@ -1,15 +1,14 @@
-module RX_FSM (input Rx_In,
+module RX_FSM  #(parameter DATA_BITS = 8, 
+				 parameter STOP_BITS = 2,
+				 parameter SYSCLOCK_FREQ = 100000,
+				 parameter BAUDRATE = 9600)
+				(input Rx_In,
                 input Clk,
                 input Rst,
                 output logic RTS,
                 output logic Data_Rdy_Out,
                 output logic [DATA_BITS-1:0] Rx_Data_Out,
                 output logic [2:0] Rx_Error); 
-
-    parameter DATA_BITS = 8; // Parameter to define the number of data bits
-    parameter STOP_BITS = 2; // Parameter to define the number of stop bits
-    parameter SYSCLOCK_FREQ = 100000;
-    parameter BAUDRATE = 9600;
     
     // This constant is a factor of the number of clock cycles per baud rate - when
     // the baud pulse counter counts to this number, 1/16th of a baud clock has elapsed.
