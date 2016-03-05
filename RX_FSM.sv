@@ -67,7 +67,7 @@ module RX_FSM_NEW (input Rx_In,
     end
     
     // Baud pulse generator - generates a pulse at 16X the baud rate
-    always_ff @(posedge Clk or posedge Rst) begin
+    always_ff @(posedge Clk or posedge Rst or negedge rx_gate) begin
         if (Rst) begin
             baud_pulse <= 0;
             baud_pulse_counter <= 0;
@@ -94,7 +94,7 @@ module RX_FSM_NEW (input Rx_In,
     // baud clock, to sample in the middle of each bit.  This rejects
     // noise on the bit transition.  This counter is clocked by the
     // baud pulse signal.
-    always_ff @(posedge baud_pulse or posedge Rst) begin
+    always_ff @(posedge baud_pulse or posedge Rst or negedge rx_gate) begin
         if (Rst) begin
             sample_pulse <= 0;
             sample_pulse_counter <= 0;
@@ -127,7 +127,7 @@ module RX_FSM_NEW (input Rx_In,
     // latched in, the bit_count_done is asserted until rx_gate is
     // deasserted.  As long as rx_gate remains high, the rx_buffer
     // keeps its value.
-    always_ff @(posedge sample_pulse or posedge Rst) begin
+    always_ff @(posedge sample_pulse or posedge Rst or negedge rx_gate) begin
         if (Rst) begin
             bit_count_done <= 0;
             bit_counter <= NUM_RX_BITS;
