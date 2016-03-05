@@ -28,6 +28,8 @@ module RX_FSM_NEW (input Rx_In,
     logic rx_gate;
     logic [NUM_RX_BITS-1:0] rx_buffer;
     rx_states_t current_state, next_state;
+	logic Parity_Reg;
+	integer i;
     
     // Variables for the start bit detector
     logic start_detected;
@@ -203,35 +205,55 @@ module RX_FSM_NEW (input Rx_In,
         if(Rst) begin
              rx_gate = 0;
              Data_Rdy_Out = 0;
+			 Rx_Error = 0;
              Rx_Data_Out = 0;
              RTS = 0;
+			 Parity_Reg = 0;
         end
         else begin
             case (current_state)
                 READY: begin
                     rx_gate = 1'b0;                 // While idle, rx_gate is kept low,
                     Data_Rdy_Out = 1'b0;            // data ready is low because the data is stale,
+					Rx_Error = Rx_Error;
                     Rx_Data_Out = Rx_Data_Out;      // the current output is held over,
                     RTS = 1'b1;                     // and ready to send is asserted.
+					Parity_Reg = 0;
                 end
                 RECEIVING: begin
                     rx_gate = 1'b1;                 // Once a start bit is detected, rx_gate is asserted.
                     Data_Rdy_Out = 1'b0;
+					Rx_Error = Rx_Error;
                     Rx_Data_Out = Rx_Data_Out;
                     RTS = 0;                        // At the same time, ready to send is deasserted, since
                                                     // the receiver is now busy.
+					Parity_Reg = 0;
                 end
                 OUTPUT: begin
                     rx_gate = 1'b1;
                     Data_Rdy_Out = 1'b0;
+					for (i = STOP_BITS+1; i < STOP_BITS+DATA_BITS+1; i = i + 1) begin
+						Parity_Reg = rx_buffer[i] ^ Parity_Reg;
+					end
                     Rx_Data_Out = rx_buffer[(NUM_RX_BITS-2)-:DATA_BITS];    // The rx data goes onto the output one clock
                     RTS = 0;                                                // before the data ready signal is asserted,
                 end                                                         // so that the FIFO does not grab invalid data.
                 RESET: begin
                     rx_gate = 0;                    // rx gate is deasserted, which resets all of the signal generation blocks
                     Data_Rdy_Out = 1'b1;            // Data ready is asserted, which causes the FIFO to push the new data.
+					if (!rx_buffer) begin			// Line break error - line stays low after start bit
+						Rx_Error[0] = 1'b1;
+					end
+					if(rx_buffer[STOP_BITS] != Parity_Reg) begin	// Parity error - parity bit doesn't match calculated parity
+						Rx_Error[1] = 1'b1;
+					end
+					if (rx_buffer[STOP_BITS-1:0] != '1) begin		// Frame error - stop bits not present
+						Rx_Error[2] = 1'b1;
+					end		
+					Rx_Error = Rx_Error;
                     Rx_Data_Out = Rx_Data_Out;
                     RTS = 0;                        // RTS does not go high until the next clock in the READY state.
+					Parity_Reg = Parity_Reg;
                 end
             endcase
         end

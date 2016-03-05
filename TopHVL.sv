@@ -5,6 +5,8 @@ module TopHVL;
 parameter numRandomTransmits = 1000;
 parameter numRandomReceives = 500;
 
+localparam FIFO_ENTRIES = 2**(TopHDL.FIFO_WIDTH);
+
 logic result = 0, testsFailed = 0;
 logic [2:0] Err;
 int numTestsFailed = 0;
@@ -14,9 +16,9 @@ logic [TopHDL.TX_BITS-1:0] cap;
 
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
-	randc logic [TopHDL.FIFO_DEPTH-1:0][TopHDL.DATA_BITS-1:0] data;
+	randc logic [TopHDL.FIFO_ENTRIES-1:0][TopHDL.DATA_BITS-1:0] data;
 	rand int numSends;
-	constraint c1 { numSends < TopHDL.FIFO_DEPTH;} 
+	constraint c1 { numSends < TopHDL.FIFO_ENTRIES;} 
 	constraint c2 { numSends > 0;} 
 endclass
 
