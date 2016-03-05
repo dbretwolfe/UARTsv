@@ -4,19 +4,21 @@ module TopHVL;
 
 parameter numRandomTransmits = 1000;
 parameter numRandomReceives = 500;
+parameter DATA_BITS = 8;
+parameter FIFO_WIDTH = 8;
 
-localparam FIFO_ENTRIES = 2**(TopHDL.FIFO_WIDTH);
+localparam FIFO_ENTRIES = 2**(FIFO_WIDTH);
 
 logic result = 0, testsFailed = 0;
 logic [2:0] Err;
 int numTestsFailed = 0;
 int numTests = 0;
-logic [TopHDL.DATA_BITS-1:0] rdBuf;
-logic [TopHDL.TX_BITS-1:0] cap;
+logic [DATA_BITS-1:0] rdBuf;
+logic [TX_BITS-1:0] cap;
 
 // Class to generate a FIFO's worth of random data
 class RandomBulk;
-	randc logic [FIFO_ENTRIES-1:0][TopHDL.DATA_BITS-1:0] data;
+	randc logic [FIFO_ENTRIES-1:0][DATA_BITS-1:0] data;
 	rand int numSends;
 	constraint c1 { numSends < FIFO_ENTRIES;} 
 	constraint c2 { numSends > 0;} 
@@ -24,7 +26,7 @@ endclass
 
 // Class to generate a single packet of random data
 class RandomSingle;
-	randc logic [TopHDL.DATA_BITS-1:0] data;
+	randc logic [DATA_BITS-1:0] data;
 endclass
 
 task automatic CheckResult(input logic result, ref logic testsFailed, ref int numTestsFailed);
