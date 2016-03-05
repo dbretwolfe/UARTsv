@@ -106,8 +106,9 @@ module UARTsv(UART_IFace UARTIf);
 		.DATA_BITS(DATA_BITS),
 		.FIFO_WIDTH(FIFO_WIDTH)
 		)
-	fifo_initialize(
-		.Rst(UARTIf.Rst),
+	RX_FIFO(
+		.clk(UARTIf.SysClk),
+		.rst(UARTIf.Rst),
 		.Rx_Data(Rx_Data_Out),
 		.Data_Rdy(Data_Rdy_Out),  		//	To write data to FIFO 
 		.Pop_Data(UARTIf.Pop_Data), 		// 	To read data from FIFO

@@ -25,6 +25,11 @@ Common Files:
 	RX_FSM - Receiver
 	BIST - Built in self-test module
 	FIFO
+
+Other:
+
+	I also included the original module level testbenches, but, again, I cannot verify that they
+	work correctly after the changes made to the common modules for emulation.
 	
 Transcripts:
 	
