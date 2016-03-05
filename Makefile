@@ -42,7 +42,7 @@ else						#else, synthesize!
 endif
 
 run:
-	vsim -c -do -novopt "run -all" TopHVL TopHDL	#Run all #old vsim command
+	vsim -c -novopt -do "run -all" TopHVL TopHDL	#Run all #old vsim command
 	#old command: vsim -c -do "run -all" TopHVL TopHDL	#Run all 
 	cp transcript transcript.$(MODE)		#Record transcript 
 
