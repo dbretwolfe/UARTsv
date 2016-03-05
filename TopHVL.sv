@@ -65,7 +65,7 @@ endtask
 
 task automatic RandomFill(input int numFills, ref logic testsFailed, ref int numTestsFailed);
 	RandomBulk dataArray;
-	logic [TopHDL.TestIf.DATA_BITS-1:0] Buf = 0;
+	logic [DATA_BITS-1:0] Buf = 0;
 	logic Result;
 	dataArray = new();
 	for (int k = 0; k < numFills; k ++) begin
@@ -103,8 +103,8 @@ endtask
 initial begin
 	$display("Starting tests");
 	TopHDL.TestIf.DoReset();	// First, we have to reset to put the system into a known state
-	TopHDL.TestIf.CTS = '1;		// Since there is no receiving device, we can tie CTS high.
-	TopHDL.TestIf.Rx = '1;		// Rx should start high
+	//TopHDL.TestIf.CTS = '1;		// Since there is no receiving device, we can tie CTS high.
+	//TopHDL.TestIf.Rx = '1;		// Rx should start high
 	
 	`ifdef DEBUG
 		$display("Transmit checks starting");
@@ -124,6 +124,7 @@ initial begin
 			$display("Transmit check failed! Captured data: %b", cap);
 	`endif
 	
+	/*
 	`ifdef DEBUG
 		$display("FIFO empty check starting");
 	`endif
@@ -134,6 +135,7 @@ initial begin
 			$display("Null FIFO data check failed!");
 		`endif
 	end
+	*/
 	
 	`ifdef DEBUG
 		$display("FIFO signal checks starting");
@@ -154,7 +156,7 @@ initial begin
 	`ifdef DEBUG
 		if (result) begin
 			$display("Failed to produce FIFO_Full signal!");
-			$display("Wptr = %d, FIFO_Full = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestIf.FIFO_Full);
+			//$display("Wptr = %d, FIFO_Full = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestIf.FIFO_Full);
 		end
 	`endif
 	
@@ -164,7 +166,7 @@ initial begin
 	`ifdef DEBUG
 		if (result) begin
 			$display("Failed to produce FIFO_OverFlow signal!");
-			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
+			//$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 		end
 	`endif
 	

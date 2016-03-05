@@ -440,6 +440,8 @@ interface UART_IFace;
 	task DoReset(); //pragma tbx xtf
 		@(posedge SysClk);
 		Rst = '1;
+		CTS = '1;
+		Rx = '1;
 		@(posedge SysClk);
 		Rst = '0;
 	endtask
