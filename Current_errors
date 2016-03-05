@@ -1,4 +1,23 @@
 
+# ** Error: (vsim-3033) UART_Top.sv(56): Instantiation of 'RX_FSM' failed. The design unit was not found.
+#         Region: /TopHDL/TestUART
+#         Searched libraries:
+#             /u/jfernow/work/UART_Proj/UARTsv/work.puresim
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.puresim.TX_FSM
+# Loading work.TX_FSM
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.puresim.BIST_FSM
+# Loading work.BIST_FSM
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.puresim.FIFO
+# Loading work.FIFO
+--------------------------------------->Error below<-------------------------------------------------
+# ** Error: (vsim-3009) [TSCALE] - Module 'TopHDL' does not have a timeunit/timeprecision specification in effect, but other modules do.
+#         Region: /TopHDL/TestUART/RX_FIFO
+# Error loading design
+Error loading design
+# End time: 14:11:34 on Mar 05,2016
+# Errors: 0, Warnings: 1
+make: *** [run] Error 12
+
 
 # ** Error: (vsim-3043) TopHVL.sv(16): Unresolved reference to 'DATA_BITS' in TopHDL.DATA_BITS.
 #         Region: /TopHVL
