@@ -73,11 +73,9 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 			for( int i = 0 ; i < dataArray.numSends; i++) begin
 				TopHDL.TestIf.SendData(dataArray.data[i]);
 				TopHDL.TestIf.wait8();
-				//$display("WPtr = %d, RPtr = %d, Empty = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestUART.fifo_initialize.RPtr, TopHDL.TestIf.FIFO_Empty);
 			end
 			for( int j = 0 ; j < dataArray.numSends; j++) begin
 				TopHDL.TestIf.ReadData(Buf);
-				//$display("WPtr = %d, RPtr = %d, Empty = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestUART.fifo_initialize.RPtr, TopHDL.TestIf.FIFO_Empty);
 				if (Buf !== dataArray.data[j]) begin
 					Result = 1;
 					`ifdef DEBUG
@@ -103,8 +101,6 @@ endtask
 initial begin
 	$display("Starting tests");
 	TopHDL.TestIf.DoReset();	// First, we have to reset to put the system into a known state
-	//TopHDL.TestIf.CTS = '1;		// Since there is no receiving device, we can tie CTS high.
-	//TopHDL.TestIf.Rx = '1;		// Rx should start high
 	
 	`ifdef DEBUG
 		$display("Transmit checks starting");
@@ -117,7 +113,7 @@ initial begin
 			$display("Transmit check failed! Captured data: %b", cap);
 	`endif
 	
-	TopHDL.TestIf.CheckTransmit({TopHDL.DATA_BITS{1'b1}}, result, cap);
+	TopHDL.TestIf.CheckTransmit({DATA_BITS{1'b1}}, result, cap);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
@@ -147,7 +143,6 @@ initial begin
 	`ifdef DEBUG
 		if (result) begin
 			$display("Fill FIFO task failed!");
-			$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 		end
 	`endif
 	
@@ -156,7 +151,6 @@ initial begin
 	`ifdef DEBUG
 		if (result) begin
 			$display("Failed to produce FIFO_Full signal!");
-			//$display("Wptr = %d, FIFO_Full = %b", TopHDL.TestUART.fifo_initialize.WPtr, TopHDL.TestIf.FIFO_Full);
 		end
 	`endif
 	
@@ -166,7 +160,6 @@ initial begin
 	`ifdef DEBUG
 		if (result) begin
 			$display("Failed to produce FIFO_OverFlow signal!");
-			//$display("Wptr = %d", TopHDL.TestUART.fifo_initialize.WPtr);
 		end
 	`endif
 	
@@ -196,7 +189,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx parity error! err = %h State = %s, Parity = %b, Expected = %b", Err, TopHDL.TestUART.Receiver.State, TopHDL.TestUART.Receiver.Parity_Bit[6], TopHDL.TestUART.Receiver.Reg_Parity);		
+			$display("Failed to produce Rx parity error!");		
 	`endif
 	TopHDL.TestIf.wait8();
 	
@@ -204,7 +197,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx frame error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
+			$display("Failed to produce Rx frame error!");
 	`endif
 	TopHDL.TestIf.wait8();
 	
@@ -212,7 +205,7 @@ initial begin
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result)
-			$display("Failed to produce Rx break error! err = %h State = %s", Err, TopHDL.TestUART.Receiver.State);
+			$display("Failed to produce Rx break error!");
 	`endif
 	TopHDL.TestIf.wait8();
 	
