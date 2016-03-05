@@ -171,7 +171,7 @@ interface UART_IFace;
 			Parity = 0;
 			Tx_Packet = 0;
 			Buf = i;
-			$display("Inside IF");
+			$display("Inside IF: i = %d", i);
 			@(posedge Clk);
 			while(!RTS)
 				@(posedge Clk);
