@@ -1,0 +1,11 @@
+
+
+# ** Error: (vsim-3043) TopHVL.sv(16): Unresolved reference to 'DATA_BITS' in TopHDL.DATA_BITS.
+#         Region: /TopHVL
+# ** Error: (vsim-3043) TopHVL.sv(17): Unresolved reference to 'TX_BITS' in TopHDL.TX_BITS.
+#         Region: /TopHVL
+# Error loading design
+Error loading design
+# End time: 13:50:53 on Mar 05,2016
+# Errors: 0, Warnings: 1
+make: *** [run] Error 12
