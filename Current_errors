@@ -9,3 +9,48 @@ Error loading design
 # End time: 13:50:53 on Mar 05,2016
 # Errors: 0, Warnings: 1
 make: *** [run] Error 12
+
+
+# vsim -do "run -all" -c -novopt TopHVL TopHDL
+# Start time: 13:59:58 on Mar 05,2016
+# Loading /var/tmp/jfernow@velocesolo.ece.pdx.edu_dpi_5649/linux_gcc-4.5.0/export_tramp.so
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# //  Questa Sim
+# //  Version 10.3 linux Jan  6 2014
+# //
+# //  Copyright 1991-2014 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  THIS WORK CONTAINS TRADE SECRET AND PROPRIETARY INFORMATION
+# //  WHICH IS THE PROPERTY OF MENTOR GRAPHICS CORPORATION OR ITS
+# //  LICENSORS AND IS SUBJECT TO LICENSE TERMS.
+# //
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.TopHVL
+# Loading sv_std.std
+# Loading work.TopHVL
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.TopHDL
+# Loading work.TopHDL
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.UART_IFace
+# Loading work.UART_IFace
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.UARTsv
+# Loading work.UARTsv
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.Timing_Gen
+# Loading work.Timing_Gen
+# ** Error: (vsim-3033) UART_Top.sv(56): Instantiation of 'RX_FSM' failed. The design unit was not found.
+#         Region: /TopHDL/TestUART
+#         Searched libraries:
+#             /u/jfernow/work/UART_Proj/UARTsv/work.veloce
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.TX_FSM
+# Loading work.TX_FSM
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.BIST_FSM
+# Loading work.BIST_FSM
+# Refreshing /u/jfernow/work/UART_Proj/UARTsv/work.veloce.FIFO
+# Loading work.FIFO
+# ** Error: (vsim-3009) [TSCALE] - Module 'TopHDL' does not have a timeunit/timeprecision specification in effect, but other modules do.
+#         Region: /TopHDL/TestUART/RX_FIFO
+# Error loading design
+Error loading design
+# End time: 13:59:59 on Mar 05,2016
+# Errors: 0, Warnings: 1
+make: *** [run] Error 12
+jfernow@velocesolo:~/work/UART_Proj/UARTsv$
