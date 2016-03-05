@@ -191,7 +191,7 @@ interface UART_IFace;
 				
 		end
 		for( int j = 0 ; j < FIFO_ENTRIES; j++) begin
-			$display("Inside IF2: i = %d", i);
+			$display("Inside IF2: j = %d", j);
 			while (FIFO_Empty)// Make sure the fifo is not empty
 				@(posedge Clk);
 			@(posedge Clk);
