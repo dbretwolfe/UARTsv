@@ -1,4 +1,4 @@
-module RX_FSM (input Rx_In,
+module RX_FSM_NEW (input Rx_In,
                 input Clk,
                 input Rst,
                 output logic RTS,
