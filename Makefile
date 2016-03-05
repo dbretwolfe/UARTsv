@@ -23,7 +23,7 @@ ifeq ($(MODE),puresim)		#If mode is puresim, compile everything else
 	vlog TopHDL.sv				#Compule the HDL top 
 	vlog Timing_Gen.sv
 	vlog TX_FSM.sv
-	vlog Receiver.sv
+	vlog RX_FSM.sv
 	vlog BIST.sv
 	vlog FIFO.sv
 	velhvl -sim $(MODE)
@@ -34,7 +34,7 @@ else						#else, synthesize!
 	velanalyze TopHDL.sv		#Analyze the HDL top for synthesis 
 	velanalyze Timing_Gen.sv
 	velanalyze TX_FSM.sv
-	velanalyze Receiver.sv
+	velanalyze RX_FSM.sv
 	velanalyze BIST.sv
 	velanalyze FIFO.sv
 	velcomp -top TopHDL  	#Synthesize!
