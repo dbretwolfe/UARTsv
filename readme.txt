@@ -1,3 +1,7 @@
+ERATA for more information refer to error file
+13 # ** Error: (vsim-3009) [TSCALE] - Module 'TopHDL' does not have a timeunit/timeprecision specification in effect, but other modules do. 
+
+
 /************************************************
 /
 /	System Verilog UART with Built in Self Test
