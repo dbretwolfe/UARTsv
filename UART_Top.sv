@@ -51,7 +51,9 @@ module UARTsv(UART_IFace UARTIf);
 
 	RX_FSM #(
 		.STOP_BITS(STOP_BITS),
-		.DATA_BITS(DATA_BITS)
+		.DATA_BITS(DATA_BITS),
+		.SYSCLOCK_FREQ(SYSCLK_RATE),
+		.BAUD_RATE(BAUD_RATE)
 		)
 	Receiver (
 		.Clk(UARTIf.SysClk),
