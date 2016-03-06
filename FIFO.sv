@@ -37,7 +37,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		logic [FIFO_WIDTH-1:0] readPointer, writePointer;
 		integer numEntries;
 		
-        always @ (posedge clk or posedge rst) begin
+        always @ (posedge Data_Rdy or posedge rst) begin
             if (rst) begin
                 readPointer <= 0;
                 writePointer <= 0;
