@@ -123,6 +123,7 @@ interface UART_IFace;
 			@(posedge Clk);
 		end
 		Rx = '1;
+		@(posedge Clk);
 	endtask
 
 	
