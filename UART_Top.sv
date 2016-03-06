@@ -58,10 +58,10 @@ module UARTsv(UART_IFace UARTIf);
 	Receiver (
 		.Clk(UARTIf.SysClk),
 		.Rst(UARTIf.Rst),
-		.Rx_In,			// Input from de-mux
+		.Rx_In,						// Input from de-mux
 		.RTS(UARTIf.RTS),			// Output to module port
-		.Data_Rdy_Out,		// Output to mux
-		.Rx_Data_Out,		// Output to module port and BIST FSM
+		.Data_Rdy_Out,				// Output to mux
+		.Rx_Data_Out,				// Output to module port and BIST FSM
 		.Rx_Error(UARTIf.Rx_Error)
 	);
 
