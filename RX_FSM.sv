@@ -53,40 +53,40 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     
     // Start bit detector - start_detected is high when the RX line goes low
     // for the first time while the receiver is in the READY state
-    always_ff @(posedge Clk or posedge Rst) begin
+    always_comb begin
         if (Rst) begin
-            start_detected <= 0;
+            start_detected = 0;
         end
         else begin
             if (!Rx_In && current_state == READY) begin
-                start_detected <= 1;
+                start_detected = 1;
             end
             else begin
-                start_detected <= 0;
+                start_detected = 0;
             end
         end
     end
     
     // Baud pulse generator - generates a pulse at 16X the baud rate
-    always_ff @(posedge Clk or posedge Rst or negedge rx_gate) begin
+    always_comb begin
         if (Rst) begin
-            baud_pulse <= 0;
-            baud_pulse_counter <= 0;
+            baud_pulse = 0;
+            baud_pulse_counter = 0;
         end
         else begin
             if (rx_gate) begin
                 if (baud_pulse_counter == BAUD_PULSE_COUNT) begin
-                    baud_pulse <= 1;
-                    baud_pulse_counter <= 0;
+                    baud_pulse = 1;
+                    baud_pulse_counter = 0;
                 end
                 else begin
                     baud_pulse <= 0;
-                    baud_pulse_counter <= baud_pulse_counter + 1;
+                    baud_pulse_counter = baud_pulse_counter + 1;
                 end
             end
             else begin
-                baud_pulse <= 0;
-                baud_pulse_counter <= 0;
+                baud_pulse = 0;
+                baud_pulse_counter = 0;
             end
         end
     end
@@ -95,24 +95,24 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // baud clock, to sample in the middle of each bit.  This rejects
     // noise on the bit transition.  This counter is clocked by the
     // baud pulse signal.
-    always_ff @(posedge baud_pulse or posedge Rst or negedge rx_gate) begin
+    always_comb begin
         if (Rst) begin
-            sample_pulse <= 0;
-            sample_pulse_counter <= 0;
+            sample_pulse = 0;
+            sample_pulse_counter = 0;
         end
         else begin
             if (rx_gate) begin
                 if (sample_pulse_counter == 7) begin                     // When the counter is at 7, it is halfway through the incoming bit
-                    sample_pulse <= 1;                                  // The sample pulse signal is asserted for one cycle
-                    sample_pulse_counter <= sample_pulse_counter + 1;
+                    sample_pulse = 1;                                  // The sample pulse signal is asserted for one cycle
+                    sample_pulse_counter = sample_pulse_counter + 1;
                 end
                 else if (sample_pulse_counter == 15) begin
-                    sample_pulse <= 0;
-                    sample_pulse_counter <= 0;
+                    sample_pulse = 0;
+                    sample_pulse_counter = 0;
                 end
                 else begin
-                    sample_pulse <= 0;
-                    sample_pulse_counter <= sample_pulse_counter + 1;
+                    sample_pulse = 0;
+                    sample_pulse_counter = sample_pulse_counter + 1;
                 end
             end
             else begin
@@ -128,29 +128,29 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // latched in, the bit_count_done is asserted until rx_gate is
     // deasserted.  As long as rx_gate remains high, the rx_buffer
     // keeps its value.
-    always_ff @(posedge sample_pulse or posedge Rst or negedge rx_gate) begin
+    always_comb begin
         if (Rst) begin
-            bit_count_done <= 0;
-            bit_counter <= NUM_RX_BITS;
-            rx_buffer <= 0;
+            bit_count_done = 0;
+            bit_counter = NUM_RX_BITS;
+            rx_buffer = 0;
         end
         else begin
             if (rx_gate) begin
                 if (bit_counter == 0) begin
-                    bit_count_done <= 1;
-                    bit_counter <= 0;
-                    rx_buffer <= rx_buffer;
+                    bit_count_done = 1;
+                    bit_counter = 0;
+                    rx_buffer = rx_buffer;
                 end
                 else begin
-                    bit_count_done <= 0;
-                    bit_counter <= bit_counter - 1;
-                    rx_buffer[bit_counter-1] <= Rx_In;
+                    bit_count_done = 0;
+                    bit_counter = bit_counter - 1;
+                    rx_buffer[bit_counter-1] = Rx_In;
                 end
             end
             else begin
-                bit_count_done <= 0;
-                bit_counter <= NUM_RX_BITS;
-                rx_buffer <= 0;
+                bit_count_done = 0;
+                bit_counter = NUM_RX_BITS;
+                rx_buffer = 0;
             end
         end
     end

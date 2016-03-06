@@ -182,12 +182,14 @@ interface UART_IFace;
 		buffer = 0;
 		while (entries < FIFO_ENTRIES-1) begin
 			@(posedge Clk);
+			$display("Push entries=%d", entries);
 			SendData(entries);
 			entries = entries + 1;
 		end
 		@(posedge Clk);
 		while (entries < FIFO_ENTRIES-1) begin
 			@(posedge Clk);
+			$display("Pop entries=%d, buffer=%x", entries, buffer);
 			ReadData(buffer);
 			if (buffer == entries) begin
 				Result = 0;
