@@ -54,7 +54,7 @@ module UARTsv(UART_IFace UARTIf);
 		.DATA_BITS(DATA_BITS)
 		)
 	Receiver (
-		.Clk,
+		.Clk(UARTIf.SysClk),
 		.Rst(UARTIf.Rst),
 		.Rx_In,			// Input from de-mux
 		.RTS(UARTIf.RTS),			// Output to module port
