@@ -363,6 +363,8 @@ interface UART_IFace;
 		Rx = '1;
 		@(posedge SysClk);
 		Rst = '0;
+		wait8();
+		wait8();
 	endtask
 	
 	// Wait for 8 baud clock cycles
