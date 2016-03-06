@@ -161,19 +161,21 @@ interface UART_IFace;
 	// data.  If the read data does not match the written data,
 	// the task reports a failure.
 	task Fill_FIFO(output logic Result); //pragma tbx xtf
-		logic [DATA_BITS-1:0] entries = 0, buffer = 0;
+		logic [DATA_BITS-1:0] entries, buffer;
 		
 		@(posedge Clk);
+		entries = 0;
+		buffer = 0;
 		while (entries < FIFO_ENTRIES-1) begin
-			@posedge Clk;
+			@(posedge Clk);
 			SendData(entries);
 			entries = entries + 1;
 		end
 		@(posedge Clk);
 		while (entries < FIFO_ENTRIES-1) begin
-			@posedge Clk;
+			@(posedge Clk);
 			ReadData(buffer);
-			if (buff == entries) begin
+			if (buffer == entries) begin
 				Result = 0;
 			end
 			else begin
