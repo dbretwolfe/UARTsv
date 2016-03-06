@@ -12,7 +12,7 @@ interface UART_IFace;
 
 //////////////////    Assertion Block     ////////////////////
 //assert range of SysCLK_Rate
-assert property((SYSCLK_RATE > 3) && (SYSCLK_RATE<10000000000)) else $error("SYSCLK_RATE is not in bounds");  
+assert property((SYSCLK_RATE > 3) && (SYSCLK_RATE<200000000)) else $error("SYSCLK_RATE is not in bounds");  
 //assert range of Baud_Rate  
 assert property((BAUD_RATE > 0) && (BAUD_RATE<7000000)) else $error("BAUD_RATE is not in bounds");  
 //assert range of Data Bits  
