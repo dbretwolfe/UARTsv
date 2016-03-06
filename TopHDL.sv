@@ -12,7 +12,7 @@ module TopHDL;
 //////////////////    Assertion Block     ////////////////////
 //Adding agreeded upon bounds(negative check, zeros, and upper tested limits of what has been tested)
 //assert range of SysCLK_Rate
-assert property((SYSCLK_RATE > 3) && (SYSCLK_RATE<1000000000000)) else $error("SYSCLK_RATE is not in bounds");  
+assert property((SYSCLK_RATE > 3) && (SYSCLK_RATE<100000000)) else $error("SYSCLK_RATE is not in bounds");  
 //assert range of Baud_Rate  
 assert property((BAUD_RATE > 0) && (BAUD_RATE<7000000)) else $error("BAUD_RATE is not in bounds");  
 //assert range of Data Bits  
