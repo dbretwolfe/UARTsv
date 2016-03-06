@@ -47,7 +47,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                 Data_Out <= '0;
             end
             else begin
-                if (!BIST_Mode) begin
+                //if (!BIST_Mode) begin
                     if (Data_Rdy) begin                                        // There is new data for the FIFO
                         if (numEntries < FIFO_ENTRIES) begin                     // If there is still space in the FIFO
                             FIFO_Array[writePointer] <= Rx_Data;               // Write data to the FIFO array
@@ -99,7 +99,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         writePointer <= writePointer;
 						$display("Numentries in pop= %d", numEntries);
                     end // Read from FIFO
-                end // Not BIST Mode
+                //end // Not BIST Mode
                 else begin                                                  // Bist mode is active, don't do anything
                     readPointer <= readPointer;
                     writePointer <= writePointer;
