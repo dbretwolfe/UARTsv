@@ -174,7 +174,17 @@ interface UART_IFace;
 			@(posedge Clk);
 			while(!RTS)
 				@(posedge Clk);
-			SendData(i);
+				
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = Buf[i] ^ Parity;
+			end
+			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				Rx = Tx_Packet[i];
+				@(posedge Clk);
+			end
+			Rx = '1;
+			
 			repeat(8)
 				@(posedge Clk);
 				
