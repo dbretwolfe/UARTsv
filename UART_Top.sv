@@ -49,7 +49,7 @@ module UARTsv(UART_IFace UARTIf);
 		.Clk
 		);
 
-	RX_FSM_OLD #(
+	RX_FSM #(
 		.STOP_BITS(STOP_BITS),
 		.DATA_BITS(DATA_BITS)
 		)
