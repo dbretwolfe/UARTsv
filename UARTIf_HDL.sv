@@ -64,6 +64,7 @@ interface UART_IFace;
 		@(negedge Tx);
 		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
 					// transmission should now be started.
+		@(posedge Clk);
 	endtask
 	*/
 	
@@ -78,6 +79,7 @@ interface UART_IFace;
 		@(posedge Clk);
 		Pop_Data = '0;		// in new data.
 		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+		@(posedge Clk);
 	endtask
 	
 	
@@ -186,18 +188,21 @@ interface UART_IFace;
 			$display("Push entries=%d", entries);
 			SendData(entries);
 			entries = entries + 1;
+			wait8();
 		end
 		@(posedge Clk);
-		while (entries < FIFO_ENTRIES-1) begin
+		while (entries > 0) begin
 			@(posedge Clk);
 			$display("Pop entries=%d, buffer=%x", entries, buffer);
 			ReadData(buffer);
+			entries = entries - 1;
 			if (buffer == entries) begin
 				Result = 0;
 			end
 			else begin
 				Result = 1;
 			end
+			wait8();
 		end
 	endtask
 	
