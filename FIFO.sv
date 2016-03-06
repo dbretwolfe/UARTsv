@@ -20,8 +20,7 @@
 
 
 module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
-		(input logic clk,
-		input logic rst,
+		(input logic rst,
 		input logic [DATA_BITS-1:0] Rx_Data,
 		input logic Data_Rdy, 
 		input logic Pop_Data,
