@@ -166,41 +166,11 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] Buf;
 		
 		@(posedge Clk);
-		for( int i = 0 ; i < FIFO_ENTRIES; i++) begin
-			$display("i = %d", i);
-			Parity = 0;
-			Tx_Packet = 0;
-			Buf = i;
-			@(posedge Clk);
-			while(!RTS)
-				@(posedge Clk);
-				
-			for (int i = '0; i < DATA_BITS; i = i + 1) begin
-				Parity = Buf[i] ^ Parity;
-			end
-			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
-			for (int i = TX_BITS-1; i >=0; i--) begin
-				Rx = Tx_Packet[i];
-				@(posedge Clk);
-			end
-			Rx = '1;
-			
-			repeat(8)
-				@(posedge Clk);
+		for( int i = 0 ; i < FIFO_ENTRIES; i++) begin			
 				
 		end
 		for( int j = 0 ; j < FIFO_ENTRIES; j++) begin
-			$display("j = %d", j);
-			while (FIFO_Empty)// Make sure the fifo is not empty
-				@(posedge Clk);
-			@(posedge Clk);
-			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
-			@(posedge Clk);
-			Pop_Data = '0;		// in new data.			
-			if (Data_Out !== j)
-				Result = 1;
-			else
-				Result = 0;
+			
 		end
 	endtask
 	
