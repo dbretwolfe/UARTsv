@@ -18,17 +18,17 @@ module Timing_Gen #(parameter SYSCLK_RATE = 100000000,
 
 	always @ (posedge SysClk or posedge Rst) begin
 		if (Rst) begin
-			Clk = '0;
-			ClockCounter = '0;
+			Clk <= '0;
+			ClockCounter <= '0;
 		end
 		else begin
 			if (ClockCounter === CLOCK_DIV - 1) begin
-				Clk = ~Clk;
-				ClockCounter = '0;
+				Clk <= ~Clk;
+				ClockCounter <= '0;
 			end
 			else begin
-				Clk = Clk;
-				ClockCounter = ClockCounter + 1;
+				Clk <= Clk;
+				ClockCounter <= ClockCounter + 1;
 			end
 		end
 	end
