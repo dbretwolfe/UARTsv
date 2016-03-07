@@ -184,7 +184,7 @@ interface UART_IFace;
 		Result = 0;
 		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
-			$display("Pushing %d", i);
+			$display("Pushing %b", i);
 			SendData(i);
 			wait8();
 		end
@@ -192,7 +192,7 @@ interface UART_IFace;
 		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
 			ReadData(buffer);
-			$display("Read buffer = %d", buffer);
+			$display("Read buffer = %b", buffer);
 			if (buffer == i) begin
 				Result = 0;
 			end
