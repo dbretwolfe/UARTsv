@@ -195,7 +195,7 @@ interface UART_IFace;
 			
 			Parity = 0;
 			for (int i = '0; i < DATA_BITS; i = i + 1) begin
-				Parity = Buf[i] ^ Parity;
+				Parity = buffer[i] ^ Parity;
 			end
 			@(posedge Clk);
 			Tx_Packet = {1'b0, buffer, Parity, {STOP_BITS{1'b1}}};
