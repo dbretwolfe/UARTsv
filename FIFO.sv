@@ -97,7 +97,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         end
                         // The write pointer never changes in this part of the block
                         writePointer <= writePointer;
-						$display("Numentries in pop= %d", numEntries);
+						$display("Numentries in pop= %d, data out = %d", numEntries, Data_Out);
                     end // Read from FIFO
                 end // Not BIST Mode
                 else begin                                                  // Bist mode is active, don't do anything
