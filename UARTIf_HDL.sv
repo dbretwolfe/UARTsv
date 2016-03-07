@@ -179,15 +179,16 @@ interface UART_IFace;
 	// the task reports a failure.
 	task Fill_FIFO(input integer num_entries, output logic Result); //pragma tbx xtf
 		logic [DATA_BITS-1:0] buffer, i;
+		logic Parity;
+		logic [TX_BITS-1:0] Tx_Packet;
+		
 		@(posedge Clk);
 		buffer = 0;
 		Result = 0;
 		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
 			$display("Pushing %b", i);
-			logic Parity;
-			logic [TX_BITS-1:0] Tx_Packet;
-			
+			buffer = i;
 			@(posedge Clk);
 			while(!RTS)
 				@(posedge Clk);
@@ -197,7 +198,7 @@ interface UART_IFace;
 				Parity = Buf[i] ^ Parity;
 			end
 			@(posedge Clk);
-			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+			Tx_Packet = {1'b0, buffer, Parity, {STOP_BITS{1'b1}}};
 			@(posedge Clk);
 			$display("Tx packet = %b", Tx_Packet);
 			for (int i = TX_BITS-1; i >=0; i--) begin
@@ -212,7 +213,7 @@ interface UART_IFace;
 			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
 			Pop_Data = '0;		// in new data.
-			ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+			buffer = Data_Out; 	// Copy the data from the FIFO output
 			@(posedge Clk);
 			$display("Read buffer = %b", buffer);
 			if (buffer != i) begin
