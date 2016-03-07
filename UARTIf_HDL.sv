@@ -119,7 +119,10 @@ interface UART_IFace;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
 			Parity = Buf[i] ^ Parity;
 		end
+		@(posedge Clk);
 		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+		@(posedge Clk);
+		$display("Tx packet = %b", Tx_Packet);
 		for (int i = TX_BITS-1; i >=0; i--) begin
 			Rx = Tx_Packet[i];
 			@(posedge Clk);
