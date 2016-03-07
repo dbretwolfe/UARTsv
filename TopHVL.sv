@@ -138,7 +138,7 @@ initial begin
 	`endif
 	// The next task fills the FIFO completely, reads the FIFO data, and compares the received
 	// data to the sent data.
-	TopHDL.TestIf.Fill_FIFO(result);
+	TopHDL.TestIf.Fill_FIFO(FIFO_ENTRIES, result);
 	CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 	`ifdef DEBUG
 		if (result) begin
