@@ -68,7 +68,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     end
     
     // Baud pulse generator - generates a pulse at 16X the baud rate
-    always_ff @(posedge Clk or posedge Rst or negedge rx_gate) begin
+    always_ff @(posedge Clk or posedge Rst) begin
         if (Rst) begin
             baud_pulse <= 0;
             baud_pulse_counter <= 0;
