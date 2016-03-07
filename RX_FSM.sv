@@ -102,18 +102,20 @@ module RX_FSM  #(parameter DATA_BITS = 8,
         end
         else begin
             if (rx_gate) begin
-                if (sample_pulse_counter == 7) begin                     // When the counter is at 7, it is halfway through the incoming bit
-                    sample_pulse <= 1;                                  // The sample pulse signal is asserted for one cycle
-                    sample_pulse_counter <= sample_pulse_counter + 1;
-                end
-                else if (sample_pulse_counter == 15) begin
-                    sample_pulse <= 0;
-                    sample_pulse_counter <= 0;
-                end
-                else begin
-                    sample_pulse <= 0;
-                    sample_pulse_counter <= sample_pulse_counter + 1;
-                end
+				if (baud_pulse)
+					if (sample_pulse_counter == 7) begin                     // When the counter is at 7, it is halfway through the incoming bit
+						sample_pulse <= 1;                                  // The sample pulse signal is asserted for one cycle
+						sample_pulse_counter <= sample_pulse_counter + 1;
+					end
+					else if (sample_pulse_counter == 15) begin
+						sample_pulse <= 0;
+						sample_pulse_counter <= 0;
+					end
+					else begin
+						sample_pulse <= 0;
+						sample_pulse_counter <= sample_pulse_counter + 1;
+					end
+				end
             end
             else begin
                 sample_pulse <= 0;
