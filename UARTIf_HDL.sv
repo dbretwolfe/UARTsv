@@ -185,21 +185,42 @@ interface UART_IFace;
 		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
 			$display("Pushing %b", i);
-			SendData(i);
-			wait8();
+			logic Parity;
+			logic [TX_BITS-1:0] Tx_Packet;
+			
+			@(posedge Clk);
+			while(!RTS)
+				@(posedge Clk);
+			
+			Parity = 0;
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = Buf[i] ^ Parity;
+			end
+			@(posedge Clk);
+			Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+			@(posedge Clk);
+			$display("Tx packet = %b", Tx_Packet);
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				@(posedge Clk);
+				Rx = Tx_Packet[i];
+			end
+			Rx = '1;
 		end
 		@(posedge Clk);
 		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
-			ReadData(buffer);
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
+			@(posedge Clk);
+			Pop_Data = '0;		// in new data.
+			ReadBuf = Data_Out; 	// Copy the data from the FIFO output
+			@(posedge Clk);
 			$display("Read buffer = %b", buffer);
-			if (buffer == i) begin
-				Result = 0;
-			end
-			else begin
+			if (buffer != i) begin
 				Result = 1;
 			end
-			wait8();
+			else begin
+				Result = Result;
+			end
 		end
 	endtask
 	
