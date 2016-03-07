@@ -174,28 +174,25 @@ interface UART_IFace;
 		Capture = TestCapture;
 	endtask
 	
-	// This task completely fills the FIFO, and then reads out the
+	// This task fills the FIFO, and then reads out the
 	// data.  If the read data does not match the written data,
 	// the task reports a failure.
-	task Fill_FIFO(output logic Result); //pragma tbx xtf
-		logic [DATA_BITS-1:0] entries, buffer;
-		
+	task Fill_FIFO(input integer num_entries, output logic Result); //pragma tbx xtf
+		logic [DATA_BITS-1:0] buffer;
 		@(posedge Clk);
 		entries = 0;
 		buffer = 0;
-		while (entries < FIFO_ENTRIES-1) begin
+		for (int i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
-			$display("Push entries=%d", entries);
-			SendData(entries);
-			entries = entries + 1;
+			$display("Pushing %d", i);
+			SendData(i);
 			wait8();
 		end
 		@(posedge Clk);
-		while (entries > 0) begin
+		for (int i = num_entries-1; i >=0; i--) begin
 			@(posedge Clk);
 			ReadData(buffer);
-			$display("Pop entries=%d, buffer=%x", entries, buffer);
-			entries = entries - 1;
+			$display("Read buffer = %d", buffer);
 			if (buffer == entries) begin
 				Result = 0;
 			end
