@@ -361,6 +361,8 @@ interface UART_IFace;
 		Rst = '1;
 		CTS = '1;
 		Rx = '1;
+		Pop_Data = '0;
+		BIST_Start = '0;
 		@(posedge SysClk);
 		Rst = '0;
 		wait8();
