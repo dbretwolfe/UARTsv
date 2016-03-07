@@ -180,7 +180,6 @@ interface UART_IFace;
 	task Fill_FIFO(input integer num_entries, output logic Result); //pragma tbx xtf
 		logic [DATA_BITS-1:0] buffer;
 		@(posedge Clk);
-		entries = 0;
 		buffer = 0;
 		for (int i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
