@@ -181,6 +181,7 @@ interface UART_IFace;
 		logic [DATA_BITS-1:0] buffer;
 		@(posedge Clk);
 		buffer = 0;
+		Result = 0;
 		for (int i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
 			$display("Pushing %d", i);
