@@ -178,18 +178,18 @@ interface UART_IFace;
 	// data.  If the read data does not match the written data,
 	// the task reports a failure.
 	task Fill_FIFO(input integer num_entries, output logic Result); //pragma tbx xtf
-		logic [DATA_BITS-1:0] buffer;
+		logic [DATA_BITS-1:0] buffer, i;
 		@(posedge Clk);
 		buffer = 0;
 		Result = 0;
-		for (int i = 0; i < num_entries; i++) begin
+		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
 			$display("Pushing %d", i);
 			SendData(i);
 			wait8();
 		end
 		@(posedge Clk);
-		for (int i = num_entries-1; i >=0; i--) begin
+		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
 			ReadData(buffer);
 			$display("Read buffer = %d", buffer);
