@@ -75,7 +75,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
         end
         else begin
             if (rx_gate) begin
-                if (baud_pulse_counter == BAUD_PULSE_COUNT) begin
+                if (baud_pulse_counter == BAUD_PULSE_COUNT-1) begin
                     baud_pulse <= 1;
                     baud_pulse_counter <= 0;
                 end
