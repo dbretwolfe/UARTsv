@@ -109,7 +109,7 @@ interface UART_IFace;
 	// input and the UART parameters to calculate parity, 
 	task SendData(input logic [DATA_BITS-1:0] Buf); //pragma tbx xtf
 		logic Parity;
-		logic [TX_BITS:0] Tx_Packet;
+		logic [TX_BITS-1:0] Tx_Packet;
 		
 		@(posedge Clk);
 		while(!RTS)
@@ -120,10 +120,10 @@ interface UART_IFace;
 			Parity = Buf[i] ^ Parity;
 		end
 		@(posedge Clk);
-		Tx_Packet = {2'b0, Buf, Parity, {STOP_BITS{1'b1}}};
+		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		@(posedge Clk);
 		$display("Tx packet = %b", Tx_Packet);
-		for (int i = TX_BITS; i >=0; i--) begin
+		for (int i = TX_BITS-1; i >=0; i--) begin
 			@(posedge Clk);
 			Rx = Tx_Packet[i];
 		end
