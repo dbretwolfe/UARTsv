@@ -95,7 +95,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // baud clock, to sample in the middle of each bit.  This rejects
     // noise on the bit transition.  This counter is clocked by the
     // baud pulse signal.
-    always_ff @(posedge baud_pulse or posedge Rst or negedge rx_gate) begin
+    always_ff @(posedge Clk or posedge Rst) begin
         if (Rst) begin
             sample_pulse <= 0;
             sample_pulse_counter <= 0;
