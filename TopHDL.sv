@@ -1,6 +1,6 @@
 module TopHDL;
 
-	parameter SYSCLK_RATE = 1000000;
+	parameter SYSCLK_RATE = 9600000;
 	parameter BAUD_RATE = 9600;
 	parameter DATA_BITS = 8;
 	parameter STOP_BITS = 2;
