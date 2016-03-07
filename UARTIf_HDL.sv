@@ -72,9 +72,6 @@ interface UART_IFace;
 	// Read a data packet from the FIFO
 	task ReadData(output logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
 		@(posedge Clk);
-		while (FIFO_Empty)// Make sure the fifo is not empty
-			@(posedge Clk);
-		@(posedge Clk);
 		Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 		@(posedge Clk);
 		Pop_Data = '0;		// in new data.
