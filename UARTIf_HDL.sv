@@ -384,8 +384,8 @@ interface UART_IFace;
 		BIST_Start = '0;
 		@(posedge SysClk);
 		Rst = '0;
-		wait8();
-		wait8();
+		repeat(10)
+			@(posedge SysClk);
 	endtask
 	
 	// Wait for 8 baud clock cycles
