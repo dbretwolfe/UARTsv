@@ -192,7 +192,7 @@ interface UART_IFace;
 			@(posedge Clk);
 			ReadData(buffer);
 			$display("Read buffer = %d", buffer);
-			if (buffer == entries) begin
+			if (buffer == i) begin
 				Result = 0;
 			end
 			else begin
