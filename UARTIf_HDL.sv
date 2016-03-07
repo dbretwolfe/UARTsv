@@ -124,8 +124,8 @@ interface UART_IFace;
 		@(posedge Clk);
 		$display("Tx packet = %b", Tx_Packet);
 		for (int i = TX_BITS-1; i >=0; i--) begin
-			Rx = Tx_Packet[i];
 			@(posedge Clk);
+			Rx = Tx_Packet[i];
 		end
 		Rx = '1;
 		@(posedge Clk);
