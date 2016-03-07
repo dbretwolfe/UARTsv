@@ -51,6 +51,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                     if (Data_Rdy && !Pop_Data) begin                           // There is new data for the FIFO
                         if (numEntries < FIFO_ENTRIES) begin                   // If there is still space in the FIFO
                             FIFO_Array[writePointer] <= Rx_Data;               // Write data to the FIFO array
+							$display("RXdata = %b", Rx_Data);
                             writePointer <= writePointer + 1;                  // Increment the write pointer
                             numEntries <= numEntries + 1;                      // Increment the number of entries
                             FIFO_Empty <= 1'b0;                                // Data has been written, so the FIFO is not empty
