@@ -132,7 +132,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // deasserted.  As long as rx_gate remains high, the rx_buffer
     // keeps its value.
     always_ff @(posedge sample_pulse or posedge Rst or posedge sample_reset) begin
-        if (Rst or sample_reset) begin
+        if (Rst || sample_reset) begin
             bit_count_done <= 0;
             bit_counter <= NUM_RX_BITS;
             rx_buffer <= 0;
