@@ -130,31 +130,31 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // latched in, the bit_count_done is asserted until rx_gate is
     // deasserted.  As long as rx_gate remains high, the rx_buffer
     // keeps its value.
-    always_comb begin
+    always_ff begin
         if (Rst) begin
-            bit_count_done = 0;
-            bit_counter = NUM_RX_BITS;
-            rx_buffer = 0;
+            bit_count_done <= 0;
+            bit_counter <= NUM_RX_BITS;
+            rx_buffer <= 0;
         end
         else begin
             if (rx_gate) begin
                 if (sample_pulse) begin
                     if (bit_counter == 0) begin
-                        bit_count_done = 1;
-                        bit_counter = 0;
-                        rx_buffer = rx_buffer;
+                        bit_count_done <= 1;
+                        bit_counter <= 0;
+                        rx_buffer <= rx_buffer;
                     end
                     else begin
-                        bit_count_done = 0;
-                        rx_buffer[bit_counter-1] = Rx_In;
-                        bit_counter = bit_counter - 1; 
+                        bit_count_done <= 0;
+                        rx_buffer[bit_counter-1] <= Rx_In;
+                        bit_counter <= bit_counter - 1;
                     end
                 end
             end
             else begin
-                bit_count_done = 0;
-                bit_counter = NUM_RX_BITS;
-                rx_buffer = 0;
+                bit_count_done <= 0;
+                bit_counter <= NUM_RX_BITS;
+                rx_buffer <= 0;
             end
         end
     end

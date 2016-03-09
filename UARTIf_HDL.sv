@@ -52,23 +52,6 @@ interface UART_IFace;
 	//
 	//**************************************
 	
-	/* Can only use from HVL side
-	// Write a data packet
-	task automatic WriteData(logic [DATA_BITS-1:0] WriteBuf); //pragma tbx xtf
-		@(posedge Clk);
-		while (Tx_Busy)	// Wait until the current transmission is finished, if any
-			@(posedge Clk);
-		Tx_Data = WriteBuf;	// Set the transmit data reg
-		@(negedge Clk);	// On the next negative clock edge,
-		Transmit_Start = '1;	// assert transmit start.
-		@(negedge Tx);
-		Transmit_Start = '0;	// Hold transmit start until the start bit is set on Tx.  The 
-					// transmission should now be started.
-		@(posedge Clk);
-	endtask
-	*/
-	
-	
 	// Read a data packet from the FIFO
 	task ReadData(output logic [DATA_BITS-1:0] ReadBuf); //pragma tbx xtf
 		@(posedge Clk);
@@ -79,23 +62,7 @@ interface UART_IFace;
 		@(posedge Clk);
 	endtask
 	
-	
-	/*
-	// Start the BIST process
-	task automatic Start_BIST(logic [DATA_BITS-1:0] TestData); //pragma tbx xtf
-		@(posedge Clk);
-		while (Tx_Busy)
-			@(posedge Clk);
-		Tx_Data = TestData;
-		@(posedge Clk);
-		BIST_Start = '1;
-		while(!BIST_Busy)
-			@(posedge Clk);
-		BIST_Start = '0;
-	endtask
-	*/
-	
-		//***************************************************
+	//***************************************************
 	//	Testbench tasks
 	//
 	//  Return the test results to the HVL module
