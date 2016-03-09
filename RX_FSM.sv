@@ -130,7 +130,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // latched in, the bit_count_done is asserted until rx_gate is
     // deasserted.  As long as rx_gate remains high, the rx_buffer
     // keeps its value.
-    always_ff begin
+    always_ff @(posedge Clk or posedge Rst) begin
         if (Rst) begin
             bit_count_done <= 0;
             bit_counter <= NUM_RX_BITS;
