@@ -43,6 +43,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     
     // Variables for bit counter
     logic bit_count_done;
+	logic sample_reset;
     integer bit_counter;
     
     /*************************************************************
@@ -130,8 +131,8 @@ module RX_FSM  #(parameter DATA_BITS = 8,
     // latched in, the bit_count_done is asserted until rx_gate is
     // deasserted.  As long as rx_gate remains high, the rx_buffer
     // keeps its value.
-    always_ff @(posedge Clk or posedge Rst) begin
-        if (Rst) begin
+    always_ff @(posedge sample_pulse or posedge Rst or posedge sample_reset) begin
+        if (Rst or sample_reset) begin
             bit_count_done <= 0;
             bit_counter <= NUM_RX_BITS;
             rx_buffer <= 0;
@@ -215,6 +216,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
              Rx_Data_Out = 0;
              RTS = 0;
 			 Parity_Reg = 0;
+			 sample_reset = 0;
         end
         else begin
             case (current_state)
@@ -225,6 +227,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
                     Rx_Data_Out = Rx_Data_Out;      // the current output is held over,
                     RTS = 1'b1;                     // and ready to send is asserted.
 					Parity_Reg = 0;
+					sample_reset = 0;
                 end
                 RECEIVING: begin
                     rx_gate = 1'b1;                 // Once a start bit is detected, rx_gate is asserted.
@@ -234,6 +237,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
                     RTS = 0;                        // At the same time, ready to send is deasserted, since
                                                     // the receiver is now busy.
 					Parity_Reg = 0;
+					sample_reset = 0;
                 end
                 OUTPUT: begin
                     rx_gate = 1'b1;
@@ -243,6 +247,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
                     end
                     Rx_Data_Out = rx_buffer[(NUM_RX_BITS-2)-:DATA_BITS];    // The rx data goes onto the output one clock
                     RTS = 0;                                                // before the data ready signal is asserted,
+					sample_reset = 0;
                 end                                                         // so that the FIFO does not grab invalid data.
                 CALC_ERROR: begin
                     rx_gate = 1'b1;                    // rx gate is deasserted, which resets all of the signal generation blocks
@@ -259,6 +264,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
                     Rx_Data_Out = Rx_Data_Out;
                     RTS = 0;                        // RTS does not go high until the next clock in the READY state.
                     Parity_Reg = Parity_Reg;
+					sample_reset = 0;
                 end                                           
                 RESET: begin
                     rx_gate = 0;                    // rx gate is deasserted, which resets all of the signal generation blocks
@@ -267,6 +273,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
                     Rx_Data_Out = Rx_Data_Out;
                     RTS = 0;                        // RTS does not go high until the next clock in the READY state.
 					Parity_Reg = Parity_Reg;
+					sample_reset = 1;
                 end
             endcase
         end
