@@ -32,7 +32,7 @@ module TopHDL;
 	end	
 
 	//////////////////    Assertion Block     ////////////////////
-//tbx clkgen
+
 initial
 	begin
 	//Adding agreeded upon bounds(negative check, zeros, and upper tested limits of what has been tested)
