@@ -70,16 +70,19 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 	dataArray = new();
 	for (int k = 0; k < numFills; k ++) begin
 		if (dataArray.randomize()) begin
-			for( int i = 0 ; i < dataArray.numSends; i++) begin
+			for(int i = 0 ; i < dataArray.numSends; i++) begin
 				TopHDL.TestIf.SendData(dataArray.data[i]);
 				TopHDL.TestIf.wait8();
+				`ifdef DEBUG
+					$display("Random fill #%d pushed data %h", j, dataArray.data[j]);
+				`endif
 			end
-			for( int j = 0 ; j < dataArray.numSends; j++) begin
+			for(int j = 0 ; j < dataArray.numSends; j++) begin
 				TopHDL.TestIf.ReadData(Buf);
 				if (Buf !== dataArray.data[j]) begin
 					Result = 1;
 					`ifdef DEBUG
-						$display("Random fill failed! Data read = %h, Expected %h", Buf, dataArray.data[j]);
+						$display("Random fill #%d failed! Data read = %h, Expected %h", j, Buf, dataArray.data[j]);
 					`endif
 				end
 				else
