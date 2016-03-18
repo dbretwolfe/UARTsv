@@ -83,7 +83,7 @@ module UARTsv(UART_IFace UARTIf);
 		.DATA_BITS(DATA_BITS)
 		)
 	SelfTest (
-		.Clk,
+		.Clk(UARTIf.SysClk),
 		.Rst(UARTIf.Rst),
 		.BIST_Start(UARTIf.BIST_Start),		// Input from module port
 		.Tx_Data_In(UARTIf.Tx_Data),
