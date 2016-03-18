@@ -192,14 +192,98 @@ interface UART_IFace;
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Full signal is NOT asserted, the task reports failure.
 	task FIFO_Full_Check(output logic Result); //pragma tbx xtf
-		Result = 1;
+		logic [DATA_BITS-1:0] buffer, i;
+		logic Parity;
+		logic [TX_BITS-1:0] Tx_Packet;
+		
+		@(posedge Clk);
+		buffer = 0;
+		Result = 0;
+		for (i = 0; i <= (FIFO_ENTRIES / 2); i++) begin
+			@(posedge Clk);
+			buffer = i;
+			@(posedge Clk);
+			while(!RTS)
+				@(posedge Clk);
+			
+			Parity = 0;
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = buffer[i] ^ Parity;
+			end
+			@(posedge Clk);
+			Tx_Packet = {1'b0, buffer, Parity, {STOP_BITS{1'b1}}};
+			@(posedge Clk);
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				@(posedge Clk);
+				Rx = Tx_Packet[i];
+			end
+			Rx = '1;
+		end
+		// Check for FIFO full signal
+		@(posedge Clk);
+		if (!FIFO_Full) begin
+			Result = 1'b1;
+		end
+		else begin
+			Result = 0;
+		end
+		//Empty FIFO
+		@(posedge Clk);
+		for (i = 0; i <= (FIFO_ENTRIES / 2); i++) begin
+			@(posedge Clk);
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
+			@(posedge Clk);
+			Pop_Data = '0;		// in new data.
+		end
 	endtask
 	
 	// This task verifies that the FIFO_Overflow signal is being asserted
 	// when the FIFO is half full plus one entry, as per the FIFO spec.
 	// If the FIFO_Overflow signal is NOT asserted, the task reports failure.
 	task FIFO_Overflow_Check(output logic Result); //pragma tbx xtf
-		Result = 1;
+		logic [DATA_BITS-1:0] buffer, i;
+		logic Parity;
+		logic [TX_BITS-1:0] Tx_Packet;
+		
+		@(posedge Clk);
+		buffer = 0;
+		Result = 0;
+		for (i = 0; i < FIFO_ENTRIES; i++) begin
+			@(posedge Clk);
+			buffer = i;
+			@(posedge Clk);
+			while(!RTS)
+				@(posedge Clk);
+			
+			Parity = 0;
+			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				Parity = buffer[i] ^ Parity;
+			end
+			@(posedge Clk);
+			Tx_Packet = {1'b0, buffer, Parity, {STOP_BITS{1'b1}}};
+			@(posedge Clk);
+			for (int i = TX_BITS-1; i >=0; i--) begin
+				@(posedge Clk);
+				Rx = Tx_Packet[i];
+			end
+			Rx = '1;
+		end
+		// Check for FIFO full signal
+		@(posedge Clk);
+		if (!FIFO_Overflow) begin
+			Result = 1'b1;
+		end
+		else begin
+			Result = 0;
+		end
+		//Empty FIFO
+		@(posedge Clk);
+		for (i = 0; i < FIFO_ENTRIES; i++) begin
+			@(posedge Clk);
+			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
+			@(posedge Clk);
+			Pop_Data = '0;		// in new data.
+		end
 	endtask
 	
 	// This task starts the BIST process, which changes the internal wiring of the UART module
