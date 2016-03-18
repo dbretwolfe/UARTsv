@@ -34,13 +34,13 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		
 		logic [DATA_BITS-1:0] FIFO_Array [FIFO_ENTRIES-1:0];     // Array of 2^FIFO_DEPTH number of DATA_BITS wide elements
 		logic [FIFO_WIDTH-1:0] readPointer, writePointer;
-		integer numEntries;
+		localparam numEntries = 2;
 		
         always_comb 
         	begin
         		readPointer = readPointer;
                 	writePointer = writePointer;
-                    	numEntries = numEntries;
+                    //	numEntries = numEntries;
                     	FIFO_Empty = FIFO_Empty;
                     	FIFO_Full = FIFO_Full;
                     	FIFO_Overflow = FIFO_Overflow;
@@ -49,7 +49,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
             			begin
                 			readPointer = 0;
                 			writePointer = 0;
-                			numEntries = 0;
+                		//	numEntries = 0;
                 			FIFO_Empty = 1'b1;
                 			FIFO_Full = 1'b0;
                 			FIFO_Overflow = 1'b0;
@@ -65,7 +65,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         							begin                   // If there is still space in the FIFO
                             								FIFO_Array[writePointer] = Rx_Data;               // Write data to the FIFO array
                         	 							writePointer = writePointer + 1;                  // Increment the write pointer
-                            								numEntries = numEntries + 1;                      // Increment the number of entries
+                            							//	numEntries = numEntries + 1;                      // Increment the number of entries
                             								FIFO_Empty = 1'b0;                                // Data has been written, so the FIFO is not empty
                             								if ((numEntries + 1) >= (FIFO_ENTRIES >> 1)) 
                             									begin   // If the fifo is at least 1/2 full
@@ -79,7 +79,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         						else 
                         							begin                                             // Otherwise nothing changes
                             								writePointer = writePointer;
-                            								numEntries = numEntries;
+                            							//	numEntries = numEntries;
                             								FIFO_Empty = FIFO_Empty;
                             								FIFO_Full = FIFO_Full;
                             								FIFO_Overflow = FIFO_Overflow;
@@ -95,7 +95,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         							begin                               // If there is still data in the FIFO
                             								Data_Out = FIFO_Array[readPointer];                // put the next data onto the output
                             								readPointer = readPointer + 1;
-                            								numEntries = numEntries - 1;
+                            							//	numEntries = numEntries - 1;
                             								if ((numEntries - 1) == 0) 
                             									begin                    // Check to see if the FIFO will be empty
                                 									FIFO_Empty = 1'b1;                             // If so, set the empty flag
@@ -109,7 +109,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         						else 
                         							begin                                              // Otherwise nothing changes
                             								readPointer = readPointer;
-                            								numEntries = numEntries;
+                            							//	numEntries = numEntries;
                             								FIFO_Empty = FIFO_Empty;
                             								FIFO_Full = FIFO_Full;
                             								FIFO_Overflow = FIFO_Overflow;
@@ -122,7 +122,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                     						begin
                             						readPointer = readPointer;
                 							writePointer = writePointer;
-                    							numEntries = numEntries;
+                    						//	numEntries = numEntries;
                     							FIFO_Empty = FIFO_Empty;
                     							FIFO_Full = FIFO_Full;
                     							FIFO_Overflow = FIFO_Overflow;
@@ -134,7 +134,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                 				begin                                                  // Bist mode is active, don't do anything
                     					readPointer = readPointer;
                 					writePointer = writePointer;
-                    					numEntries = numEntries;
+                    				//	numEntries = numEntries;
                     					FIFO_Empty = FIFO_Empty;
                     					FIFO_Full = FIFO_Full;
                     					FIFO_Overflow = FIFO_Overflow;
