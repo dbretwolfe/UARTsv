@@ -73,9 +73,6 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 			for(int i = 0 ; i < dataArray.numSends; i++) begin
 				TopHDL.TestIf.SendData(dataArray.data[i]);
 				TopHDL.TestIf.wait8();
-				`ifdef DEBUG
-					$display("Random fill #%d pushed data %h", i, dataArray.data[i]);
-				`endif
 			end
 			for(int j = 0 ; j < dataArray.numSends; j++) begin
 				TopHDL.TestIf.ReadData(Buf);
