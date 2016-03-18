@@ -86,7 +86,6 @@ interface UART_IFace;
 		@(posedge Clk);
 		Tx_Packet = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
 		@(posedge Clk);
-		$display("Tx packet = %b", Tx_Packet);
 		for (int i = TX_BITS-1; i >=0; i--) begin
 			@(posedge Clk);
 			Rx = Tx_Packet[i];
@@ -154,7 +153,6 @@ interface UART_IFace;
 		Result = 0;
 		for (i = 0; i < num_entries; i++) begin
 			@(posedge Clk);
-			$display("Pushing %b", i);
 			buffer = i;
 			@(posedge Clk);
 			while(!RTS)
@@ -167,7 +165,6 @@ interface UART_IFace;
 			@(posedge Clk);
 			Tx_Packet = {1'b0, buffer, Parity, {STOP_BITS{1'b1}}};
 			@(posedge Clk);
-			$display("Tx packet = %b", Tx_Packet);
 			for (int i = TX_BITS-1; i >=0; i--) begin
 				@(posedge Clk);
 				Rx = Tx_Packet[i];
