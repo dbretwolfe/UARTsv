@@ -179,7 +179,6 @@ interface UART_IFace;
 			Pop_Data = '0;		// in new data.
 			buffer = Data_Out; 	// Copy the data from the FIFO output
 			@(posedge Clk);
-			$display("Read buffer = %b", buffer);
 			if (buffer != i) begin
 				Result = 1;
 			end
