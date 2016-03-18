@@ -34,7 +34,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		
 		logic [DATA_BITS-1:0] FIFO_Array [FIFO_ENTRIES-1:0];     // Array of 2^FIFO_DEPTH number of DATA_BITS wide elements
 		logic [FIFO_WIDTH-1:0] readPointer, writePointer;
-		localparam numEntries = 2;
+		integer numEntries;
 		
         always_comb 
         	begin
@@ -49,7 +49,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
             			begin
                 			readPointer = 0;
                 			writePointer = 0;
-                		//	numEntries = 0;
+                			numEntries = 0;
                 			FIFO_Empty = 1'b1;
                 			FIFO_Full = 1'b0;
                 			FIFO_Overflow = 1'b0;
