@@ -42,17 +42,17 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
         	begin
         		readPointer = readPointer;
                 	writePointer = writePointer;
-                    	numEntries = numEntries;
+                    //	numEntries = numEntries;
                     	FIFO_Empty = FIFO_Empty;
                     	FIFO_Full = FIFO_Full;
                     	FIFO_Overflow = FIFO_Overflow;
                     	Data_Out = Data_Out;
-                    //	tempNum = numEntries;
+                    	tempNum = numEntries;
             		if (rst) 
             			begin
                 			readPointer = 0;
                 			writePointer = 0;
-                			numEntries = 0;
+                		//	numEntries = 0;
                 			FIFO_Empty = 1'b1;
                 			FIFO_Full = 1'b0;
                 			FIFO_Overflow = 1'b0;
@@ -149,6 +149,9 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
         	end
 always_ff @ (posedge Clk)
 	begin
-		numEntries = tempNum;
+	//	if (rst)
+	//		numEntries = 0;
+	//	else
+			numEntries = tempNum;
 	end
 endmodule
