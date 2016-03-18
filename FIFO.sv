@@ -147,7 +147,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
             			end
             	//	numEntries = tempNum;
         	end
-always_ff @ (posedge Clk)
+always_ff @ (negedge Clk)
 	begin
 	//	if (rst)
 	//		numEntries = 0;
