@@ -144,6 +144,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                     					Data_Out = Data_Out;
                 				end
             			end
+            		numEntries = tempNum;
         	end
 
 endmodule
