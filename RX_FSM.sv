@@ -268,7 +268,7 @@ module RX_FSM  #(parameter DATA_BITS = 8,
                 end                                           
                 RESET: begin
                     rx_gate = 0;                    // rx gate is deasserted, which resets all of the signal generation blocks
-					if (!Rx_Error)
+					if (Rx_Error == '0)
 						Data_Rdy_Out = 1'b1;        // Data ready is asserted, which causes the FIFO to push the new data.
 					else
 						Data_Rdy_Out = 1'b0;		// If there is an RX error, do not assert data ready.
