@@ -75,7 +75,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                             									begin          // If the write pointer has caught up to the read pointer,
                                 									FIFO_Overflow = 1'b1;                         // then set the overflow flag
                             									end
-                            								numEntries = numEntries + 1; 
+                            							//	numEntries = numEntries + 1; 
                         							end
                         						else 
                         							begin                                             // Otherwise nothing changes
