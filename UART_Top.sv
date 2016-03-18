@@ -110,6 +110,7 @@ module UARTsv(UART_IFace UARTIf);
 		.FIFO_WIDTH(FIFO_WIDTH)
 		)
 	RX_FIFO(
+		.Clk(UARTIf.SysClk),
 		.rst(UARTIf.Rst),
 		.Rx_Data(Rx_Data_Out),
 		.Data_Rdy(Data_Rdy_Out),  		//	To write data to FIFO 
