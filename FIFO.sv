@@ -46,7 +46,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                     	FIFO_Full = FIFO_Full;
                     	FIFO_Overflow = FIFO_Overflow;
                     	Data_Out = Data_Out;
-                    	tempNum = 0;
+                    	tempNum = numEntries;
             		if (rst) 
             			begin
                 			readPointer = 0;
