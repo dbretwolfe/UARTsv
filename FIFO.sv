@@ -1,22 +1,18 @@
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 02/21/2016 02:58:56 PM
-// Design Name: 
-// Module Name: FIFO
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+FIFO.sv - FIFO
+3/18/2016
+Description:
+FIFO module
+This module controls the buffer that holds the data as we are transmitting it to the 
+UART.  We navigate with a head and tail pointer to push and pop from th buffer.
+Version 1.3
+=====================================================================================
+*/
 
 
 module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
