@@ -175,6 +175,7 @@ interface UART_IFace;
 				@(posedge Clk);
 			Parity = 0;
 			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				@(posedge Clk);
 				Parity = buffer[i] ^ Parity;
 			end
 			@(posedge Clk);
@@ -224,6 +225,7 @@ interface UART_IFace;
 			
 			Parity = 0;
 			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				@(posedge Clk);
 				Parity = buffer[i] ^ Parity;
 			end
 			@(posedge Clk);
@@ -273,6 +275,7 @@ interface UART_IFace;
 			
 			Parity = 0;
 			for (int i = '0; i < DATA_BITS; i = i + 1) begin
+				@(posedge Clk);
 				Parity = buffer[i] ^ Parity;
 			end
 			@(posedge Clk);
@@ -350,6 +353,7 @@ interface UART_IFace;
 		Buf = 8'hAA;
 		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
+			@(posedge Clk);
 			Parity = Buf[i] ^ Parity;
 		end
 
@@ -386,6 +390,7 @@ interface UART_IFace;
 		
 		Buf = 8'hAA;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
+			@(posedge Clk);
 			Parity = Buf[i] ^ Parity;
 		end
 
