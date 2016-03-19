@@ -68,4 +68,5 @@ FIFO - Goutham and Nikhil, synchronous changes by Devin
 Assertions - All
 Project presentation - Nikhil Marda
 Test tasks - All
+Assertion and debugging - Jonathan Fernow and Stasney Randon
 	
