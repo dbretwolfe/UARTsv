@@ -1,3 +1,17 @@
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+UARTIf_HDL.sv - UART_IFace
+3/18/2016
+Description:
+Interface and controls tasks
+Version 2.1
+Adapted from Devin Wolfe, Nikhil Marda, Goutham Konidala 571 project
+=====================================================================================
+*/
 interface UART_IFace;
 
 	parameter SYSCLK_RATE = 100000000;
@@ -81,7 +95,6 @@ interface UART_IFace;
 		
 		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
-			@(posedge Clk);
 			Parity = Buf[i] ^ Parity;
 		end
 		@(posedge Clk);
@@ -112,7 +125,6 @@ interface UART_IFace;
 		// Calculate the parity bit and assemble the expected packet
 		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
-			@(posedge Clk);
 			Parity = Buf[i] ^ Parity;
 		end
 		ExpectedPacket = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
