@@ -51,7 +51,7 @@ task automatic RandomTransmit(input int numTransmits, ref logic testsFailed, ref
 			CheckResult(.result(result), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed));
 			`ifdef DEBUG
 				if (result)
-					$display("Random transmit check failed!");
+					$display("Random transmit check failed! Sent %h, captured %h\n", dataPacket.data, cap);
 			`endif
 		end
 		else begin
@@ -71,7 +71,7 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 	for (int k = 0; k < numFills; k ++) begin
 		if (dataArray.randomize()) begin
 			for(int i = 0 ; i < dataArray.numSends; i++) begin
-				$display("Send #%d = %h\m", i, dataArray.data[i]);
+				$display("Send #%d = %h\n", i, dataArray.data[i]);
 				TopHDL.TestIf.SendData(dataArray.data[i]);
 				TopHDL.TestIf.wait8();
 			end
