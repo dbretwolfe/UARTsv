@@ -120,21 +120,8 @@ initial begin
 			$display("Transmit check failed! Captured data: %b", cap);
 	`endif
 	
-	/*
 	`ifdef DEBUG
-		$display("FIFO empty check starting");
-	`endif
-	// Now, we check the FIFO output to make sure it is zero
-	if (TopHDL.TestIf.Data_Out) begin
-		CheckResult(.result(1), .testsFailed(testsFailed), .numTestsFailed(numTestsFailed)); // Test failed if data is non-zero
-		`ifdef DEBUG
-			$display("Null FIFO data check failed!");
-		`endif
-	end
-	*/
-	
-	`ifdef DEBUG
-		$display("FIFO signal checks starting");
+		$display("FIFO data integrity and signal checks starting");
 	`endif
 	// The next task fills the FIFO completely, reads the FIFO data, and compares the received
 	// data to the sent data.
