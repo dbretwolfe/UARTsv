@@ -58,8 +58,8 @@ interface UART_IFace;
 		Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 		@(posedge Clk);
 		Pop_Data = '0;		// in new data.
-		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
 		@(posedge Clk);
+		ReadBuf = Data_Out; 	// Copy the data from the FIFO output
 	endtask
 	
 	//***************************************************
@@ -177,8 +177,9 @@ interface UART_IFace;
 			Pop_Data = '1;		// Strobe the Pop_Data input to tell the FIFO to cycle
 			@(posedge Clk);
 			Pop_Data = '0;		// in new data.
+			@(posedge Clk);
 			buffer = Data_Out; 	// Copy the data from the FIFO output
-			$display("Pull %d = %h\n", j, buffer);
+			$display("Pull %d = %h\n", i, buffer);
 			@(posedge Clk);
 			if (buffer != i) begin
 				Result = 1;
