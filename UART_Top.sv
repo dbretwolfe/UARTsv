@@ -1,3 +1,17 @@
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+UART_Top.sv - UARTsv
+3/18/2016
+Description:
+Instantiates the modules of the design and links the interface
+Version 2.1
+Adapted from Devin Wolfe, Nikhil Marda, Goutham Konidala 571 project
+=====================================================================================
+*/
 module UARTsv(UART_IFace UARTIf);
 
 	localparam SYSCLK_RATE = UARTIf.SYSCLK_RATE;
