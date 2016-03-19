@@ -2,8 +2,8 @@
 
 module TopHVL;
 
-parameter numRandomTransmits = 1000;
-parameter numRandomReceives = 500;
+parameter numRandomTransmits = 5;
+parameter numRandomReceives = 1;
 parameter DATA_BITS = 8;
 parameter FIFO_WIDTH = 4;
 parameter STOP_BITS = 2;
@@ -71,6 +71,7 @@ task automatic RandomFill(input int numFills, ref logic testsFailed, ref int num
 	for (int k = 0; k < numFills; k ++) begin
 		if (dataArray.randomize()) begin
 			for(int i = 0 ; i < dataArray.numSends; i++) begin
+				$display("Send #%d = %h\m", i, dataArray.data[i]);
 				TopHDL.TestIf.SendData(dataArray.data[i]);
 				TopHDL.TestIf.wait8();
 			end
