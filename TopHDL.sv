@@ -1,3 +1,18 @@
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+TopHDL.sv - TopHDL
+3/18/2016
+Description:
+Hardware top module. Generate the clock and instantiate the interface
+
+Version 2.2
+Adapted from Devin Wolfe, Nikhil Marda, Goutham Konidala 571 project
+=====================================================================================
+*/
 module TopHDL;
 
 	parameter SYSCLK_RATE = 9600000;
