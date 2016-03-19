@@ -173,7 +173,6 @@ interface UART_IFace;
 			@(posedge Clk);
 			while(!RTS)
 				@(posedge Clk);
-			$display("Fill %d = %h\n", i, buffer);
 			Parity = 0;
 			for (int i = '0; i < DATA_BITS; i = i + 1) begin
 				Parity = buffer[i] ^ Parity;
@@ -195,7 +194,6 @@ interface UART_IFace;
 			Pop_Data = '0;		// in new data.
 			@(posedge Clk);
 			buffer = Data_Out; 	// Copy the data from the FIFO output
-			$display("Pull %d = %h\n", i, buffer);
 			@(posedge Clk);
 			if (buffer != i) begin
 				Result = 1;
