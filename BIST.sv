@@ -1,13 +1,26 @@
-//
-// Built-In Self-Test module
-//
-// This module controls the BIST process, which changes the internal wiring of the UART module
-// using the BIST_Mode signal, so that the Transmitter sends directly to the receivers.  Also,
-// when BIST_Mode is asserted, the transmitter gets it's data directly from the BIST module, 
-// which has a parameterized test sequence.  The receiver then sends the received data back to 
-// the BIST instead of to the FIFO, and the BIST compares the received data to the sent data.
-// If the received data does not match the sent data, the BIST should assert it's BIST_Error
-// output.
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+BIST.sv - BIST_FSM
+3/18/2016
+Description:
+Built-In Self-Test module
+
+This module controls the BIST process, which changes the internal wiring of the UART module
+using the BIST_Mode signal, so that the Transmitter sends directly to the receivers.  Also,
+when BIST_Mode is asserted, the transmitter gets it's data directly from the BIST module, 
+which has a parameterized test sequence.  The receiver then sends the received data back to 
+the BIST instead of to the FIFO, and the BIST compares the received data to the sent data.
+If the received data does not match the sent data, the BIST should assert it's BIST_Error
+output.
+Version 2.1
+Adapted from Devin Wolfe, Nikhil Marda, Goutham Konidala 571 project
+=====================================================================================
+*/
+
 
 module BIST_FSM#(parameter integer DATA_BITS = 8,
 				 parameter integer BIST_DATA = 8'b10101010)
