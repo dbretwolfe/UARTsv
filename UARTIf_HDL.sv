@@ -81,6 +81,7 @@ interface UART_IFace;
 		
 		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
+			@(posedge Clk);
 			Parity = Buf[i] ^ Parity;
 		end
 		@(posedge Clk);
@@ -111,6 +112,7 @@ interface UART_IFace;
 		// Calculate the parity bit and assemble the expected packet
 		Parity = 0;
 		for (int i = '0; i < DATA_BITS; i = i + 1) begin
+			@(posedge Clk);
 			Parity = Buf[i] ^ Parity;
 		end
 		ExpectedPacket = {1'b0, Buf, Parity, {STOP_BITS{1'b1}}};
