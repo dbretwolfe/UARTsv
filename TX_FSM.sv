@@ -1,3 +1,19 @@
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+TX_FSM.sv - TX_FSM
+3/18/2016
+Description:
+Transmitter
+This is the transmitter fsm for the UART that produces the bit stream of start bit
+data parity and stop bits.
+Version 2.1
+Adapted from Devin Wolfe 571 project
+=====================================================================================
+*/
 module TX_FSM #(parameter integer STOP_BITS = 2,
 				parameter integer DATA_BITS = 8)
 		
