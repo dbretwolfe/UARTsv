@@ -35,8 +35,8 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		logic [DATA_BITS-1:0] FIFO_Array [FIFO_ENTRIES-1:0];     // Array of 2^FIFO_DEPTH number of DATA_BITS wide elements
 		logic [FIFO_WIDTH-1:0] readPointer, writePointer;
 		integer numEntries;
-		
-        always_ff @(posedge Data_Rdy or posedge Pop_Data) begin
+
+        always_ff @(posedge Data_Rdy or posedge Pop_Data or posedge rst or posedge BIST_Mode) begin
             if (rst) begin
                 readPointer <= 0;
                 writePointer <= 0;
@@ -60,7 +60,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 							else begin
 								FIFO_Full <= FIFO_Full;
 							end
-                            if ((numEntries + 1) == FIFO_ENTRIES) begin          // If the write pointer has caught up to the read pointer,
+                            if ((numEntries + 1) == FIFO_ENTRIES-1) begin          // If the write pointer has caught up to the read pointer,
                                 FIFO_Overflow <= 1'b1;                         // then set the overflow flag
                             end
 							else begin
