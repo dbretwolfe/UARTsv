@@ -36,19 +36,21 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		logic [DATA_BITS-1:0] FIFO_Array [FIFO_ENTRIES-1:0];     // Array of 2^FIFO_DEPTH number of DATA_BITS wide elements
 		logic [FIFO_WIDTH-1:0] readPointer, writePointer;
 		integer numEntries;
-		logic FIFO_Rst;
+		logic data_ready_old, pop_data_old;
 		
 		always@(posedge clk) begin
 			if(rst) begin
-				FIFO_Rst <= 1'b1;
+				data_ready_old <= 0;
+				pop_data_old <= 0;
 			end
 			else begin
-				FIFO_Rst <= 1'b0;
+				data_ready_old <= Data_Rdy;
+				pop_data_old <= Pop_Data;
 			end
 		end
 
-        always_ff @(posedge Data_Rdy or posedge Pop_Data or FIFO_Rst or posedge BIST_Mode) begin
-            if (FIFO_Rst) begin
+        always_ff @(posedge clk or posedge rst) begin
+            if (rst) begin
                 readPointer <= 0;
                 writePointer <= 0;
                 numEntries <= 0;
@@ -59,7 +61,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
             end
             else begin
                 if (!BIST_Mode) begin
-                    if (Data_Rdy) begin                           // There is new data for the FIFO
+                    if (Data_Rdy && !data_ready_old) begin                           // There is new data for the FIFO
                         if (numEntries < FIFO_ENTRIES) begin                   // If there is still space in the FIFO
                             FIFO_Array[writePointer] <= Rx_Data;               // Write data to the FIFO array
                             writePointer <= writePointer + 1;                  // Increment the write pointer
@@ -90,7 +92,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         Data_Out = Data_Out;
                     end // Write to FIFO
                     
-                    else if (Pop_Data) begin                                   // Data needs to be popped out of the FIFO
+                    else if (Pop_Data && pop_data_old) begin                                   // Data needs to be popped out of the FIFO
                         if (numEntries > 0) begin                               // If there is still data in the FIFO
                             Data_Out <= FIFO_Array[readPointer];                // put the next data onto the output
                             readPointer <= readPointer + 1;
