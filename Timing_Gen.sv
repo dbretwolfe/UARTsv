@@ -21,14 +21,14 @@ module Timing_Gen #(parameter SYSCLK_RATE = 100000000,
 		output logic Clk);
 
 	//Aliveness attempt
-	always @ (posedge SysClk or posedge Rst) begin	
+//	always @ (posedge SysClk or posedge Rst) begin	
 	//Aliveness attempt
 //initial
 //	begin	
-		assert property (@(posedge SysClk) (BAUD_RATE>0)) else $error("BAUD_RATE must be more than 0");//-JF
-		assert property (@(posedge clk) Clk ##(CLOCK_DIV) ~Clk)//to prove clock DIV is correct -JF
-		assert property (@(posedge clk) (SYSCLK_RATE>0)) else $error("BAUD_RATE must be more than 0");//-JF
-	end
+//		assert property (@(posedge SysClk) (BAUD_RATE>0)) else $error("BAUD_RATE must be more than 0");//-JF
+//		assert property (@(posedge clk) Clk ##(CLOCK_DIV) ~Clk)//to prove clock DIV is correct -JF
+//		assert property (@(posedge clk) (SYSCLK_RATE>0)) else $error("BAUD_RATE must be more than 0");//-JF
+//	end
 
 	
 	localparam CLOCK_DIV = SYSCLK_RATE / (2*BAUD_RATE); // Baud rate is transitions per second.  We get one transition per rising
