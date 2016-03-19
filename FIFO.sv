@@ -92,7 +92,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
                         Data_Out = Data_Out;
                     end // Write to FIFO
                     
-                    else if (Pop_Data && pop_data_old) begin                                   // Data needs to be popped out of the FIFO
+                    else if (Pop_Data && !pop_data_old) begin                                   // Data needs to be popped out of the FIFO
                         if (numEntries > 0) begin                               // If there is still data in the FIFO
                             Data_Out <= FIFO_Array[readPointer];                // put the next data onto the output
                             readPointer <= readPointer + 1;
