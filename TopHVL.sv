@@ -1,3 +1,19 @@
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+TopHVL.sv - TopHVL
+3/18/2016
+Description:
+Not synthesized top module on the server to communicate with the HDL top
+Sends tasks to the HDL for testing
+output.
+Version 2.1
+Adapted from Devin Wolfe, Nikhil Marda, Goutham Konidala 571 project
+=====================================================================================
+*/
 `define DEBUG
 
 module TopHVL;
