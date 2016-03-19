@@ -1,3 +1,19 @@
+/*
+=====================================================================================
+Final Project Uart
+ECE 510 
+winter 2016
+Randon Stasney Devin Wolfe Jonathan Fernow
+RX_FSM.sv - RX_FSM
+3/18/2016
+Description:
+Receiver module
+
+This module controls the receiving of the UART.  It detects a start pulse and sets up the 
+the receiver to capture the incoming bits.
+Version 1.3
+=====================================================================================
+*/
 module RX_FSM  #(parameter DATA_BITS = 8, 
 				 parameter STOP_BITS = 2,
 				 parameter SYSCLOCK_FREQ = 100000,
