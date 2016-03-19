@@ -38,7 +38,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		integer numEntries;
 		logic FIFO_Rst;
 		
-		always@(posedge clk or posedge rst) begin
+		always@(posedge clk) begin
 			if(rst) begin
 				FIFO_Rst <= 1'b1;
 			end
