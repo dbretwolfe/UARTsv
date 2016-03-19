@@ -21,7 +21,7 @@ module Timing_Gen #(parameter SYSCLK_RATE = 100000000,
 		output logic Clk);
 
 	//Aliveness attempt
-	always @ (posedge SysClk or posedge Rst) begin	
+//	always @ (posedge SysClk or posedge Rst) begin	
 	//Aliveness attempt
 initial
 	begin	
