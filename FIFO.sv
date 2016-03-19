@@ -48,7 +48,7 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		end
 
         always_ff @(posedge Data_Rdy or posedge Pop_Data or posedge FIFO_Rst or posedge BIST_Mode) begin
-            if (rst) begin
+            if (FIFO_Rst) begin
                 readPointer <= 0;
                 writePointer <= 0;
                 numEntries <= 0;
