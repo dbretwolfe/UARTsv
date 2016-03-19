@@ -20,7 +20,8 @@
 
 
 module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
-		(input logic rst,
+		(input logic clk,
+		input logic rst,
 		input logic [DATA_BITS-1:0] Rx_Data,
 		input logic Data_Rdy, 
 		input logic Pop_Data,
@@ -35,8 +36,18 @@ module FIFO # (parameter DATA_BITS = 8,	parameter FIFO_WIDTH = 4)
 		logic [DATA_BITS-1:0] FIFO_Array [FIFO_ENTRIES-1:0];     // Array of 2^FIFO_DEPTH number of DATA_BITS wide elements
 		logic [FIFO_WIDTH-1:0] readPointer, writePointer;
 		integer numEntries;
+		logic FIFO_Rst;
+		
+		always@(posedge clk) begin
+			if(rst) begin
+				FIFO_Rst <= 1'b1;
+			end
+			else begin
+				FIFO_Rst <= 1'b0;
+			end
+		end
 
-        always_ff @(posedge Data_Rdy or posedge Pop_Data or posedge rst or posedge BIST_Mode) begin
+        always_ff @(posedge Data_Rdy or posedge Pop_Data or posedge FIFO_Rst or posedge BIST_Mode) begin
             if (rst) begin
                 readPointer <= 0;
                 writePointer <= 0;
