@@ -5,6 +5,13 @@ module Timing_Gen #(parameter SYSCLK_RATE = 100000000,
 		input Rst,
 		output logic Clk);
 
+initial
+	begin	
+		assert property (@(posedge SysClk) (BAUD_RATE>0)) else $error("BAUD_RATE must be more than 0");//-JF
+		//assert property (@(posedge SysClk) Clk ##(CLOCK_DIV) ~Clk)//to prove clock DIV is correct -JF
+		assert property (@(posedge SysClk) (SYSCLK_RATE>0)) else $error("BAUD_RATE must be more than 0");//-JF
+	end
+
 	localparam CLOCK_DIV = SYSCLK_RATE / BAUD_RATE; // Baud rate is transitions per second.  We get one transition per rising
 								// clock edge, meaning we need two clock transitions per baud.
 	integer ClockCounter;
